@@ -13,12 +13,16 @@ public class TileMap
     public float purchasedLandHeightMax;
     public float purchasedLandHeightMin;
 
+    CaveRandomShowMap ShowMap;
     int offSet = 1;
+    Sprite BlackSprite;
 
 
     public void GenerateStartMap(int MapSize)
     {
         MapData = new TileBaseClass[MapSize, MapSize];
+        ShowMap = new CaveRandomShowMap(StartFieldOfViewValue, StartFieldOfViewValue);
+        ShowMap.MakeGrassFields();
         generateAFieldOfView(MapSize);
         FillStartField(MapSize);
         
@@ -34,17 +38,18 @@ public class TileMap
 
     private void FillStartField(int maxSize)
     {
+        BlackSprite = Resources.Load<Sprite>("Sprites/BlackTile");
         for (int i = 0; i < maxSize; i++)
         {
             for (int j = 0; j < maxSize; j++)
             {
                 if(i > purchasedLandWidthMin && i < purchasedLandWidthMax && j > purchasedLandHeightMin && j < purchasedLandHeightMax)
                 {
-                    MapData[i, j] = new GroundTile(i, j);
+                    MapData[i, j] = new GroundTile(i, j,ShowMap.ShowMap(i,j));
                 }
                 else
                 {
-                    MapData[i, j] = new GroundTile(i, j);
+                    MapData[i, j] = new GroundTile(i, j,BlackSprite);
                 }
             }
         }

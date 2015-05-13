@@ -7,10 +7,11 @@ public class GroundTile : TileBaseClass
     //private TileBaseClass[] neighbors;
     public float finalCost { get; set; }
 
-    public GroundTile(int x, int y)
+    public GroundTile(int x, int y,Sprite texture)
     {
         this.Position.x = x;
         this.Position.y = y;
+        this.Texture = texture;
     }
 
     //public override TileBaseClass[] GetNeighbors()

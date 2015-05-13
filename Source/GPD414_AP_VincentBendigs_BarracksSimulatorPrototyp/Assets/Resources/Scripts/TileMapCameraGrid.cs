@@ -133,6 +133,7 @@ public class TileMapCameraGrid : MonoBehaviour
             inactiveObj.Peek().transform.position = map.MapData[activateC,(int)GridZeroPointY + j].Position;
             inactiveObj.Peek().SetActive(true);
             map.MapData[activateC, (int)GridZeroPointY + j].myObject = inactiveObj.Peek();
+            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[activateC, (int)GridZeroPointY + j].Texture;
             inactiveObj.Pop();
         }
     }
@@ -150,6 +151,7 @@ public class TileMapCameraGrid : MonoBehaviour
             inactiveObj.Peek().transform.position = map.MapData[(int)GridZeroPointX + j, activateC].Position;
             inactiveObj.Peek().SetActive(true);
             map.MapData[(int)GridZeroPointX + j, activateC].myObject = inactiveObj.Peek();
+            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[activateC, (int)GridZeroPointY + j].Texture;
             inactiveObj.Pop();
         }
 
@@ -167,6 +169,7 @@ public class TileMapCameraGrid : MonoBehaviour
                     inactiveObj.Peek().transform.position = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Position;
                     inactiveObj.Peek().SetActive(true);
                     map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].myObject = inactiveObj.Peek();
+                    inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Texture;
                     inactiveObj.Pop();
                 }
             }
@@ -178,10 +181,8 @@ public class TileMapCameraGrid : MonoBehaviour
         for (int i = 0; i < width*height; i++)
         {
             GameObject obj;
-            Sprite newSprite = Resources.Load<Sprite>("Sprites/Grass");
             obj = Instantiate(manager.spriteAtlas) as GameObject;
             obj.AddComponent<SpriteTile>();
-            obj.GetComponent<SpriteRenderer>().sprite = newSprite;
             inactiveObj.Push(obj);
             obj.SetActive(false);
         }
