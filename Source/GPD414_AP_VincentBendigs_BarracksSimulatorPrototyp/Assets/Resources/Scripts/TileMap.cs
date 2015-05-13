@@ -14,7 +14,7 @@ public class TileMap
     public float purchasedLandHeightMin;
 
     CaveRandomShowMap ShowMap;
-    int offSet = 1;
+    int offSet = 2;
     Sprite BlackSprite;
 
 
@@ -45,7 +45,7 @@ public class TileMap
             {
                 if(i > purchasedLandWidthMin && i < purchasedLandWidthMax && j > purchasedLandHeightMin && j < purchasedLandHeightMax)
                 {
-                    MapData[i, j] = new GroundTile(i, j,ShowMap.ShowMap(i,j));
+                    MapData[i, j] = new GroundTile(i, j, ShowMap.ShowMap(i, j,(int)purchasedLandWidthMin,(int)purchasedLandHeightMin));
                 }
                 else
                 {

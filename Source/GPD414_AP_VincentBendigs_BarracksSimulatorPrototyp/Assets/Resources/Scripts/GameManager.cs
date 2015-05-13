@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public GameObject spriteAtlas;
     public GameObject[] spritePrefab;
+    public Sprite Grass;
+    public Sprite Desert;
     int bigMaxMapSize = 512;
     int smallMaxMapSize = 128;
     int middMaxMapSize = 256;
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
 	void Awake()
     {
         TileMap map = TileMap.Instance();
+        Grass = Resources.Load<Sprite>("Sprites/Grass");
+        Desert = Resources.Load<Sprite>("Sprites/Desert");
         GenerateAMap(map);
     }
     

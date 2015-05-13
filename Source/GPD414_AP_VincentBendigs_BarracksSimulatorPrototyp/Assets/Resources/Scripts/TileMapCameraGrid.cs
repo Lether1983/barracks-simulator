@@ -151,7 +151,7 @@ public class TileMapCameraGrid : MonoBehaviour
             inactiveObj.Peek().transform.position = map.MapData[(int)GridZeroPointX + j, activateC].Position;
             inactiveObj.Peek().SetActive(true);
             map.MapData[(int)GridZeroPointX + j, activateC].myObject = inactiveObj.Peek();
-            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[activateC, (int)GridZeroPointY + j].Texture;
+            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + j,activateC].Texture;
             inactiveObj.Pop();
         }
 

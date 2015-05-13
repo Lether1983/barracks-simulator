@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CaveRandomShowMap
 {
-
+    GameManager manager;
     int[,] Map;
     public int MapWidth;
     public int MapHeight;
@@ -11,6 +11,7 @@ public class CaveRandomShowMap
 
 	public CaveRandomShowMap(int mapWidth,int mapHeight)
     {
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         MapWidth = mapWidth * 2;
         MapHeight = mapHeight * 2;
         PercentAreWalls = 45;
@@ -149,25 +150,11 @@ public class CaveRandomShowMap
         }
     }
 
-    public Sprite ShowMap(int x,int y)
+    public Sprite ShowMap(int x,int y,int OffSetX,int OffsetY)
     {
-        Sprite returnSpirte;
-        for (int i = 0; i < MapWidth; i++)
-        {
-            for (int j = 0; j < MapHeight; j++)
-            {
-                if (Map[i, j] == 1)
-                {
-                    returnSpirte = Resources.Load<Sprite>("Sprites/Desert");
-                }
-                else
-                {
-                    returnSpirte = Resources.Load<Sprite>("Sprites/Grass");
-                }
-                return returnSpirte;
-            }
-        }
-        return null;
+        x = x - OffSetX;
+        y = y - OffsetY;
+        return Map[x, y] == 1 ? manager.Grass : manager.Desert;
     }
 
     private int RandomPercent(int PercentAreWalls)
