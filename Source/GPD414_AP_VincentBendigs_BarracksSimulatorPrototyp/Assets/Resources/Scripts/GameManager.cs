@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 
+enum SpriteNames { Desert,Water,Grass,BlackTile}
+
 public class GameManager : MonoBehaviour 
 {
     public GameObject spriteAtlas;

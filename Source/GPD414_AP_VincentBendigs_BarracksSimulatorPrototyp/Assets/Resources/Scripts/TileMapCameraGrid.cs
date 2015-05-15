@@ -182,7 +182,6 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             GameObject obj;
             obj = Instantiate(manager.spriteAtlas) as GameObject;
-            obj.AddComponent<SpriteTile>();
             inactiveObj.Push(obj);
             obj.SetActive(false);
         }
