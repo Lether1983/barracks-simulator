@@ -7,15 +7,19 @@ enum SpriteNames { Desert,Water,Grass,BlackTile}
 public class GameManager : MonoBehaviour 
 {
     public GameObject spriteAtlas;
-    public GameObject[] spritePrefab;
     public Sprite Grass;
     public Sprite Desert;
+    public bool BuildDesert;
+    public bool BuildGrass;
+
+
     int bigMaxMapSize = 512;
     int smallMaxMapSize = 128;
     int middMaxMapSize = 256;
     bool smallMap = false;
     bool midMap = false;
     bool largeMap = true;
+    
 
 	// Use this for initialization
 	void Awake()
@@ -44,5 +48,15 @@ public class GameManager : MonoBehaviour
             map.GenerateStartMap(bigMaxMapSize);
         }
     }
-
+    public void ChangeTileByClick(GameObject hittedGameobject)
+    {
+        if(BuildDesert)
+        {
+            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
+        }
+        else if(BuildGrass)
+        {
+            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
+        }
+    }
 }

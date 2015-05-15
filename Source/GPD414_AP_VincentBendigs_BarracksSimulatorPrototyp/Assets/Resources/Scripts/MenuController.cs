@@ -10,6 +10,14 @@ public class MenuController : MonoBehaviour
         BauPanel.SetActive(false);
         TilePanel.SetActive(false);
     }
+    public void DesertButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().BuildDesert = !this.gameObject.GetComponent<GameManager>().BuildDesert;
+    }
+    public void GrassButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().BuildGrass = !this.gameObject.GetComponent<GameManager>().BuildGrass;
+    }
 
     public void BauMenuPanelActivate()
     {
