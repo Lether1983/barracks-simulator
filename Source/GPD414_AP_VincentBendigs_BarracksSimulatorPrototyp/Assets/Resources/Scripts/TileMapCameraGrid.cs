@@ -7,14 +7,12 @@ public class TileMapCameraGrid : MonoBehaviour
 {
     Stack<GameObject> inactiveObj;
     GameManager manager;
-    CameraControl camera;
+    CameraControl mainCamera;
     TileMap map = TileMap.Instance();
     direction directions;
     int width = 41;
     int height = 27;
-    float Offset = 3;
     public float timer = 0;
-    float CameraSize;
     float GridZeroPointX;
     float GridZeroPointY;
     float GridMaxPointX;
@@ -29,8 +27,7 @@ public class TileMapCameraGrid : MonoBehaviour
         GridMaxPointX = this.transform.position.x + (width / 2);
         GridMaxPointY = this.transform.position.y + (height / 2);
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        CameraSize = this.gameObject.GetComponent<Camera>().orthographicSize;
-        camera = this.gameObject.GetComponent<CameraControl>();
+        mainCamera = this.gameObject.GetComponent<CameraControl>();
         FillCameraFieldNew();
         ShowMapContentNew();
     }
@@ -39,7 +36,7 @@ public class TileMapCameraGrid : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(camera.moveDirection.x != 0 || camera.moveDirection.y != 0)
+        if(mainCamera.moveDirection.x != 0 || mainCamera.moveDirection.y != 0)
         {
             if (timer > 0.5)
             {
@@ -51,28 +48,28 @@ public class TileMapCameraGrid : MonoBehaviour
 
     public void MoveCameraGrid()
     {
-        if(camera.moveDirection.x < -0.1)
+        if(mainCamera.moveDirection.x < -0.1)
         {
             if (this.gameObject.transform.position.x != map.purchasedLandWidthMin)
             {
                 CameraMove(direction.Left);
             }
         }
-        else if (camera.moveDirection.x > 0.1)
+        else if (mainCamera.moveDirection.x > 0.1)
         {
             if (this.gameObject.transform.position.x != map.purchasedLandWidthMax)
             {
                 CameraMove(direction.Right);
             }
         }
-        if(camera.moveDirection.y < -0.1)
+        if(mainCamera.moveDirection.y < -0.1)
         {
             if (this.gameObject.transform.position.y != map.purchasedLandHeightMin)
             {
                 CameraMove(direction.Down);
             }
         }
-        else if(camera.moveDirection.y > 0.1)
+        else if(mainCamera.moveDirection.y > 0.1)
         {
             if(this.gameObject.transform.position.y != map.purchasedLandHeightMax)
             {
