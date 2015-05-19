@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Sprite Desert;
     public bool BuildDesert;
     public bool BuildGrass;
+    public bool BuildWalls;
 
 
     int bigMaxMapSize = 512;

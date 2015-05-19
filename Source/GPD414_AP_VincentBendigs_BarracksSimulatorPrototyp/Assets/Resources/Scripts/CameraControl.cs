@@ -6,7 +6,6 @@ public class CameraControl : MonoBehaviour
 {
     public Vector2 moveDirection;
     public float Speed;
-    public GameObject gmanager;
     TileMap map = TileMap.Instance();
 	
     // Update is called once per frame
