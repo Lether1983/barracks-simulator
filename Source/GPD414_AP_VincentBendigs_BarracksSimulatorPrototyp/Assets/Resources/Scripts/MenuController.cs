@@ -4,19 +4,28 @@ using System.Collections;
 public class MenuController : MonoBehaviour 
 {
     public GameObject BauPanel;
-    public GameObject TilePanel;
+    public GameObject GroundTilePanel;
+    public GameObject WallTilePanel;
+
     void Start()
     {
         BauPanel.SetActive(false);
-        TilePanel.SetActive(false);
+        GroundTilePanel.SetActive(false);
+        WallTilePanel.SetActive(false);
     }
     public void DesertButtonSet()
     {
         this.gameObject.GetComponent<GameManager>().BuildDesert = !this.gameObject.GetComponent<GameManager>().BuildDesert;
     }
+
     public void GrassButtonSet()
     {
         this.gameObject.GetComponent<GameManager>().BuildGrass = !this.gameObject.GetComponent<GameManager>().BuildGrass;
+    }
+
+    public void WallButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().BuildWalls = !this.gameObject.GetComponent<GameManager>().BuildWalls;
     }
 
     public void BauMenuPanelActivate()
@@ -30,15 +39,28 @@ public class MenuController : MonoBehaviour
            BauPanel.SetActive(true);
        }
     }
+
     public void TileMenuPanelActivate()
     {
-        if(TilePanel.activeInHierarchy)
+        if(GroundTilePanel.activeInHierarchy)
         {
-            TilePanel.SetActive(false);
+            GroundTilePanel.SetActive(false);
         }
         else
         {
-            TilePanel.SetActive(true);
+            GroundTilePanel.SetActive(true);
+        }
+    }
+
+    public void WallTileMenuPanelActivate()
+    {
+        if (WallTilePanel.activeInHierarchy)
+        {
+            WallTilePanel.SetActive(false);
+        }
+        else
+        {
+            WallTilePanel.SetActive(true);
         }
     }
 }

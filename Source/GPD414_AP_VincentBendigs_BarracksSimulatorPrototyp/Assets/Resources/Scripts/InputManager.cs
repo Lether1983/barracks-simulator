@@ -73,7 +73,6 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
             }
             DrawSelectionBox(eventData);
-            ChangeTileUndertheRect();
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -85,6 +84,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         rect.position = Vector2.zero;
         rect.sizeDelta = Vector2.zero;
+        ChangeTileUndertheRect();
     }
 
     void DrawSelectionBox(PointerEventData eventData)
@@ -168,15 +168,49 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 ChangeSpriteOnMap((int)endX, (int)startY, (int)startX, (int)endY, texture);
             }
         }
+        else if(gmanager.GetComponent<GameManager>().BuildWalls)
+        {
+            Sprite texture = gmanager.GetComponent<GameManager>().Wall;
+            
+            if (endX <= startX && endY <= startY)
+            {
+                DrawWallLogicOnMap((int)endX, (int)endY, (int)startX, (int)startY, texture);
+            }
+            else if (endX >= startX && endY <= startY)
+            {
+                DrawWallLogicOnMap((int)startX, (int)endY, (int)endX, (int)startY, texture);
+            }
+            else if (endX >= startX && endY >= startY)
+            {
+                DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
+            }
+            else if (endX <= startX && endY >= startY)
+            {
+                DrawWallLogicOnMap((int)endX, (int)startY, (int)startX, (int)endY, texture);
+            }
+        }
     }
 
     private void ChangeSpriteOnMap(int minX,int minY, int maxX,int maxY,Sprite Texture)
     {
-        for (int i = minX; i < maxX; i++)
+        for (int i = minX; i < maxX+1; i++)
+        {
+            for (int j = minY; j < maxY+1; j++)
+            {
+                map.MapData[i, j].Texture = Texture;
+            }
+        }
+    }
+    void DrawWallLogicOnMap(int minX, int minY, int maxX, int maxY, Sprite Texture)
+    {
+        for (int i= minX; i < maxX; i++)
         {
             for (int j = minY; j < maxY; j++)
             {
-                map.MapData[i, j].Texture = Texture;
+                if(i == minX || i == maxX-1 || j == minY || j == maxY-1)
+                {
+                    map.MapData[i, j].Texture = Texture;
+                }
             }
         }
     }

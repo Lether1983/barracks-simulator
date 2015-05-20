@@ -7,8 +7,10 @@ enum SpriteNames { Desert,Water,Grass,BlackTile}
 public class GameManager : MonoBehaviour 
 {
     public GameObject spriteAtlas;
+    TileMap map;
     public Sprite Grass;
     public Sprite Desert;
+    public Sprite Wall;
     public bool BuildDesert;
     public bool BuildGrass;
     public bool BuildWalls;
@@ -25,9 +27,10 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake()
     {
-        TileMap map = TileMap.Instance();
+        map = TileMap.Instance();
         Grass = Resources.Load<Sprite>("Sprites/Grass");
         Desert = Resources.Load<Sprite>("Sprites/Desert");
+        Wall = Resources.Load<Sprite>("Sprites/Wall");
         GenerateAMap(map);
     }
     
@@ -54,10 +57,17 @@ public class GameManager : MonoBehaviour
         if(BuildDesert)
         {
             hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
+            map.MapData[(int)hittedGameobject.transform.position.x,(int)hittedGameobject.transform.position.y].Texture = Desert;
         }
         else if(BuildGrass)
         {
             hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
+            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+        }
+        else if(BuildWalls)
+        {
+            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Wall;
+            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Wall;
         }
     }
 }
