@@ -54,6 +54,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             gmanager.GetComponent<GameManager>().BuildDesert = false;
             gmanager.GetComponent<GameManager>().BuildGrass = false;
+            gmanager.GetComponent<GameManager>().BuildWalls = false;
         }
         else if (eventData.button == PointerEventData.InputButton.Middle)
         {
@@ -68,9 +69,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
             RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
             endPos = eventData.position;
+       
             if (hit.collider != null)
             {
-                gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+                if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
+                    (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
+                {
+                    gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+                }
             }
             DrawSelectionBox(eventData);
         }
@@ -130,69 +136,30 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         if (gmanager.GetComponent<GameManager>().BuildDesert)
         {
             Sprite texture = gmanager.GetComponent<GameManager>().Desert;
-            if (endX < startX && endY < startY)
-            {
-                ChangeSpriteOnMap((int)endX, (int)endY, (int)startX, (int)startY, texture);
-            }
-            else if (endX > startX && endY < startY)
-            {
-                ChangeSpriteOnMap((int)startX, (int)endY, (int)endX, (int)startY, texture);
-            }
-            else if (endX > startX && endY > startY)
-            {
-                ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
-            }
-            else if (endX < startX && endY > startY)
-            {
-                ChangeSpriteOnMap((int)endX, (int)startY, (int)startX, (int)endY, texture);
-            }
+
+            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
         else if (gmanager.GetComponent<GameManager>().BuildGrass)
         {
             Sprite texture = gmanager.GetComponent<GameManager>().Grass;
-            
-            if (endX <= startX && endY <= startY)
-            {
-                ChangeSpriteOnMap((int)endX, (int)endY, (int)startX, (int)startY, texture);
-            }
-            else if (endX >= startX && endY <= startY)
-            {
-                ChangeSpriteOnMap((int)startX, (int)endY, (int)endX, (int)startY, texture);
-            }
-            else if (endX >= startX && endY >= startY)
-            {
-                ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
-            }
-            else if (endX <= startX && endY >= startY)
-            {
-                ChangeSpriteOnMap((int)endX, (int)startY, (int)startX, (int)endY, texture);
-            }
+
+            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
         else if(gmanager.GetComponent<GameManager>().BuildWalls)
         {
             Sprite texture = gmanager.GetComponent<GameManager>().Wall;
-            
-            if (endX <= startX && endY <= startY)
-            {
-                DrawWallLogicOnMap((int)endX, (int)endY, (int)startX, (int)startY, texture);
-            }
-            else if (endX >= startX && endY <= startY)
-            {
-                DrawWallLogicOnMap((int)startX, (int)endY, (int)endX, (int)startY, texture);
-            }
-            else if (endX >= startX && endY >= startY)
-            {
-                DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
-            }
-            else if (endX <= startX && endY >= startY)
-            {
-                DrawWallLogicOnMap((int)endX, (int)startY, (int)startX, (int)endY, texture);
-            }
+
+            DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
     }
 
-    private void ChangeSpriteOnMap(int minX,int minY, int maxX,int maxY,Sprite Texture)
+    private void ChangeSpriteOnMap(int startX,int startY, int endX,int endY,Sprite Texture)
     {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
+
         for (int i = minX; i < maxX+1; i++)
         {
             for (int j = minY; j < maxY+1; j++)
@@ -201,8 +168,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             }
         }
     }
-    void DrawWallLogicOnMap(int minX, int minY, int maxX, int maxY, Sprite Texture)
+
+    void DrawWallLogicOnMap(int startX, int startY, int endX, int endY, Sprite Texture)
     {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
+
         for (int i= minX; i < maxX; i++)
         {
             for (int j = minY; j < maxY; j++)
@@ -210,6 +183,29 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 if(i == minX || i == maxX-1 || j == minY || j == maxY-1)
                 {
                     map.MapData[i, j].Texture = Texture;
+                }
+            }
+        }
+    }
+
+    void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY, Sprite WallTexture, Sprite GroundTexture)
+    {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
+
+        for (int i = minX; i < maxX; i++)
+        {
+            for (int j = minY; j <maxY; j++)
+            {
+                if(i == minX || i == maxX-1 || j == minY || j == maxY-1)
+                {
+                    map.MapData[i, j].Texture = WallTexture;
+                }
+                else
+                {
+                    map.MapData[i,j].Texture = GroundTexture;
                 }
             }
         }

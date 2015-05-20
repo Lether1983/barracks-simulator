@@ -49,6 +49,7 @@ public class MenuController : MonoBehaviour
         else
         {
             GroundTilePanel.SetActive(true);
+            WallTilePanel.SetActive(false);
         }
     }
 
@@ -61,6 +62,7 @@ public class MenuController : MonoBehaviour
         else
         {
             WallTilePanel.SetActive(true);
+            GroundTilePanel.SetActive(false);
         }
     }
 }
