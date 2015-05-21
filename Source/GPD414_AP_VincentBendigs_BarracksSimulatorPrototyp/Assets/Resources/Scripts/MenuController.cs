@@ -6,13 +6,16 @@ public class MenuController : MonoBehaviour
     public GameObject BauPanel;
     public GameObject GroundTilePanel;
     public GameObject WallTilePanel;
+    public GameObject FoundationTilePanel;
 
     void Start()
     {
         BauPanel.SetActive(false);
         GroundTilePanel.SetActive(false);
         WallTilePanel.SetActive(false);
+        FoundationTilePanel.SetActive(false);
     }
+
     public void DesertButtonSet()
     {
         this.gameObject.GetComponent<GameManager>().BuildDesert = !this.gameObject.GetComponent<GameManager>().BuildDesert;
@@ -26,6 +29,11 @@ public class MenuController : MonoBehaviour
     public void WallButtonSet()
     {
         this.gameObject.GetComponent<GameManager>().BuildWalls = !this.gameObject.GetComponent<GameManager>().BuildWalls;
+    }
+
+    public void FoundationButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().BuildFoundation = !this.gameObject.GetComponent<GameManager>().BuildFoundation;
     }
 
     public void BauMenuPanelActivate()
@@ -50,6 +58,7 @@ public class MenuController : MonoBehaviour
         {
             GroundTilePanel.SetActive(true);
             WallTilePanel.SetActive(false);
+            FoundationTilePanel.SetActive(false);
         }
     }
 
@@ -63,6 +72,21 @@ public class MenuController : MonoBehaviour
         {
             WallTilePanel.SetActive(true);
             GroundTilePanel.SetActive(false);
+            FoundationTilePanel.SetActive(false);
+        }
+    }
+
+    public void FoundationTileMenuPanelActivate()
+    {
+        if (FoundationTilePanel.activeInHierarchy)
+        {
+            FoundationTilePanel.SetActive(false);
+        }
+        else
+        {
+            FoundationTilePanel.SetActive(true);
+            GroundTilePanel.SetActive(false);
+            WallTilePanel.SetActive(false);
         }
     }
 }

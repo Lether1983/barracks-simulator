@@ -151,6 +151,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
             DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
+        else if(gmanager.GetComponent<GameManager>().BuildFoundation)
+        {
+            Sprite texture = gmanager.GetComponent<GameManager>().Wall;
+            Sprite texture2 = gmanager.GetComponent<GameManager>().Beton;
+
+            DrawFoundationLogicOnMap((int)startX,(int)startY,(int)endX,(int)endY, texture, texture2);
+        }
     }
 
     private void ChangeSpriteOnMap(int startX,int startY, int endX,int endY,Sprite Texture)

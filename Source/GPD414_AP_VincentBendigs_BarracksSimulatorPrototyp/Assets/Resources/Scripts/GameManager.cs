@@ -11,9 +11,11 @@ public class GameManager : MonoBehaviour
     public Sprite Grass;
     public Sprite Desert;
     public Sprite Wall;
+    public Sprite Beton;
     public bool BuildDesert;
     public bool BuildGrass;
     public bool BuildWalls;
+    public bool BuildFoundation;
 
 
     int bigMaxMapSize = 512;
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
         Grass = Resources.Load<Sprite>("Sprites/Grass");
         Desert = Resources.Load<Sprite>("Sprites/Desert");
         Wall = Resources.Load<Sprite>("Sprites/Wall");
+        Beton = Resources.Load<Sprite>("Sprites/Beton");
         GenerateAMap(map);
     }
     
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
             map.GenerateStartMap(bigMaxMapSize);
         }
     }
+
     public void ChangeTileByClick(GameObject hittedGameobject)
     {
         if(BuildDesert)
