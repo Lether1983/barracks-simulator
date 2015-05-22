@@ -6,14 +6,71 @@ public class CameraControl : MonoBehaviour
 {
     public Vector2 moveDirection;
     public float Speed;
+    public bool isOnMove;
+    private float Boundary = 10;
     TileMap map = TileMap.Instance();
 	
     // Update is called once per frame
     void Update()
     {
-        moveDirection = new Vector3(Input.GetAxis("Horizontal")*Speed, Input.GetAxis("Vertical")*Speed,-10);
+        if((moveDirection.x < -0.1 && moveDirection.y < -0.1)||(moveDirection.y > 0.1 && moveDirection.x > 0.1)||
+           (moveDirection.x < -0.1 && moveDirection.y > 0.1)||(moveDirection.x > 0.1 && moveDirection.y < -0.1))
+        {
+            isOnMove = true;
+        }
+        else
+        {
+            isOnMove = false;
+        }
 
-        transform.Translate(moveDirection * Time.deltaTime);
+        if (isOnMove)
+        {
+            moveDirection = new Vector3(Input.GetAxis("Horizontal") * Speed/2, Input.GetAxis("Vertical") * Speed/2, -10);
+        }
+        else
+        {
+            moveDirection = new Vector3(Input.GetAxis("Horizontal") * Speed, Input.GetAxis("Vertical") * Speed, -10);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") <= 0)
+        {
+            if (this.GetComponent<Camera>().orthographicSize != 10)
+            {
+                this.GetComponent<Camera>().orthographicSize++;
+            }
+        }
+
+        if(Input.GetAxis("Mouse ScrollWheel") >= 0)
+        {
+            if(this.GetComponent<Camera>().orthographicSize > 5)
+            {
+                this.GetComponent<Camera>().orthographicSize--;
+            }
+        }
+
+        if (Input.mousePosition.x >= Screen.width - Boundary)
+        {
+            moveDirection.x += Speed;
+        }
+
+        if (Input.mousePosition.x <= 0 + Boundary)
+        {
+            moveDirection.x -= Speed;
+        }
+
+        if (Input.mousePosition.y >= Screen.height - Boundary)
+        {
+            moveDirection.y += Speed;
+        }
+
+        if (Input.mousePosition.y <= 0 + Boundary)
+        {
+            moveDirection.y -= Speed;
+        }
+
+
+
+        transform.Translate(moveDirection*Time.deltaTime);
         transform.position = new Vector3(Mathf.Clamp(this.transform.position.x, (float)(map.purchasedLandWidthMin), (float)(map.purchasedLandWidthMax)),
                                          Mathf.Clamp(this.transform.position.y, (float)(map.purchasedLandHeightMin), (float)(map.purchasedLandHeightMax)),-10);
     }

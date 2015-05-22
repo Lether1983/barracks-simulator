@@ -55,6 +55,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             gmanager.GetComponent<GameManager>().BuildDesert = false;
             gmanager.GetComponent<GameManager>().BuildGrass = false;
             gmanager.GetComponent<GameManager>().BuildWalls = false;
+            gmanager.GetComponent<GameManager>().BuildFoundation = false;
         }
         else if (eventData.button == PointerEventData.InputButton.Middle)
         {
