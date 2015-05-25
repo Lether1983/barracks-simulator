@@ -34,7 +34,7 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") <= 0)
         {
-            if (this.GetComponent<Camera>().orthographicSize != 10)
+            if (this.GetComponent<Camera>().orthographicSize < 11)
             {
                 this.GetComponent<Camera>().orthographicSize++;
             }

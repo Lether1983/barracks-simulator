@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour
     public GameObject GroundTilePanel;
     public GameObject WallTilePanel;
     public GameObject FoundationTilePanel;
+    public GameObject ObjectTilePanel;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class MenuController : MonoBehaviour
         GroundTilePanel.SetActive(false);
         WallTilePanel.SetActive(false);
         FoundationTilePanel.SetActive(false);
+        ObjectTilePanel.SetActive(false);
     }
 
     public void DesertButtonSet()
@@ -59,6 +61,7 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(true);
             WallTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
+            ObjectTilePanel.SetActive(false);
         }
     }
 
@@ -73,6 +76,7 @@ public class MenuController : MonoBehaviour
             WallTilePanel.SetActive(true);
             GroundTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
+            ObjectTilePanel.SetActive(false);
         }
     }
 
@@ -87,6 +91,22 @@ public class MenuController : MonoBehaviour
             FoundationTilePanel.SetActive(true);
             GroundTilePanel.SetActive(false);
             WallTilePanel.SetActive(false);
+            ObjectTilePanel.SetActive(false);
+        }
+    }
+
+    public void ObjectTileMenuPanelActivate()
+    {
+        if (ObjectTilePanel.activeInHierarchy)
+        {
+            ObjectTilePanel.SetActive(false);
+        }
+        else
+        {
+            ObjectTilePanel.SetActive(true);
+            GroundTilePanel.SetActive(false);
+            WallTilePanel.SetActive(false);
+            FoundationTilePanel.SetActive(false);
         }
     }
 }
