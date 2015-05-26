@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool BuildGrass;
     public bool BuildWalls;
     public bool BuildFoundation;
+    public bool InObjectBuildMode;
 
 
     int bigMaxMapSize = 512;
@@ -32,10 +33,6 @@ public class GameManager : MonoBehaviour
     {
         map = TileMap.Instance();
         objectMap = ObjectTileMap.Instance();
-        Grass = Resources.Load<Sprite>("Sprites/Grass");
-        Desert = Resources.Load<Sprite>("Sprites/Desert");
-        Wall = Resources.Load<Sprite>("Sprites/Wall");
-        Beton = Resources.Load<Sprite>("Sprites/Beton");
         GenerateAMap(map);
     }
     
@@ -78,5 +75,10 @@ public class GameManager : MonoBehaviour
             hittedGameobject.GetComponent<SpriteRenderer>().sprite = Wall;
             map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Wall;
         }
+    }
+
+    public void PlaceObjectByClick(GameObject hittetObject)
+    {
+
     }
 }

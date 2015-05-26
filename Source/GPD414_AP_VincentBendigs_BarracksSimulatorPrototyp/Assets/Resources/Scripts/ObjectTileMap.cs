@@ -4,6 +4,7 @@ using System.Collections;
 public class ObjectTileMap 
 {
     public ObjectBaseClass[,] ObjectData;
+
     public static ObjectTileMap instance;
 
     public void GenerateObjectDataMap(int MapSize)

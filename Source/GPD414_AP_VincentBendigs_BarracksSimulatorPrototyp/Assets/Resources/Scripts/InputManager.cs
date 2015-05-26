@@ -42,12 +42,19 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
-            RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
-            startPos = eventData.position;
-            if (hit.collider != null)
+            if(gmanager.GetComponent<GameManager>().InObjectBuildMode)
             {
-                gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+
+            }
+            else
+            {
+                Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
+                RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
+                startPos = eventData.position;
+                if (hit.collider != null)
+                {
+                    gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+                }
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -94,7 +101,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         ChangeTileUndertheRect();
     }
 
-    void DrawSelectionBox(PointerEventData eventData)
+    private void DrawSelectionBox(PointerEventData eventData)
     {
         float xDif;
         float yDif;
@@ -127,7 +134,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         rect.sizeDelta = new Vector2(xDif * xScaler, yDif * yScaler);
     }
 
-    void ChangeTileUndertheRect()
+    private void ChangeTileUndertheRect()
     {
         endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
         endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
@@ -178,7 +185,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    void DrawWallLogicOnMap(int startX, int startY, int endX, int endY, Sprite Texture)
+    private void DrawWallLogicOnMap(int startX, int startY, int endX, int endY, Sprite Texture)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
@@ -198,7 +205,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY, Sprite WallTexture, Sprite GroundTexture)
+    private void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY, Sprite WallTexture, Sprite GroundTexture)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);

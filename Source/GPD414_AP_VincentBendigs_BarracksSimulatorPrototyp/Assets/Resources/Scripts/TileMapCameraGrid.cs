@@ -5,10 +5,12 @@ using System.Collections.Generic;
 enum direction { Up,Down,Left,Right};
 public class TileMapCameraGrid : MonoBehaviour
 {
-    Stack<GameObject> inactiveObj;
+    Stack<GameObject> inactiveTiles;
+    Stack<GameObject> inactiveObjects;
     GameManager manager;
     CameraControl mainCamera;
     TileMap map = TileMap.Instance();
+    ObjectTileMap objectMap = ObjectTileMap.Instance();
     direction directions;
     int width = 41;
     int height = 27;
@@ -21,7 +23,8 @@ public class TileMapCameraGrid : MonoBehaviour
     
     void Start()
     {
-        inactiveObj = new Stack<GameObject>();
+        inactiveTiles = new Stack<GameObject>();
+        inactiveObjects = new Stack<GameObject>();
         GridZeroPointX = this.transform.position.x - (width / 2);
         GridZeroPointY = this.transform.position.y - (height / 2);
         GridMaxPointX = this.transform.position.x + (width / 2);
@@ -29,6 +32,7 @@ public class TileMapCameraGrid : MonoBehaviour
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mainCamera = this.gameObject.GetComponent<CameraControl>();
         FillCameraFieldNew();
+        FillCameraObjectField();
         ShowMapContentNew();
     }
     
@@ -46,7 +50,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
         else if(mainCamera.moveDirection.x != 0 && mainCamera.moveDirection.y != 0)
         {
-            if (timer > 0.33)
+            if (timer > 0.3)
             {
                 MoveCameraGrid();
                 timer = 0;
@@ -127,19 +131,37 @@ public class TileMapCameraGrid : MonoBehaviour
 
     void MoveHorizontal(int activateC, int deactivateC)
     {
+        
         for (int i = 0; i < height; i++)
         {
+            if (objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i] != null)
+            {
+                objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
+                inactiveObjects.Push(objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject);
+                objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject = null;
+            }
+
             map.MapData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
-            inactiveObj.Push(map.MapData[deactivateC, (int)GridZeroPointY + i].myObject);
+            inactiveTiles.Push(map.MapData[deactivateC, (int)GridZeroPointY + i].myObject);
             map.MapData[deactivateC, (int)GridZeroPointY + i].myObject = null;
         }
+
         for (int j = 0; j < height; j++)
         {
-            inactiveObj.Peek().transform.position = map.MapData[activateC,(int)GridZeroPointY + j].Position;
-            inactiveObj.Peek().SetActive(true);
-            map.MapData[activateC, (int)GridZeroPointY + j].myObject = inactiveObj.Peek();
-            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[activateC, (int)GridZeroPointY + j].Texture;
-            inactiveObj.Pop();
+            if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j] != null)
+            {
+                inactiveObjects.Peek().transform.position = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position;
+                inactiveObjects.Peek().SetActive(true);
+                objectMap.ObjectData[activateC, (int)GridZeroPointY + j].myObject = inactiveObjects.Peek();
+                inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Texture;
+                inactiveObjects.Pop();
+            }
+
+            inactiveTiles.Peek().transform.position = map.MapData[activateC,(int)GridZeroPointY + j].Position;
+            inactiveTiles.Peek().SetActive(true);
+            map.MapData[activateC, (int)GridZeroPointY + j].myObject = inactiveTiles.Peek();
+            inactiveTiles.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[activateC, (int)GridZeroPointY + j].Texture;
+            inactiveTiles.Pop();
         }
     }
 
@@ -147,17 +169,31 @@ public class TileMapCameraGrid : MonoBehaviour
     {
         for (int i = 0; i < width; i++)
         {
+            if (objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC] != null)
+            {
+                objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
+                inactiveObjects.Push(objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject);
+                objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject = null;
+            }
             map.MapData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
-            inactiveObj.Push(map.MapData[(int)GridZeroPointX + i, deactivateC].myObject);
+            inactiveTiles.Push(map.MapData[(int)GridZeroPointX + i, deactivateC].myObject);
             map.MapData[(int)GridZeroPointX + i, deactivateC].myObject = null;
         }
         for (int j = 0; j < width; j++)
         {
-            inactiveObj.Peek().transform.position = map.MapData[(int)GridZeroPointX + j, activateC].Position;
-            inactiveObj.Peek().SetActive(true);
-            map.MapData[(int)GridZeroPointX + j, activateC].myObject = inactiveObj.Peek();
-            inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + j,activateC].Texture;
-            inactiveObj.Pop();
+            if (objectMap.ObjectData[(int)GridZeroPointX + j, activateC] != null)
+            {
+                inactiveObjects.Peek().transform.position = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position;
+                inactiveObjects.Peek().SetActive(true);
+                objectMap.ObjectData[(int)GridZeroPointX + j, activateC].myObject = inactiveObjects.Peek();
+                inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Texture;
+                inactiveObjects.Pop();
+            }
+            inactiveTiles.Peek().transform.position = map.MapData[(int)GridZeroPointX + j, activateC].Position;
+            inactiveTiles.Peek().SetActive(true);
+            map.MapData[(int)GridZeroPointX + j, activateC].myObject = inactiveTiles.Peek();
+            inactiveTiles.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + j,activateC].Texture;
+            inactiveTiles.Pop();
         }
 
 
@@ -169,15 +205,26 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (inactiveObj.Count > 0)
+                if (inactiveTiles.Count > 0)
                 {
-                    inactiveObj.Peek().transform.position = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Position;
-                    inactiveObj.Peek().SetActive(true);
-                    map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].myObject = inactiveObj.Peek();
-                    inactiveObj.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Texture;
-                    inactiveObj.Pop();
+                    inactiveTiles.Peek().transform.position = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Position;
+                    inactiveTiles.Peek().SetActive(true);
+                    map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].myObject = inactiveTiles.Peek();
+                    inactiveTiles.Peek().GetComponent<SpriteRenderer>().sprite = map.MapData[(int)GridZeroPointX + i, (int)GridZeroPointY + j].Texture;
+                    inactiveTiles.Pop();
                 }
             }
+        }
+    }
+
+    void FillCameraObjectField()
+    {
+        for (int i = 0; i < width * height; i++)
+        {
+            GameObject obj;
+            obj = Instantiate(manager.spriteAtlas) as GameObject;
+            inactiveObjects.Push(obj);
+            obj.SetActive(false);
         }
     }
 
@@ -187,7 +234,7 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             GameObject obj;
             obj = Instantiate(manager.spriteAtlas) as GameObject;
-            inactiveObj.Push(obj);
+            inactiveTiles.Push(obj);
             obj.SetActive(false);
         }
     }

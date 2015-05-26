@@ -40,6 +40,11 @@ public class MenuController : MonoBehaviour
         this.gameObject.GetComponent<GameManager>().BuildFoundation = !this.gameObject.GetComponent<GameManager>().BuildFoundation;
     }
 
+    public void ObjectBuildModeButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
+    }
+
     public void BauMenuPanelActivate()
     {
        if(BauPanel.activeInHierarchy)
