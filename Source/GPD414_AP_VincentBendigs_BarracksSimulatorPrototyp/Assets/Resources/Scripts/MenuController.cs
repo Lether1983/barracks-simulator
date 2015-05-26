@@ -8,6 +8,7 @@ public class MenuController : MonoBehaviour
     public GameObject WallTilePanel;
     public GameObject FoundationTilePanel;
     public GameObject ObjectTilePanel;
+    public GameObject RoomTilePanel;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class MenuController : MonoBehaviour
         WallTilePanel.SetActive(false);
         FoundationTilePanel.SetActive(false);
         ObjectTilePanel.SetActive(false);
+        RoomTilePanel.SetActive(false);
     }
 
     public void DesertButtonSet()
@@ -62,6 +64,7 @@ public class MenuController : MonoBehaviour
             WallTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
             ObjectTilePanel.SetActive(false);
+            RoomTilePanel.SetActive(false);
         }
     }
 
@@ -77,6 +80,7 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
             ObjectTilePanel.SetActive(false);
+            RoomTilePanel.SetActive(false);
         }
     }
 
@@ -92,6 +96,7 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(false);
             WallTilePanel.SetActive(false);
             ObjectTilePanel.SetActive(false);
+            RoomTilePanel.SetActive(false);
         }
     }
 
@@ -107,6 +112,23 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(false);
             WallTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
+            RoomTilePanel.SetActive(false);
+        }
+    }
+
+    public void RoomTileMenuPanelActivate()
+    {
+        if (RoomTilePanel.activeInHierarchy)
+        {
+            RoomTilePanel.SetActive(false);
+        }
+        else
+        {
+            RoomTilePanel.SetActive(true);
+            GroundTilePanel.SetActive(false);
+            WallTilePanel.SetActive(false);
+            FoundationTilePanel.SetActive(false);
+            ObjectTilePanel.SetActive(false);
         }
     }
 }

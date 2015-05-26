@@ -4,7 +4,7 @@ using System;
 
 public class TileBaseClass : ICloneable
 {
-    bool IsPassible;
+    public bool IsPassible;
     public Vector2 Position;
     public GameObject myObject;
     public int movementCost;

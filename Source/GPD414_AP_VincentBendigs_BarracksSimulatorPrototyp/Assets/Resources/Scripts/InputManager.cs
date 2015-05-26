@@ -168,9 +168,9 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         int maxX = Mathf.Max(startX, endX);
         int maxY = Mathf.Max(startY, endY);
 
-        for (int i = minX; i <= maxX+1; i++)
+        for (int i = minX; i <= maxX; i++)
         {
-            for (int j = minY; j <= maxY+1; j++)
+            for (int j = minY; j <= maxY; j++)
             {
                 map.MapData[i, j].Texture = Texture;
                 map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
@@ -209,7 +209,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if(i == minX || i == maxX-1 || j == minY || j == maxY-1)
+                if(i == minX || i == maxX || j == minY || j == maxY)
                 {
                     map.MapData[i, j].Texture = WallTexture;
                     map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = WallTexture;

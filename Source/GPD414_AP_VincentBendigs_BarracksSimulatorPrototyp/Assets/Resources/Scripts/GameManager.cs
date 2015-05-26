@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject spriteAtlas;
     TileMap map;
+    ObjectTileMap objectMap;
     public Sprite Grass;
     public Sprite Desert;
     public Sprite Wall;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
 	void Awake()
     {
         map = TileMap.Instance();
+        objectMap = ObjectTileMap.Instance();
         Grass = Resources.Load<Sprite>("Sprites/Grass");
         Desert = Resources.Load<Sprite>("Sprites/Desert");
         Wall = Resources.Load<Sprite>("Sprites/Wall");
@@ -43,16 +45,19 @@ public class GameManager : MonoBehaviour
         {
             map.StartFieldOfViewValue = 20;
             map.GenerateStartMap(smallMaxMapSize);
+            objectMap.GenerateObjectDataMap(smallMaxMapSize);
         }
         else if(midMap)
         {
             map.StartFieldOfViewValue = 40;
             map.GenerateStartMap(middMaxMapSize);
+            objectMap.GenerateObjectDataMap(middMaxMapSize);
         }
         else if(largeMap)
         {
             map.StartFieldOfViewValue = 80;
             map.GenerateStartMap(bigMaxMapSize);
+            objectMap.GenerateObjectDataMap(bigMaxMapSize);
         }
     }
 
