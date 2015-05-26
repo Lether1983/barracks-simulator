@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Sprite Desert;
     public Sprite Wall;
     public Sprite Beton;
+    public Sprite Dusche;
     public bool BuildDesert;
     public bool BuildGrass;
     public bool BuildWalls;
@@ -79,6 +80,9 @@ public class GameManager : MonoBehaviour
 
     public void PlaceObjectByClick(GameObject hittetObject)
     {
-
+        if(this.GetComponent<ObjectManager>().IplaceShower)
+        {
+            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Dusche;
+        }
     }
 }

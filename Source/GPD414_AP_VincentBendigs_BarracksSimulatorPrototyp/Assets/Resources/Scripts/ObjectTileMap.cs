@@ -10,6 +10,13 @@ public class ObjectTileMap
     public void GenerateObjectDataMap(int MapSize)
     {
         ObjectData = new ObjectBaseClass[MapSize, MapSize];
+        for (int i = 0; i < MapSize; i++)
+        {
+            for (int j = 0; j < MapSize; j++)
+            {
+                ObjectData[i, j] = new ObjectBaseClass();
+            }
+        }
     }
 
     public static ObjectTileMap Instance()

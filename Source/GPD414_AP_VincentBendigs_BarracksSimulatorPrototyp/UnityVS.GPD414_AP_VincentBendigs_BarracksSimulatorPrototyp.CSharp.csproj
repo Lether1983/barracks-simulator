@@ -63,10 +63,10 @@
     <Compile Include="Assets\Resources\Scripts\CaveRandomShowMap.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GroundTile.cs" />
-    <Compile Include="Assets\Resources\Scripts\GroundTileMap.cs" />
     <Compile Include="Assets\Resources\Scripts\InputManager.cs" />
     <Compile Include="Assets\Resources\Scripts\MenuController.cs" />
     <Compile Include="Assets\Resources\Scripts\ObjectBaseClass.cs" />
+    <Compile Include="Assets\Resources\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Resources\Scripts\ObjectTileMap.cs" />
     <Compile Include="Assets\Resources\Scripts\SpriteTile.cs" />
     <Compile Include="Assets\Resources\Scripts\TileBaseClass.cs" />

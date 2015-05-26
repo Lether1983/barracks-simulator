@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     public RectTransform rect;
 
     TileMap map = TileMap.Instance();
+    ObjectTileMap objectMap = ObjectTileMap.Instance();
     Vector2 startPos;
     Vector2 endPos;
     float yScaler;
@@ -42,15 +43,25 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            startPos = eventData.position;
             if(gmanager.GetComponent<GameManager>().InObjectBuildMode)
             {
-
+                Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
+                RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
+                if(hit.collider != null)
+                {
+                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = objectMap.ObjectData[(int)hit.transform.position.x,(int)hit.transform.position.y].Position;
+                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
+                    objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
+                    gmanager.GetComponent<GameManager>().PlaceObjectByClick(hit.transform.gameObject);
+                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+                    Debug.Log("ItemSet");
+                }
             }
             else
             {
                 Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
                 RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
-                startPos = eventData.position;
                 if (hit.collider != null)
                 {
                     gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);

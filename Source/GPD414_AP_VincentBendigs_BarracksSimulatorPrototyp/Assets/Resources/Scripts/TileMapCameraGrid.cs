@@ -5,8 +5,10 @@ using System.Collections.Generic;
 enum direction { Up,Down,Left,Right};
 public class TileMapCameraGrid : MonoBehaviour
 {
+    public Stack<GameObject> inactiveObjects;
+    public float timer = 0;
+
     Stack<GameObject> inactiveTiles;
-    Stack<GameObject> inactiveObjects;
     GameManager manager;
     CameraControl mainCamera;
     TileMap map = TileMap.Instance();
@@ -14,7 +16,6 @@ public class TileMapCameraGrid : MonoBehaviour
     direction directions;
     int width = 41;
     int height = 27;
-    public float timer = 0;
     float GridZeroPointX;
     float GridZeroPointY;
     float GridMaxPointX;
@@ -134,7 +135,7 @@ public class TileMapCameraGrid : MonoBehaviour
         
         for (int i = 0; i < height; i++)
         {
-            if (objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i] != null)
+            if (objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject != null)
             {
                 objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
                 inactiveObjects.Push(objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject);
@@ -148,7 +149,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
         for (int j = 0; j < height; j++)
         {
-            if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j] != null)
+            if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
             {
                 inactiveObjects.Peek().transform.position = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position;
                 inactiveObjects.Peek().SetActive(true);
@@ -169,7 +170,7 @@ public class TileMapCameraGrid : MonoBehaviour
     {
         for (int i = 0; i < width; i++)
         {
-            if (objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC] != null)
+            if (objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject != null)
             {
                 objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
                 inactiveObjects.Push(objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject);
@@ -181,7 +182,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
         for (int j = 0; j < width; j++)
         {
-            if (objectMap.ObjectData[(int)GridZeroPointX + j, activateC] != null)
+            if (objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position != Vector2.zero)
             {
                 inactiveObjects.Peek().transform.position = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position;
                 inactiveObjects.Peek().SetActive(true);

@@ -45,6 +45,11 @@ public class MenuController : MonoBehaviour
         this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
     }
 
+    public void ObjectShowerPlace()
+    {
+        this.GetComponent<ObjectManager>().IplaceShower = !this.GetComponent<ObjectManager>().IplaceShower;
+    }
+
     public void BauMenuPanelActivate()
     {
        if(BauPanel.activeInHierarchy)
