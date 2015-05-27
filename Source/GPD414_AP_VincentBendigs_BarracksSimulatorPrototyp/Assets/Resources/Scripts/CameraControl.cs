@@ -50,22 +50,50 @@ public class CameraControl : MonoBehaviour
 
         if (Input.mousePosition.x >= Screen.width - Boundary)
         {
-            moveDirection.x += Speed;
+            if (isOnMove)
+            {
+                moveDirection.x += Speed / 2;
+            }
+            else
+            {
+                moveDirection.x += Speed;
+            }
         }
 
         if (Input.mousePosition.x <= 0 + Boundary)
         {
-            moveDirection.x -= Speed;
+            if (isOnMove)
+            {
+                moveDirection.x -= Speed / 2;
+            }
+            else
+            {
+                moveDirection.x -= Speed;
+            }
         }
 
         if (Input.mousePosition.y >= Screen.height - Boundary)
         {
-            moveDirection.y += Speed;
+            if (isOnMove)
+            {
+                moveDirection.y += Speed / 2;
+            }
+            else
+            {
+                moveDirection.y += Speed;
+            }
         }
 
         if (Input.mousePosition.y <= 0 + Boundary)
         {
-            moveDirection.y -= Speed;
+            if (isOnMove)
+            {
+                moveDirection.y -= Speed / 2;
+            }
+            else
+            {
+                moveDirection.y -= Speed;
+            }
         }
 
 

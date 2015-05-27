@@ -40,8 +40,16 @@ public class TileMapCameraGrid : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-
-        if(mainCamera.moveDirection.x != 0 || mainCamera.moveDirection.y != 0)
+       
+        if(mainCamera.moveDirection.x != 0 && mainCamera.moveDirection.y != 0)
+        {
+            if (timer > 0.4)
+            {
+                MoveCameraGrid();
+                timer = 0;
+            }
+        }
+        else if(mainCamera.moveDirection.x != 0 || mainCamera.moveDirection.y != 0)
         {
             if (timer > 0.19)
             {
@@ -49,14 +57,7 @@ public class TileMapCameraGrid : MonoBehaviour
                 timer = 0;
             }
         }
-        else if(mainCamera.moveDirection.x != 0 && mainCamera.moveDirection.y != 0)
-        {
-            if (timer > 0.3)
-            {
-                MoveCameraGrid();
-                timer = 0;
-            }
-        }
+        
     }
 
     public void MoveCameraGrid()

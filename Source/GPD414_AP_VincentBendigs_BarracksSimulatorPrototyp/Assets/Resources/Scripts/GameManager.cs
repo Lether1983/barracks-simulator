@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         if(this.GetComponent<ObjectManager>().IplaceShower)
         {
+            hittetObject.GetComponent<SpriteRenderer>().sprite = Dusche;
             objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Dusche;
         }
     }
