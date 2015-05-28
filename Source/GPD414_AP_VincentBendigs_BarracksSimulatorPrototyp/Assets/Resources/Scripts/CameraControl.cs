@@ -25,7 +25,7 @@ public class CameraControl : MonoBehaviour
 
         if (isOnMove)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal") * Speed/2, Input.GetAxis("Vertical") * Speed/2, -10);
+            moveDirection = new Vector3(Input.GetAxis("Horizontal") * Speed/1.5f, Input.GetAxis("Vertical") * Speed/1.5f, -10);
         }
         else
         {
@@ -52,7 +52,7 @@ public class CameraControl : MonoBehaviour
         {
             if (isOnMove)
             {
-                moveDirection.x += Speed / 2;
+                moveDirection.x += Speed / 1.5f;
             }
             else
             {
@@ -64,7 +64,7 @@ public class CameraControl : MonoBehaviour
         {
             if (isOnMove)
             {
-                moveDirection.x -= Speed / 2;
+                moveDirection.x -= Speed / 1.5f;
             }
             else
             {
@@ -76,7 +76,7 @@ public class CameraControl : MonoBehaviour
         {
             if (isOnMove)
             {
-                moveDirection.y += Speed / 2;
+                moveDirection.y += Speed / 1.5f;
             }
             else
             {
@@ -88,7 +88,7 @@ public class CameraControl : MonoBehaviour
         {
             if (isOnMove)
             {
-                moveDirection.y -= Speed / 2;
+                moveDirection.y -= Speed / 1.5f;
             }
             else
             {

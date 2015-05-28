@@ -50,13 +50,12 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
                 if(hit.collider != null)
                 {
-                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = hit.transform.position;
+                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x,hit.transform.position.y,-1);
                     objectMap.ObjectData[(int)hit.transform.position.x,(int)hit.transform.position.y].Position = hit.transform.position;
                     mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
                     objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
                     gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
                     mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
-                    Debug.Log("ItemSet");
                 }
             }
             else

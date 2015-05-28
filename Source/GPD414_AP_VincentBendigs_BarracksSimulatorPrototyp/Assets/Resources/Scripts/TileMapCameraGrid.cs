@@ -7,13 +7,13 @@ public class TileMapCameraGrid : MonoBehaviour
 {
     public Stack<GameObject> inactiveObjects;
     public float timer = 0;
-
+    public GameObject TileSpawn;
+    public GameObject ObjectSpawn;
     Stack<GameObject> inactiveTiles;
     GameManager manager;
     CameraControl mainCamera;
     TileMap map = TileMap.Instance();
     ObjectTileMap objectMap = ObjectTileMap.Instance();
-    direction directions;
     int width = 41;
     int height = 27;
     float GridZeroPointX;
@@ -43,7 +43,7 @@ public class TileMapCameraGrid : MonoBehaviour
        
         if(mainCamera.moveDirection.x != 0 && mainCamera.moveDirection.y != 0)
         {
-            if (timer > 0.4)
+            if (timer > 0.3)
             {
                 MoveCameraGrid();
                 timer = 0;
@@ -152,7 +152,7 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
             {
-                inactiveObjects.Peek().transform.position = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position;
+                inactiveObjects.Peek().transform.position = new Vector3(objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position.x,objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position.y,-1);
                 inactiveObjects.Peek().SetActive(true);
                 objectMap.ObjectData[activateC, (int)GridZeroPointY + j].myObject = inactiveObjects.Peek();
                 inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Texture;
@@ -185,7 +185,7 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             if (objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position != Vector2.zero)
             {
-                inactiveObjects.Peek().transform.position = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position;
+                inactiveObjects.Peek().transform.position = new Vector3(objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position.x, objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position.y, -1);
                 inactiveObjects.Peek().SetActive(true);
                 objectMap.ObjectData[(int)GridZeroPointX + j, activateC].myObject = inactiveObjects.Peek();
                 inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Texture;
@@ -224,7 +224,7 @@ public class TileMapCameraGrid : MonoBehaviour
         for (int i = 0; i < width * height; i++)
         {
             GameObject obj;
-            obj = Instantiate(manager.spriteAtlas) as GameObject;
+            obj = Instantiate(manager.spriteAtlas,new Vector3(0,0,this.ObjectSpawn.transform.position.z),Quaternion.identity) as GameObject;
             inactiveObjects.Push(obj);
             obj.SetActive(false);
         }
@@ -235,7 +235,7 @@ public class TileMapCameraGrid : MonoBehaviour
         for (int i = 0; i < width*height; i++)
         {
             GameObject obj;
-            obj = Instantiate(manager.spriteAtlas) as GameObject;
+            obj = Instantiate(manager.spriteAtlas, new Vector3(0, 0, this.TileSpawn.transform.position.z), Quaternion.identity) as GameObject;
             inactiveTiles.Push(obj);
             obj.SetActive(false);
         }
