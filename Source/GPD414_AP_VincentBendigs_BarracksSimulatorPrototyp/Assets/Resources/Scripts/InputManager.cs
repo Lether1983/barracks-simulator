@@ -5,6 +5,7 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    #region Fileds
     public static InputManager Instance { get; private set; }
     public GameObject mainCamera;
     public GameObject gmanager;
@@ -20,6 +21,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     private float endY;
     private float startX;
     private float startY;
+    #endregion
 
     private void Awake()
     {
@@ -46,17 +48,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             startPos = eventData.position;
             if(gmanager.GetComponent<GameManager>().InObjectBuildMode)
             {
-                Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
-                RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
-                if(hit.collider != null)
-                {
-                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x,hit.transform.position.y,-1);
-                    objectMap.ObjectData[(int)hit.transform.position.x,(int)hit.transform.position.y].Position = hit.transform.position;
-                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
-                    objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
-                    gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
-                    mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
-                }
+                ObjectPlacementOnMap(eventData);
             }
             else
             {
@@ -74,6 +66,8 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             gmanager.GetComponent<GameManager>().BuildGrass = false;
             gmanager.GetComponent<GameManager>().BuildWalls = false;
             gmanager.GetComponent<GameManager>().BuildFoundation = false;
+            gmanager.GetComponent<GameManager>().InObjectBuildMode = false;
+            gmanager.GetComponent<ObjectManager>().IplaceShower = false;
         }
         else if (eventData.button == PointerEventData.InputButton.Middle)
         {
@@ -112,6 +106,21 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         ChangeTileUndertheRect();
     }
 
+    private void ObjectPlacementOnMap(PointerEventData eventData)
+    {
+        Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
+        RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
+        if (hit.collider != null)
+        {
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -1);
+            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
+            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
+            gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+        }
+    }
+    
     private void DrawSelectionBox(PointerEventData eventData)
     {
         float xDif;

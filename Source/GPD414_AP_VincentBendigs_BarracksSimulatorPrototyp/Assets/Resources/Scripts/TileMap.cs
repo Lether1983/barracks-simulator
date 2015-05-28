@@ -4,6 +4,7 @@ using System;
 
 public class TileMap
 {
+    #region Fields
     public TileBaseClass[,] MapData;
     public static TileMap instance;
     public int BuyfieldSize = 44;
@@ -12,7 +13,8 @@ public class TileMap
     public float purchasedLandWidthMin;
     public float purchasedLandHeightMax;
     public float purchasedLandHeightMin;
-
+    #endregion
+  
     CaveRandomShowMap ShowMap;
     int offSet = 2;
     Sprite BlackSprite;

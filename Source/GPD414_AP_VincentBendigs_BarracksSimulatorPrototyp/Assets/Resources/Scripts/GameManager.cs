@@ -9,17 +9,22 @@ public class GameManager : MonoBehaviour
     public GameObject spriteAtlas;
     TileMap map;
     ObjectTileMap objectMap;
+    
+    #region Sprites
     public Sprite Grass;
     public Sprite Desert;
     public Sprite Wall;
     public Sprite Beton;
     public Sprite Dusche;
+    #endregion
+    
+    #region Tile Bools
     public bool BuildDesert;
     public bool BuildGrass;
     public bool BuildWalls;
     public bool BuildFoundation;
     public bool InObjectBuildMode;
-
+    #endregion
 
     int bigMaxMapSize = 512;
     int smallMaxMapSize = 128;

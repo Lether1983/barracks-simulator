@@ -5,6 +5,7 @@ using System.Collections.Generic;
 enum direction { Up,Down,Left,Right};
 public class TileMapCameraGrid : MonoBehaviour
 {
+    #region Fields
     public Stack<GameObject> inactiveObjects;
     public float timer = 0;
     public GameObject TileSpawn;
@@ -20,8 +21,8 @@ public class TileMapCameraGrid : MonoBehaviour
     float GridZeroPointY;
     float GridMaxPointX;
     float GridMaxPointY;
-    
-    
+    #endregion
+
     void Start()
     {
         inactiveTiles = new Stack<GameObject>();

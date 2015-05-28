@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuController : MonoBehaviour 
+public class MenuController : MonoBehaviour
 {
+    #region Panel GameObjects
     public GameObject BauPanel;
     public GameObject GroundTilePanel;
     public GameObject WallTilePanel;
     public GameObject FoundationTilePanel;
     public GameObject ObjectTilePanel;
     public GameObject RoomTilePanel;
+    #endregion
 
     void Start()
     {

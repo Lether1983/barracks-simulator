@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ObjectManager : MonoBehaviour 
+public class ObjectManager : MonoBehaviour
 {
+    #region Objects Bools
     public bool IplaceShower;
+    #endregion
 
 
-
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
 	
 	}
