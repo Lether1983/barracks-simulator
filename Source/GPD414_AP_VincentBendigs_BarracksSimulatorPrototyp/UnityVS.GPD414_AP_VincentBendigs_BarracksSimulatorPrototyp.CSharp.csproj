@@ -68,6 +68,8 @@
     <Compile Include="Assets\Resources\Scripts\ObjectBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Resources\Scripts\ObjectTileMap.cs" />
+    <Compile Include="Assets\Resources\Scripts\RoomBaseClass.cs" />
+    <Compile Include="Assets\Resources\Scripts\RoomMap.cs" />
     <Compile Include="Assets\Resources\Scripts\SpriteTile.cs" />
     <Compile Include="Assets\Resources\Scripts\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMap.cs" />

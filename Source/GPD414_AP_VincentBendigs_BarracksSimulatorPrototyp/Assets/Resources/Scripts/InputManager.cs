@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     public GameObject mainCamera;
     public GameObject gmanager;
     public RectTransform rect;
+    public bool DrawRect;
 
     TileMap map = TileMap.Instance();
     ObjectTileMap objectMap = ObjectTileMap.Instance();
@@ -50,6 +51,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 ObjectPlacementOnMap(eventData);
             }
+            else if(gmanager.GetComponent<GameManager>().InRoomBuildMode)
+            {
+
+            }
             else
             {
                 Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
@@ -85,6 +90,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
        
             if (hit.collider != null)
             {
+                DrawRect = true;
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
@@ -103,7 +109,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         rect.position = Vector2.zero;
         rect.sizeDelta = Vector2.zero;
-        ChangeTileUndertheRect();
+        if (DrawRect)
+        {
+            ChangeTileUndertheRect();
+            DrawRect = false;
+        }
     }
 
     private void ObjectPlacementOnMap(PointerEventData eventData)

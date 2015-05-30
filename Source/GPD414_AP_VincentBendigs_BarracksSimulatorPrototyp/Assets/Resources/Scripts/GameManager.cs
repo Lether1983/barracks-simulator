@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject spriteAtlas;
     TileMap map;
     ObjectTileMap objectMap;
+    RoomMap roomMap;
     
     #region Sprites
     public Sprite Grass;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     public bool BuildWalls;
     public bool BuildFoundation;
     public bool InObjectBuildMode;
+    public bool InRoomBuildMode;
     #endregion
 
     int bigMaxMapSize = 512;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         map = TileMap.Instance();
         objectMap = ObjectTileMap.Instance();
+        roomMap = RoomMap.Instance();
         GenerateAMap(map);
     }
     
@@ -49,18 +52,21 @@ public class GameManager : MonoBehaviour
             map.StartFieldOfViewValue = 20;
             map.GenerateStartMap(smallMaxMapSize);
             objectMap.GenerateObjectDataMap(smallMaxMapSize);
+            roomMap.GenerateRoomObjects(smallMaxMapSize);
         }
         else if(midMap)
         {
             map.StartFieldOfViewValue = 40;
             map.GenerateStartMap(middMaxMapSize);
             objectMap.GenerateObjectDataMap(middMaxMapSize);
+            roomMap.GenerateRoomObjects(middMaxMapSize);
         }
         else if(largeMap)
         {
             map.StartFieldOfViewValue = 80;
             map.GenerateStartMap(bigMaxMapSize);
             objectMap.GenerateObjectDataMap(bigMaxMapSize);
+            roomMap.GenerateRoomObjects(bigMaxMapSize);
         }
     }
 
@@ -90,5 +96,10 @@ public class GameManager : MonoBehaviour
             hittetObject.GetComponent<SpriteRenderer>().sprite = Dusche;
             objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Dusche;
         }
+    }
+
+    public void PlaceRoomByClickOnMap(GameObject hittetObjectForRoom)
+    {
+
     }
 }
