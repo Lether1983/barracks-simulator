@@ -11,9 +11,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     public GameObject gmanager;
     public RectTransform rect;
     public bool DrawRect;
+    public bool SetRoomOnMap;
 
     TileMap map = TileMap.Instance();
     ObjectTileMap objectMap = ObjectTileMap.Instance();
+    RoomMap roomMap = RoomMap.Instance();
     Vector2 startPos;
     Vector2 endPos;
     float yScaler;
@@ -47,18 +49,16 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             startPos = eventData.position;
+
+            Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
+            RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
+
             if(gmanager.GetComponent<GameManager>().InObjectBuildMode)
             {
-                ObjectPlacementOnMap(eventData);
-            }
-            else if(gmanager.GetComponent<GameManager>().InRoomBuildMode)
-            {
-
+                ObjectPlacementOnMap(eventData,hit);
             }
             else
             {
-                Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
-                RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
                 if (hit.collider != null)
                 {
                     gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
@@ -109,6 +109,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         rect.position = Vector2.zero;
         rect.sizeDelta = Vector2.zero;
+
         if (DrawRect)
         {
             ChangeTileUndertheRect();
@@ -116,10 +117,21 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    private void ObjectPlacementOnMap(PointerEventData eventData)
+    private void RoomPlaceMentOnMap(RaycastHit2D hit)
     {
-        Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
-        RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
+        if (hit.collider != null)
+        {
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -0.5f);
+            roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().SetActive(true);
+            roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek();
+            gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Pop();
+        }
+    }
+
+    private void ObjectPlacementOnMap(PointerEventData eventData,RaycastHit2D hit)
+    {
         if (hit.collider != null)
         {
             mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -1);

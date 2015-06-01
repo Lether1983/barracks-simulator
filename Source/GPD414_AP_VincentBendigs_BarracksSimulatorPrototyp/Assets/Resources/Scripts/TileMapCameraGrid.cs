@@ -136,40 +136,10 @@ public class TileMapCameraGrid : MonoBehaviour
             GridMaxPointY--;
         }
     }
+ 
+    #region VerticalPooling
 
-    void MoveHorizontal(int activateC, int deactivateC)
-    {
-        
-        for (int i = 0; i < height; i++)
-        {
-            if (objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject != null)
-            {
-                DeactivateObjectsHorizontalForPooling(deactivateC, i);
-            }
-            if(roomMap.RoomData[deactivateC,(int)GridZeroPointY+i].myObject != null)
-            {
-                DeactivateRoomObjectsHorizontalForPooling(deactivateC, i);
-            }
-
-            DeactivateTilesHorizontalForPooling(deactivateC, i);
-        }
-
-        for (int j = 0; j < height; j++)
-        {
-            if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
-            {
-                ActivateObjectsHorizontalForPooling(activateC, j);
-            }
-            if (roomMap.RoomData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
-            {
-                ActivateRoomObjectsHorizontalForPooling(activateC, j);
-            }
-
-            ActivateTilesHorizontalForPooling(activateC, j);
-        }
-    }
-
-    void MoveVertical(int activateC,int deactivateC)
+    void MoveVertical(int activateC, int deactivateC)
     {
         for (int i = 0; i < width; i++)
         {
@@ -177,7 +147,7 @@ public class TileMapCameraGrid : MonoBehaviour
             {
                 DeactivateObjectsVerticalForPooling(deactivateC, i);
             }
-            if(roomMap.RoomData[(int)GridZeroPointX +i,deactivateC].myObject != null)
+            if (roomMap.RoomData[(int)GridZeroPointX + i, deactivateC].myObject != null)
             {
                 DeactivateRoomObjectsVerticalForPooling(deactivateC, i);
             }
@@ -189,7 +159,7 @@ public class TileMapCameraGrid : MonoBehaviour
             {
                 ActivateObjectsVerticalForPooling(activateC, j);
             }
-            if(roomMap.RoomData[(int)GridZeroPointX + j,activateC].Position != Vector2.zero)
+            if (roomMap.RoomData[(int)GridZeroPointX + j, activateC].Position != Vector2.zero)
             {
                 ActivateRoomObjectsVerticalForPooling(activateC, j);
             }
@@ -198,8 +168,6 @@ public class TileMapCameraGrid : MonoBehaviour
 
 
     }
-
-    #region VerticalPooling
 
     private void ActivateTilesVerticalForPooling(int activateC, int j)
     {
@@ -252,6 +220,38 @@ public class TileMapCameraGrid : MonoBehaviour
     #endregion
 
     #region HorizontalPooling
+
+    void MoveHorizontal(int activateC, int deactivateC)
+    {
+
+        for (int i = 0; i < height; i++)
+        {
+            if (objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject != null)
+            {
+                DeactivateObjectsHorizontalForPooling(deactivateC, i);
+            }
+            if (roomMap.RoomData[deactivateC, (int)GridZeroPointY + i].myObject != null)
+            {
+                DeactivateRoomObjectsHorizontalForPooling(deactivateC, i);
+            }
+
+            DeactivateTilesHorizontalForPooling(deactivateC, i);
+        }
+
+        for (int j = 0; j < height; j++)
+        {
+            if (objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
+            {
+                ActivateObjectsHorizontalForPooling(activateC, j);
+            }
+            if (roomMap.RoomData[activateC, (int)GridZeroPointY + j].Position != Vector2.zero)
+            {
+                ActivateRoomObjectsHorizontalForPooling(activateC, j);
+            }
+
+            ActivateTilesHorizontalForPooling(activateC, j);
+        }
+    }
 
     private void ActivateTilesHorizontalForPooling(int activateC, int j)
     {
