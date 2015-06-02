@@ -61,7 +61,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (hit.collider != null)
                 {
-                    gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+                    gmanager.GetComponent<GameManager>().ChangeTileByClick(map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject);
                 }
             }
         }
@@ -115,19 +115,33 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             ChangeTileUndertheRect();
             DrawRect = false;
         }
+        if(gmanager.GetComponent<GameManager>().InRoomBuildMode)
+        {
+            RoomPlaceMentOnMap();
+            gmanager.GetComponent<GameManager>().InRoomBuildMode = false;
+        }
     }
 
-    private void RoomPlaceMentOnMap(RaycastHit2D hit)
+    private void RoomPlaceMentOnMap()
     {
-        if (hit.collider != null)
-        {
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -0.5f);
-            roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().SetActive(true);
-            roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek();
-            gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Pop();
-        }
+        endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
+        endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
+        startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
+        startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
+        int minX = Mathf.Min((int)startX,(int)endX);
+        int minY = Mathf.Min((int)startY,(int)endY);
+        int maxX = Mathf.CeilToInt(Mathf.Max(startX,endX));
+        int maxY = Mathf.CeilToInt(Mathf.Max(startY,endY));
+
+
+        mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.position = new Vector3(minX,minY, -0.5f);
+        roomMap.RoomData[minX, minY].Position = new Vector2(minX,minY);
+        mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.localScale = new Vector3(maxX-minX, maxY-minY, 1);
+        mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().SetActive(true);
+        roomMap.RoomData[minX, minY].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek();
+        gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[minX, minY].myObject);
+        mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Pop();
+        
     }
 
     private void ObjectPlacementOnMap(PointerEventData eventData,RaycastHit2D hit)

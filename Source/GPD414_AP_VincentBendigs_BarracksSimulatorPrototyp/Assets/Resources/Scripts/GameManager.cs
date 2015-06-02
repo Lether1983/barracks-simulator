@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Sprite Wall;
     public Sprite Beton;
     public Sprite Dusche;
+    public Sprite RoomSprite;
     #endregion
     
     #region Tile Bools
@@ -100,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     public void PlaceRoomByClickOnMap(GameObject hittetObjectForRoom)
     {
-
+        hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = RoomSprite;
+        roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = RoomSprite;
     }
 }

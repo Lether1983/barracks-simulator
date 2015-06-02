@@ -52,6 +52,20 @@ public class MenuController : MonoBehaviour
         this.GetComponent<ObjectManager>().IplaceShower = !this.GetComponent<ObjectManager>().IplaceShower;
     }
 
+    public void RoomStubePlacement()
+    {
+        this.GetComponent<RoomManager>().MeIsAStube = !this.GetComponent<RoomManager>().MeIsAStube;
+    }
+   
+    public void RoomBuildButtonSet()
+    {
+        this.GetComponent<GameManager>().InRoomBuildMode = !this.GetComponent<GameManager>().InRoomBuildMode;
+    }
+
+
+
+
+
     public void BauMenuPanelActivate()
     {
        if(BauPanel.activeInHierarchy)

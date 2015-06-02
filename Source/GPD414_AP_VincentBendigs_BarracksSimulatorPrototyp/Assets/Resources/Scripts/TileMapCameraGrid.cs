@@ -327,6 +327,7 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             GameObject obj;
             obj = Instantiate(manager.spriteAtlas,new Vector3(0,0,this.ObjectSpawn.transform.position.z),Quaternion.identity) as GameObject;
+            obj.layer = 2; // Ignore Raycast
             inactiveObjects.Push(obj);
             obj.SetActive(false);
         }
@@ -349,6 +350,7 @@ public class TileMapCameraGrid : MonoBehaviour
         {
             GameObject obj;
             obj = Instantiate(manager.spriteAtlas,new Vector3(0,0,this.RoomSpawn.transform.position.z),Quaternion.identity) as GameObject;
+            obj.layer = 2;
             inactiveRoomObjects.Push(obj);
             obj.SetActive(false);
         }
