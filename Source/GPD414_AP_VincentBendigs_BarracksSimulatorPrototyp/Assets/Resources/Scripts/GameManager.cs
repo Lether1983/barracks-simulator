@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
         }
         else if(BuildWalls)
         {
+            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new WallTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
             hittedGameobject.GetComponent<SpriteRenderer>().sprite = Wall;
             map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Wall;
         }

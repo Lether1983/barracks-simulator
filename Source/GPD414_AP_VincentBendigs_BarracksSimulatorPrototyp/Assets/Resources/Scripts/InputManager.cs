@@ -254,6 +254,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
+                    map.MapData[i, j] = new WallTile(map.MapData[i, j]);
                     map.MapData[i, j].Texture = Texture;
                     map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
                 }
@@ -274,6 +275,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
+                    map.MapData[i, j] = new WallTile(map.MapData[i, j]);
                     map.MapData[i, j].Texture = WallTexture;
                     map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = WallTexture;
                 }
