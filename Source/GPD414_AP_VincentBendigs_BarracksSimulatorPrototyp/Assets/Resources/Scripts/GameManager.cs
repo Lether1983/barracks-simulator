@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     #region Tile Bools
     public bool BuildDesert;
     public bool BuildGrass;
+    public bool BuildBeton;
     public bool BuildWalls;
     public bool BuildFoundation;
     public bool InObjectBuildMode;
@@ -73,17 +74,28 @@ public class GameManager : MonoBehaviour
 
     public void ChangeTileByClick(GameObject hittedGameobject)
     {
-        if(BuildDesert)
+        if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor == false)
         {
-            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
-            map.MapData[(int)hittedGameobject.transform.position.x,(int)hittedGameobject.transform.position.y].Texture = Desert;
+            if (BuildDesert)
+            {
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
+            }
+            else if (BuildGrass)
+            {
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+            }
         }
-        else if(BuildGrass)
+        else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
         {
-            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
-            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+            if (BuildBeton)
+            {
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+            }
         }
-        else if(BuildWalls)
+        if (BuildWalls)
         {
             map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new WallTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
             hittedGameobject.GetComponent<SpriteRenderer>().sprite = Wall;

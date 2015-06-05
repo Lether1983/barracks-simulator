@@ -24,7 +24,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     private float endY;
     private float startX;
     private float startY;
-    #endregion
+    #endregion#
 
     private void Awake()
     {
@@ -35,7 +35,6 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
     }
 
     void Update()
@@ -241,6 +240,12 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
             ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
+        else if (gmanager.GetComponent<GameManager>().BuildBeton)
+        {
+            Sprite texture = gmanager.GetComponent<GameManager>().Beton;
+
+            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
+        }
         else if(gmanager.GetComponent<GameManager>().BuildWalls)
         {
             Sprite texture = gmanager.GetComponent<GameManager>().Wall;
@@ -267,10 +272,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (map.MapData[i, j].Texture != Texture)
+                if (CheckInOrOutdoorSet() == false)
                 {
-                    map.MapData[i, j].Texture = Texture;
-                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
+                    if (map.MapData[i, j].Texture != Texture)
+                    {
+                        map.MapData[i, j].Texture = Texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
+                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, Texture);
+                    }
                 }
             }
         }
@@ -318,6 +327,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                         map.MapData[i, j] = new WallTile(map.MapData[i, j]);
                         map.MapData[i, j].Texture = WallTexture;
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = WallTexture;
+                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, WallTexture);
                     }
                 }
                 else
@@ -326,6 +336,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     {
                         map.MapData[i, j].Texture = GroundTexture;
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = GroundTexture;
+                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, GroundTexture);
                     }
                 }
             }
@@ -348,11 +359,58 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(roomMap.RoomData[i,j].IsInRoomRange)
+                if(roomMap.RoomData[i,j].IsInRoomRange && map.MapData[i,j].GetType() == typeof(WallTile))
                 {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    private bool CheckInOrOutdoorSet()
+    {
+        endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
+        endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
+        startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
+        startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
+
+        int minX = Mathf.Min((int)startX, (int)endX);
+        int minY = Mathf.Min((int)startY, (int)endY);
+        int maxX = Mathf.CeilToInt(Mathf.Max(startX, endX));
+        int maxY = Mathf.CeilToInt(Mathf.Max(startY, endY));
+
+        for (int i = minX; i < maxX; i++)
+        {
+            for (int j = minY; j < maxY; j++)
+            {
+                if(map.MapData[i,j].IsIndoor && gmanager.GetComponent<GameManager>().BuildBeton == false)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private bool CheckTextureForIndoor(int i, int j, Sprite Texture)
+    {
+        // Indoor is True Outdoor is False
+        if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Desert)
+        {
+            return false;
+        }
+        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Grass)
+        {
+            return false;
+        }
+        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Wall)
+        {
+            return true;
+        }
+        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Beton)
+        {
+            return true;
         }
         return false;
     }

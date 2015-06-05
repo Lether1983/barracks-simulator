@@ -5,6 +5,7 @@ using System;
 public class TileBaseClass : ICloneable
 {
     public bool IsPassible;
+    public bool IsIndoor;
     public Vector2 Position;
     public GameObject myObject;
     public int movementCost;
