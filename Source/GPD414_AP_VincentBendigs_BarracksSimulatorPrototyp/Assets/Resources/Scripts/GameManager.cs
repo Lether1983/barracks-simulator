@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Sprite RoomSprite;
     #endregion
     
-    #region Tile Bools
+    #region Menü Building Bools
     public bool BuildDesert;
     public bool BuildGrass;
     public bool BuildBeton;
@@ -28,6 +28,14 @@ public class GameManager : MonoBehaviour
     public bool BuildFoundation;
     public bool InObjectBuildMode;
     public bool InRoomBuildMode;
+    #endregion
+
+    #region Menü Destroy Bools
+    public bool DestroyTiles;
+    public bool DestroyWalls;
+    public bool DestroyObjects;
+    public bool DestroyRooms;
+    public bool DestroyFoundation;
     #endregion
 
     int bigMaxMapSize = 512;
@@ -116,5 +124,17 @@ public class GameManager : MonoBehaviour
     {
         hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = RoomSprite;
         roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = RoomSprite;
+    }
+
+    public void ResetAllBuildingModi()
+    {
+        BuildDesert = false;
+        BuildGrass = false;
+        BuildWalls = false;
+        BuildBeton = false;
+        BuildFoundation = false;
+        InRoomBuildMode = false;
+        InObjectBuildMode = false;
+        GetComponent<ObjectManager>().IplaceShower = false;
     }
 }

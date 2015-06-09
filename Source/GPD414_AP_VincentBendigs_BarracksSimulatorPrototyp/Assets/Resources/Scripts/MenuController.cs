@@ -25,44 +25,54 @@ public class MenuController : MonoBehaviour
     //GroundTileButtons
     public void DesertButtonSet()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().BuildDesert = !this.gameObject.GetComponent<GameManager>().BuildDesert;
     }
 
     public void GrassButtonSet()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().BuildGrass = !this.gameObject.GetComponent<GameManager>().BuildGrass;
     }
     
     public void BetonButtonSet()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().BuildBeton = !this.gameObject.GetComponent<GameManager>().BuildBeton;
     }
 
     // WallTilesButtons
     public void WallButtonSet()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().BuildWalls = !this.gameObject.GetComponent<GameManager>().BuildWalls;
     }
 
     //FoundationsButtons
     public void FoundationButtonSet()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().BuildFoundation = !this.gameObject.GetComponent<GameManager>().BuildFoundation;
     }
 
     //ObjectsButtons
     public void ObjectShowerPlace()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
         this.GetComponent<ObjectManager>().IplaceShower = !this.GetComponent<ObjectManager>().IplaceShower;
     }
 
     //RoomButtons
     public void RoomStubePlacement()
     {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.GetComponent<GameManager>().InRoomBuildMode = !this.GetComponent<GameManager>().InRoomBuildMode;
         this.GetComponent<RoomManager>().MeIsAStube = !this.GetComponent<RoomManager>().MeIsAStube;
     }
    
 
+    // Build Modi
 
     public void RoomBuildButtonSet()
     {

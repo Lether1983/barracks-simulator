@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     TileMap map = TileMap.Instance();
     ObjectTileMap objectMap = ObjectTileMap.Instance();
     RoomMap roomMap = RoomMap.Instance();
+    GameManager manager;
     Vector2 startPos;
     Vector2 endPos;
     float yScaler;
@@ -35,6 +36,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        manager = gmanager.GetComponent<GameManager>();
     }
 
     void Update()
@@ -52,7 +54,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
             RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
 
-            if(gmanager.GetComponent<GameManager>().InObjectBuildMode)
+            if (manager.InObjectBuildMode)
             {
                 if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject == null &&
                     map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].GetType() != typeof(WallTile))
@@ -64,19 +66,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (hit.collider != null)
                 {
-                    gmanager.GetComponent<GameManager>().ChangeTileByClick(map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject);
+                    manager.ChangeTileByClick(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
                 }
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            gmanager.GetComponent<GameManager>().BuildDesert = false;
-            gmanager.GetComponent<GameManager>().BuildGrass = false;
-            gmanager.GetComponent<GameManager>().BuildWalls = false;
-            gmanager.GetComponent<GameManager>().BuildFoundation = false;
-            gmanager.GetComponent<GameManager>().InObjectBuildMode = false;
-            gmanager.GetComponent<ObjectManager>().IplaceShower = false;
-            gmanager.GetComponent<GameManager>().InRoomBuildMode = false;
+            manager.ResetAllBuildingModi();
         }
         else if (eventData.button == PointerEventData.InputButton.Middle)
         {
@@ -98,7 +94,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
-                    gmanager.GetComponent<GameManager>().ChangeTileByClick(hit.transform.gameObject);
+                    manager.ChangeTileByClick(hit.transform.gameObject);
                 }
             }
             DrawSelectionBox(eventData);
@@ -119,7 +115,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             ChangeTileUndertheRect();
             DrawRect = false;
         }
-        if(gmanager.GetComponent<GameManager>().InRoomBuildMode)
+        if (manager.InRoomBuildMode)
         {
             RoomPlaceMentOnMap();
             BlockadeRoomSpaceOnMap();
@@ -228,34 +224,34 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
         startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
 
-        if (gmanager.GetComponent<GameManager>().BuildDesert)
+        if (manager.BuildDesert)
         {
-            Sprite texture = gmanager.GetComponent<GameManager>().Desert;
+            Sprite texture = manager.Desert;
 
             ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
-        else if (gmanager.GetComponent<GameManager>().BuildGrass)
+        else if (manager.BuildGrass)
         {
-            Sprite texture = gmanager.GetComponent<GameManager>().Grass;
+            Sprite texture = manager.Grass;
 
             ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
-        else if (gmanager.GetComponent<GameManager>().BuildBeton)
+        else if (manager.BuildBeton)
         {
-            Sprite texture = gmanager.GetComponent<GameManager>().Beton;
+            Sprite texture = manager.Beton;
 
             ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
-        else if(gmanager.GetComponent<GameManager>().BuildWalls)
+        else if (manager.BuildWalls)
         {
-            Sprite texture = gmanager.GetComponent<GameManager>().Wall;
+            Sprite texture = manager.Wall;
 
             DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
         }
-        else if(gmanager.GetComponent<GameManager>().BuildFoundation)
+        else if (manager.BuildFoundation)
         {
-            Sprite texture = gmanager.GetComponent<GameManager>().Wall;
-            Sprite texture2 = gmanager.GetComponent<GameManager>().Beton;
+            Sprite texture = manager.Wall;
+            Sprite texture2 = manager.Beton;
 
             DrawFoundationLogicOnMap((int)startX,(int)startY,(int)endX,(int)endY, texture, texture2);
         }
@@ -272,13 +268,20 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (CheckInOrOutdoorSet() == false)
+                if (CheckIndoorSet() == false && CheckTextureForIndoor(i,j,Texture) == false)
                 {
                     if (map.MapData[i, j].Texture != Texture)
                     {
                         map.MapData[i, j].Texture = Texture;
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
-                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, Texture);
+                    }
+                }
+                else if(CheckIndoorSet() && CheckTextureForIndoor(i,j,Texture))
+                {
+                    if (map.MapData[i, j].Texture != Texture)
+                    {
+                        map.MapData[i, j].Texture = Texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
                     }
                 }
             }
@@ -327,7 +330,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                         map.MapData[i, j] = new WallTile(map.MapData[i, j]);
                         map.MapData[i, j].Texture = WallTexture;
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = WallTexture;
-                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, WallTexture);
+                        map.MapData[i, j].IsIndoor = true;
                     }
                 }
                 else
@@ -336,7 +339,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     {
                         map.MapData[i, j].Texture = GroundTexture;
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = GroundTexture;
-                        map.MapData[i, j].IsIndoor = CheckTextureForIndoor(i, j, GroundTexture);
+                        map.MapData[i, j].IsIndoor = true;
                     }
                 }
             }
@@ -368,7 +371,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         return false;
     }
 
-    private bool CheckInOrOutdoorSet()
+    private bool CheckIndoorSet()
     {
         endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
         endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
@@ -384,34 +387,44 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(map.MapData[i,j].IsIndoor && gmanager.GetComponent<GameManager>().BuildBeton == false)
+                if (map.MapData[i,j].IsIndoor)
                 {
                     return true;
                 }
-            }
+            } 
         }
         return false;
     }
 
-    private bool CheckTextureForIndoor(int i, int j, Sprite Texture)
+    private bool CheckTextureForIndoor(int i, int j,Sprite Texture)
     {
         // Indoor is True Outdoor is False
-        if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Desert)
+        if (Texture == manager.Desert)
         {
             return false;
         }
-        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Grass)
+        else if (Texture == manager.Grass)
         {
             return false;
         }
-        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Wall)
+        else if (Texture == manager.Wall)
         {
             return true;
         }
-        else if (map.MapData[i, j].Texture == gmanager.GetComponent<GameManager>().Beton)
+        else if (Texture == manager.Beton)
         {
             return true;
         }
         return false;
+    }
+
+
+
+    private void SetDestroyModus(PointerEventData eventData)
+    {
+        if(manager.DestroyTiles)
+        {
+
+        }
     }
 }

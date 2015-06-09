@@ -5,6 +5,7 @@ public class RoomManager : MonoBehaviour
 {
     #region RoomBools
     public bool MeIsAStube;
+
     #endregion
     // Use this for initialization
 	void Start () {
