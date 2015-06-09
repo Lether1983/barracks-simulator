@@ -10,5 +10,6 @@ public class WallTile : TileBaseClass
     {
         this.Position = copy.Position;
         this.myObject = copy.myObject;
+        this.IsIndoor = copy.IsIndoor;
     }
 }

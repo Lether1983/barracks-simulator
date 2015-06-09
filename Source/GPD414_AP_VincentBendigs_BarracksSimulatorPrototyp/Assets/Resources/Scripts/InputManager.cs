@@ -69,6 +69,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     manager.ChangeTileByClick(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
                 }
             }
+            if(manager.DestroyModus)
+            {
+                if(hit.collider != null)
+                {
+                    manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+                }
+            }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -95,6 +102,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
                     manager.ChangeTileByClick(hit.transform.gameObject);
+                    if(manager.DestroyModus)
+                    {
+                        manager.DestroyOneTile(hit.transform.gameObject);
+                    }
                 }
             }
             DrawSelectionBox(eventData);
@@ -119,6 +130,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             RoomPlaceMentOnMap();
             BlockadeRoomSpaceOnMap();
+        }
+        if(manager.DestroyModus)
+        {
+            SetDestroyModus();
         }
     }
 
@@ -418,13 +433,98 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         return false;
     }
 
-
-
-    private void SetDestroyModus(PointerEventData eventData)
+    private void DestroySpriteOnMap(int startX, int startY, int endX, int endY)
     {
-        if(manager.DestroyTiles)
-        {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
 
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                if (CheckIndoorSet() == false)
+                {
+                    map.MapData[i, j].Texture = manager.Desert;
+                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                }
+                else if (CheckIndoorSet())
+                {
+                        map.MapData[i, j].Texture = manager.Beton;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Beton;
+                }
+            }
+        }
+    }
+
+    private void DestroyWallLogicOnMap(int startX, int startY, int endX, int endY)
+    {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
+
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                if (i == minX || i == maxX || j == minY || j == maxY)
+                {
+                   if (CheckIndoorSet() == false)
+                    {
+                        map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
+                        map.MapData[i, j].Texture = manager.Desert;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                    }
+                    else if (CheckIndoorSet())
+                    {
+                        map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
+                        map.MapData[i, j].Texture = manager.Beton;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Beton;
+                    }
+                }
+            }
+        }
+    }
+
+    private void DestroyFoundationLogicOnMap(int startX, int startY, int endX, int endY)
+    {
+        int minX = Mathf.Min(startX, endX);
+        int minY = Mathf.Min(startY, endY);
+        int maxX = Mathf.Max(startX, endX);
+        int maxY = Mathf.Max(startY, endY);
+
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
+                map.MapData[i, j].Texture = manager.Desert;
+                map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                map.MapData[i, j].IsIndoor = false;
+            }
+        }
+    }
+
+    private void SetDestroyModus()
+    {
+        endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
+        endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
+        startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
+        startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
+
+        if (manager.DestroyTiles)
+        {
+            DestroySpriteOnMap((int)startX,(int)startY,(int)endX,(int)endY);
+        }
+        else if(manager.DestroyWalls)
+        {
+            DestroyWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
+        }
+        else if(manager.DestroyFoundation)
+        {
+            DestroyFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
     }
 }
