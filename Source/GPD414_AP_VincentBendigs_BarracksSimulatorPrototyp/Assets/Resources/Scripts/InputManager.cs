@@ -71,6 +71,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             }
             if(manager.DestroyModus)
             {
+                if(manager.DestroyRooms)
+                {
+                    RoomDestroymentOnMap(hit);
+                }
+                if(manager.DestroyObjects)
+                {
+                    ObjectDestroymentOnMap(hit);
+                }
                 if(hit.collider != null)
                 {
                     manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
@@ -154,7 +162,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 for (int j = minY; j < maxY; j++)
                 {
-                    roomMap.RoomData[i, j].IsInRoomRange = true;
+                    roomMap.RoomData[i, j].roomObject = roomMap.RoomData[minX,minY].myObject;
                 }
             }
         }
@@ -377,7 +385,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(roomMap.RoomData[i,j].IsInRoomRange && map.MapData[i,j].GetType() == typeof(WallTile))
+                if(roomMap.RoomData[i,j].roomObject != null && map.MapData[i,j].GetType() == typeof(WallTile))
                 {
                     return true;
                 }
@@ -504,6 +512,45 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
                 map.MapData[i, j].IsIndoor = false;
             }
+        }
+    }
+
+    private void RoomDestroymentOnMap(RaycastHit2D hit)
+    {
+        endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
+        endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
+        startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
+        startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
+        int minX = Mathf.Min((int)startX, (int)endX);
+        int minY = Mathf.Min((int)startY, (int)endY);
+        int maxX = Mathf.CeilToInt(Mathf.Max(startX, endX));
+        int maxY = Mathf.CeilToInt(Mathf.Max(startY, endY));
+
+        
+        if (hit.collider != null)
+        {
+            GameObject TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y].roomObject;
+
+            for (int i = (int)TempRoomObject.transform.position.x; i < (int)TempRoomObject.transform.position.x + (int)TempRoomObject.transform.localScale.x; i++)
+            {
+                for (int j = (int)TempRoomObject.transform.position.y; j < (int)TempRoomObject.transform.position.y + (int)TempRoomObject.transform.localScale.y; j++)
+                {
+                    roomMap.RoomData[i,j].roomObject = null;
+                }
+            }
+            TempRoomObject.SetActive(false);
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Push(TempRoomObject);
+        }
+
+    }
+
+    private void ObjectDestroymentOnMap(RaycastHit2D hit)
+    {
+        if(hit.collider != null)
+        {
+            objectMap.ObjectData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject.SetActive(false);
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Push(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = null;
         }
     }
 

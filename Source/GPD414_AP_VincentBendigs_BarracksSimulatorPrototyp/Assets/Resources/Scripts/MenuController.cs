@@ -89,6 +89,19 @@ public class MenuController : MonoBehaviour
         this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().DestroyFoundation = !this.gameObject.GetComponent<GameManager>().DestroyFoundation;
     }
+    
+    public void DestroyRoomButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.GetComponent<GameManager>().DestroyRooms = !this.GetComponent<GameManager>().DestroyRooms;
+    }
+
+    public void DestroyObjectsButtonSet()
+    {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.GetComponent<GameManager>().DestroyObjects = !this.GetComponent<GameManager>().DestroyObjects;
+    }
+
 
     // Build Modi
 

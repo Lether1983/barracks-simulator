@@ -172,6 +172,9 @@ public class GameManager : MonoBehaviour
         DestroyModus = false;
         DestroyWalls = false;
         DestroyFoundation = false;
+        DestroyObjects = false;
+        DestroyRooms = false;
+        GetComponent<RoomManager>().MeIsAStube = false;
         GetComponent<ObjectManager>().IplaceShower = false;
     }
 }
