@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp", "UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp.csproj", "{97A425CF-BD56-BB24-A262-0D61D83C375C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp.Editor", "UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp.Editor.csproj", "{973F4B9F-549F-6395-53A5-119887B70A6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{97A425CF-BD56-BB24-A262-0D61D83C375C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97A425CF-BD56-BB24-A262-0D61D83C375C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97A425CF-BD56-BB24-A262-0D61D83C375C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{973F4B9F-549F-6395-53A5-119887B70A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973F4B9F-549F-6395-53A5-119887B70A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973F4B9F-549F-6395-53A5-119887B70A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973F4B9F-549F-6395-53A5-119887B70A6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

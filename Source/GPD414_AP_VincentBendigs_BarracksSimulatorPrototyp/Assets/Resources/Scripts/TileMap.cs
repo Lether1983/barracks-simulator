@@ -49,6 +49,8 @@ public class TileMap
                 {
                     MapData[i, j] = new GroundTile(i, j, ShowMap.ShowMap(i, j,(int)purchasedLandWidthMin,(int)purchasedLandHeightMin));
                     MapData[i, j].IsIndoor = false;
+                    MapData[i, j].IsOutdoor = true;
+                    MapData[i, j].isOverridable = true;
                 }
                 else
                 {

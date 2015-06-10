@@ -5,17 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{97A425CF-BD56-BB24-A262-0D61D83C375C}</ProjectGuid>
+    <ProjectGuid>{973F4B9F-549F-6395-53A5-119887B70A6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace></RootNamespace>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.0.1f1</UnityVersion>
   </PropertyGroup>
@@ -54,31 +54,61 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WP8.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WP8.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Metro.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Metro.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.BB10.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.BB10.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Messaging">
+      <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityVS.VersionSpecific">
+      <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Scripts\CameraControl.cs" />
-    <Compile Include="Assets\Resources\Scripts\CaveRandomShowMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\GroundTile.cs" />
-    <Compile Include="Assets\Resources\Scripts\InputManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\MenuController.cs" />
-    <Compile Include="Assets\Resources\Scripts\ObjectBaseClass.cs" />
-    <Compile Include="Assets\Resources\Scripts\ObjectManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\ObjectTileMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\RoomBaseClass.cs" />
-    <Compile Include="Assets\Resources\Scripts\RoomManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\RoomMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
-    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
-    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
-    <Compile Include="Assets\Resources\Scripts\SpriteTile.cs" />
-    <Compile Include="Assets\Resources\Scripts\TileBaseClass.cs" />
-    <Compile Include="Assets\Resources\Scripts\TileMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\TileMapCameraGrid.cs" />
-    <Compile Include="Assets\Resources\Scripts\WallTile.cs" />
+    <ProjectReference Include="UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp.csproj">
+      <Project>{97A425CF-BD56-BB24-A262-0D61D83C375C}</Project>
+      <Name>UnityVS.GPD414_AP_VincentBendigs_BarracksSimulatorPrototyp.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Editor\ScriptableObjectFactory.cs" />
+    <Compile Include="Assets\Editor\ScriptableObjectWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

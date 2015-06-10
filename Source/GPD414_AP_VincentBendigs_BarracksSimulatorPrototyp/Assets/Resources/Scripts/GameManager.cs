@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     TileMap map;
     ObjectTileMap objectMap;
     RoomMap roomMap;
+    public GroundObject ground_Object;
+    public GroundObject wall_Object;
+    public GroundObject IndoorDefault;
+    public GroundObject OutDoorDefault;
+
     
     #region Sprites
     public Sprite Grass;
@@ -84,39 +89,32 @@ public class GameManager : MonoBehaviour
 
     public void ChangeTileByClick(GameObject hittedGameobject)
     {
-        if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor == false)
+        if (ground_Object == null)
         {
-            if (hittedGameobject.GetComponent<SpriteRenderer>().sprite != Wall)
+            return;
+        }
+            if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsOutdoor)
             {
-                if (BuildDesert)
+                if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
                 {
-                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
-                }
-                else if (BuildGrass)
-                {
-                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+                    if (ground_Object.isOutdoor)
+                    {
+                        hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                        map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    }
                 }
             }
-        }
-        else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
-        {
-            if (hittedGameobject.GetComponent<SpriteRenderer>().sprite != Wall)
+            else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
             {
-                if (BuildBeton)
+                if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
                 {
-                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+                    if (ground_Object.isIndoor)
+                    {
+                        hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                        map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    }
                 }
             }
-        }
-        if (BuildWalls)
-        {
-            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new WallTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
-            hittedGameobject.GetComponent<SpriteRenderer>().sprite = Wall;
-            map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Wall;
-        }
     }
 
     public void DestroyOneTile(GameObject hittedGameobject)
@@ -125,28 +123,26 @@ public class GameManager : MonoBehaviour
         {
             if (DestroyTiles)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutDoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutDoorDefault.texture;
             }
             else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new GroundTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutDoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutDoorDefault.texture;
             }
         }
         else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
         {
             if (DestroyTiles)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = IndoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = IndoorDefault.texture;
             }
             else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new GroundTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = IndoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = IndoorDefault.texture;
             }
         }
     }
@@ -188,5 +184,6 @@ public class GameManager : MonoBehaviour
         DestroyRooms = false;
         GetComponent<RoomManager>().MeIsAStube = false;
         GetComponent<ObjectManager>().IplaceShower = false;
+        ground_Object = null;
     }
 }

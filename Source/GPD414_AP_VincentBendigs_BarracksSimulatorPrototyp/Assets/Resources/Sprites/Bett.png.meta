@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 60f879593d28084419c4a26125af9615
-timeCreated: 1433959057
+guid: fd481b7e360bb5c46ac28161216d81fe
+timeCreated: 1433943970
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hmm_0
-    21300002: hmm_1
-    21300004: hmm_2
-    21300006: hmm_3
+    21300000: Bett_0
+    21300002: Bett_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -44,7 +42,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 6
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 64
@@ -53,45 +51,25 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hmm_0
+    - name: Bett_0
       rect:
         serializedVersion: 2
         x: 0
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hmm_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hmm_2
+    - name: Bett_1
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hmm_3
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -7,6 +7,7 @@ public class ObjectBaseClass : ICloneable
     public Vector2 Position;
     public Sprite Texture;
     public GameObject myObject;
+    public bool isPassible;
 
     public System.Object Clone()
     {

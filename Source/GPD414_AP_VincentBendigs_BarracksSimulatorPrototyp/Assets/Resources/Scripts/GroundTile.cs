@@ -4,6 +4,7 @@ using System.Collections;
 public class GroundTile : TileBaseClass
 {
     public GroundTile parentWaypoint;
+    public float Duarbility;
     //private TileBaseClass[] neighbors;
     public float finalCost { get; set; }
 

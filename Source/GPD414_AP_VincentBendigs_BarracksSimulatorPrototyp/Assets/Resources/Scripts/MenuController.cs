@@ -221,4 +221,16 @@ public class MenuController : MonoBehaviour
             ObjectTilePanel.SetActive(false);
         }
     }
+
+
+    public void GroundTileButtonSet(GroundObject ground_Object)
+    {
+        this.GetComponent<GameManager>().ground_Object = ground_Object;
+    }
+
+    public void WallTileButtonSet(GroundObject g_object1)
+    {
+        this.GetComponent<GameManager>().wall_Object = g_object1;
+    }
+
 }

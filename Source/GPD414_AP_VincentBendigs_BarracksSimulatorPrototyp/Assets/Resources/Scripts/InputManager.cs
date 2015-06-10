@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     public GameObject gmanager;
     public RectTransform rect;
     public bool DrawRect;
+    public bool DestroyDrawRect;
     public bool SetRoomOnMap;
 
     TileMap map = TileMap.Instance();
@@ -111,6 +112,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             if (hit.collider != null)
             {
                 DrawRect = true;
+                DestroyDrawRect = true;
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
@@ -144,9 +146,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             RoomPlaceMentOnMap();
             BlockadeRoomSpaceOnMap();
         }
-        if(manager.DestroyModus)
+        if (DestroyDrawRect)
         {
-            SetDestroyModus();
+            if (manager.DestroyModus)
+            {
+                SetDestroyModus();
+            }
+            DestroyDrawRect = false;
         }
     }
 
@@ -592,10 +598,5 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             DestroyFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
-    }
-
-    public void Test(GameObject teste2)
-    {
-
     }
 }

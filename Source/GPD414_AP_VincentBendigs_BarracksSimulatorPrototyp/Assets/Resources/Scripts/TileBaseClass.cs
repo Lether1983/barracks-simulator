@@ -6,6 +6,8 @@ public class TileBaseClass : ICloneable
 {
     public bool IsPassible;
     public bool IsIndoor = false;
+    public bool IsOutdoor;
+    public bool isOverridable;
     public Vector2 Position;
     public GameObject myObject;
     public int movementCost;
