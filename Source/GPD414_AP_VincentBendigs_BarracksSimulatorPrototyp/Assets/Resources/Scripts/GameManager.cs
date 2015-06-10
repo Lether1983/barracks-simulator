@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Sprite Wall;
     public Sprite Beton;
     public Sprite Dusche;
+    public Sprite Door;
     public Sprite RoomSprite;
     #endregion
     
@@ -85,23 +86,29 @@ public class GameManager : MonoBehaviour
     {
         if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor == false)
         {
-            if (BuildDesert)
+            if (hittedGameobject.GetComponent<SpriteRenderer>().sprite != Wall)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
-            }
-            else if (BuildGrass)
-            {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+                if (BuildDesert)
+                {
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
+                }
+                else if (BuildGrass)
+                {
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Grass;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Grass;
+                }
             }
         }
         else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
         {
-            if (BuildBeton)
+            if (hittedGameobject.GetComponent<SpriteRenderer>().sprite != Wall)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+                if (BuildBeton)
+                {
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
+                }
             }
         }
         if (BuildWalls)
@@ -121,7 +128,7 @@ public class GameManager : MonoBehaviour
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
                 map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Desert;
             }
-            else if (DestroyWalls)
+            else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
                 map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new GroundTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = Desert;
@@ -135,7 +142,7 @@ public class GameManager : MonoBehaviour
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
                 map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = Beton;
             }
-            else if (DestroyWalls)
+            else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
                 map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y] = new GroundTile(map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y]);
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = Beton;
@@ -150,6 +157,11 @@ public class GameManager : MonoBehaviour
         {
             hittetObject.GetComponent<SpriteRenderer>().sprite = Dusche;
             objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Dusche;
+        }
+        else if(this.GetComponent<ObjectManager>().DoorPlacement)
+        {
+            hittetObject.GetComponent<SpriteRenderer>().sprite = Door;
+            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Door;
         }
     }
 

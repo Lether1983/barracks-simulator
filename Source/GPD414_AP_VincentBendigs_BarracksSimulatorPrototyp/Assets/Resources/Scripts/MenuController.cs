@@ -63,6 +63,14 @@ public class MenuController : MonoBehaviour
         this.GetComponent<ObjectManager>().IplaceShower = !this.GetComponent<ObjectManager>().IplaceShower;
     }
 
+    public void ObjectDoorPlace()
+    {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
+        this.GetComponent<ObjectManager>().DoorPlacement = !this.GetComponent<ObjectManager>().DoorPlacement;
+    }
+
+
     //RoomButtons
     public void RoomStubePlacement()
     {

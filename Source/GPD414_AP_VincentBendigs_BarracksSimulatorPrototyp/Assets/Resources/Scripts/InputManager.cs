@@ -61,6 +61,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }
+                else if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject == null &&
+                        gmanager.GetComponent<ObjectManager>().DoorPlacement)
+                {
+                    DoorPlacementOnMap(eventData, hit);
+                }
             }
             else
             {
@@ -206,6 +211,20 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
         }
     }
+
+    private void DoorPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
+    {
+        manager.DestroyOneTile(hit.transform.gameObject);
+        if (hit.collider != null)
+        {
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -1);
+            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
+            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
+            gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+        }
+    }
     
     private void DrawSelectionBox(PointerEventData eventData)
     {
@@ -291,7 +310,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (CheckIndoorSet() == false && CheckTextureForIndoor(i,j,Texture) == false)
+                if (CheckIndoorSet() == false && CheckTextureForIndoor(i,j,Texture) == false && map.MapData[i,j].Texture != manager.Wall)
                 {
                     if (map.MapData[i, j].Texture != Texture)
                     {
@@ -299,7 +318,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                         map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
                     }
                 }
-                else if(CheckIndoorSet() && CheckTextureForIndoor(i,j,Texture))
+                else if (CheckIndoorSet() && CheckTextureForIndoor(i, j, Texture) && map.MapData[i, j].Texture != manager.Wall)
                 {
                     if (map.MapData[i, j].Texture != Texture)
                     {
@@ -573,5 +592,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             DestroyFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
+    }
+
+    public void Test(GameObject teste2)
+    {
+
     }
 }
