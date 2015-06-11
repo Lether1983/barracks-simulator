@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     public GroundObject ground_Object;
     public GroundObject wall_Object;
     public GroundObject IndoorDefault;
-    public GroundObject OutDoorDefault;
+    public GroundObject OutdoorDefault;
+    public ObjectsObject object_object;
 
     
     #region Sprites
@@ -93,28 +94,40 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-            if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsOutdoor)
+        if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsOutdoor)
+        {
+            if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
             {
-                if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
+                if (ground_Object.isOutdoor)
                 {
-                    if (ground_Object.isOutdoor)
-                    {
-                        hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                        map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
-                    }
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                }
+                if (ground_Object.isOverridable == false)
+                {
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = false;
                 }
             }
-            else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
+        }
+        else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
+        {
+            if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
             {
-                if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
+                if (ground_Object.isIndoor)
                 {
-                    if (ground_Object.isIndoor)
-                    {
-                        hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                        map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
-                    }
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                }
+                if (ground_Object.isOverridable == false)
+                {
+                    hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = false;
                 }
             }
+        }
     }
 
     public void DestroyOneTile(GameObject hittedGameobject)
@@ -123,13 +136,14 @@ public class GameManager : MonoBehaviour
         {
             if (DestroyTiles)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutDoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutDoorDefault.texture;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutdoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutdoorDefault.texture;
             }
             else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
-                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutDoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutDoorDefault.texture;
+                hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutdoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutdoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = true;
             }
         }
         else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
@@ -143,22 +157,27 @@ public class GameManager : MonoBehaviour
             {
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = IndoorDefault.texture;
                 map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = IndoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = true;
             }
         }
     }
 
     public void PlaceObjectByClick(GameObject hittetObject)
     {
-        if(this.GetComponent<ObjectManager>().IplaceShower)
+        if(object_object == null)
         {
-            hittetObject.GetComponent<SpriteRenderer>().sprite = Dusche;
-            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Dusche;
+            return;
         }
-        else if(this.GetComponent<ObjectManager>().DoorPlacement)
-        {
-            hittetObject.GetComponent<SpriteRenderer>().sprite = Door;
-            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = Door;
-        }
+        //if(this.GetComponent<ObjectManager>().IplaceShower)
+        //{
+            hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.texture;
+            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.texture;
+        //}
+        //else if(this.GetComponent<ObjectManager>().DoorPlacement)
+        //{
+        //    hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.texture;
+        //    objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.texture;
+        //}
     }
 
     public void PlaceRoomByClickOnMap(GameObject hittetObjectForRoom)
@@ -176,6 +195,7 @@ public class GameManager : MonoBehaviour
         BuildFoundation = false;
         InRoomBuildMode = false;
         InObjectBuildMode = false;
+        
         DestroyTiles = false;
         DestroyModus = false;
         DestroyWalls = false;
@@ -184,6 +204,7 @@ public class GameManager : MonoBehaviour
         DestroyRooms = false;
         GetComponent<RoomManager>().MeIsAStube = false;
         GetComponent<ObjectManager>().IplaceShower = false;
+        GetComponent<ObjectManager>().DoorPlacement = false;
         ground_Object = null;
     }
 }

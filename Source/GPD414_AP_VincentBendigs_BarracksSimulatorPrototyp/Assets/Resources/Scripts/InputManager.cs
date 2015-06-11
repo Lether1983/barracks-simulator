@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             if (manager.InObjectBuildMode)
             {
                 if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject == null &&
-                    map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].GetType() != typeof(WallTile))
+                    map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].isOverridable)
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }

@@ -228,9 +228,14 @@ public class MenuController : MonoBehaviour
         this.GetComponent<GameManager>().ground_Object = ground_Object;
     }
 
-    public void WallTileButtonSet(GroundObject g_object1)
+    public void WallTileButtonSet(GroundObject ground_object)
     {
-        this.GetComponent<GameManager>().wall_Object = g_object1;
+        this.GetComponent<GameManager>().wall_Object = ground_object;
+    }
+
+    public void ObjectTileButtonSet(ObjectsObject object_object)
+    {
+        this.GetComponent<GameManager>().object_object = object_object;
     }
 
 }
