@@ -70,6 +70,12 @@ public class MenuController : MonoBehaviour
         this.GetComponent<ObjectManager>().DoorPlacement = !this.GetComponent<ObjectManager>().DoorPlacement;
     }
 
+    public void ObjectBedPlace()
+    {
+        this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
+        this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
+    }
+
 
     //RoomButtons
     public void RoomStubePlacement()
@@ -236,6 +242,11 @@ public class MenuController : MonoBehaviour
     public void ObjectTileButtonSet(ObjectsObject object_object)
     {
         this.GetComponent<GameManager>().object_object = object_object;
+    }
+
+    public void RoomTileButtonSet(RoomObjects room_object)
+    {
+        this.GetComponent<GameManager>().room_object = room_object;
     }
 
 }

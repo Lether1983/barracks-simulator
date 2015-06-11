@@ -4,8 +4,15 @@ using System.Collections;
 [System.Serializable]
 public class ObjectsObject : ScriptableObject
 {
-    public Sprite texture;
-    public Sprite texture_two;
-    public Sprite texture_three;
+
+    public Objectinfo[] infos;
     public bool isPassible;
+
+
+    [System.Serializable]
+    public struct Objectinfo
+    {
+        public Vector2 delta;
+        public Sprite texture;
+    }
 }

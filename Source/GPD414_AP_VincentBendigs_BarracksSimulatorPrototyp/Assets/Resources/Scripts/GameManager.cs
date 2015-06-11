@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GroundObject IndoorDefault;
     public GroundObject OutdoorDefault;
     public ObjectsObject object_object;
+    public RoomObjects room_object;
 
     
     #region Sprites
@@ -168,22 +169,24 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        //if(this.GetComponent<ObjectManager>().IplaceShower)
-        //{
-            hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.texture;
-            objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.texture;
-        //}
-        //else if(this.GetComponent<ObjectManager>().DoorPlacement)
-        //{
-        //    hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.texture;
-        //    objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.texture;
-        //}
+        for (int i = 0; i < object_object.infos.Length; i++)
+        {
+             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Position;
+             Vector2 HittetTransform = hittetObject.transform.position;
+             Vector2 delta = HittetTransform - Reference;
+
+            if(object_object.infos[i].delta == delta)
+            {
+                hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.infos[i].texture;
+                objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.infos[i].texture;
+            }
+        }
     }
 
     public void PlaceRoomByClickOnMap(GameObject hittetObjectForRoom)
     {
-        hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = RoomSprite;
-        roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = RoomSprite;
+        hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = room_object.texture;
+        roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = room_object.texture;
     }
 
     public void ResetAllBuildingModi()

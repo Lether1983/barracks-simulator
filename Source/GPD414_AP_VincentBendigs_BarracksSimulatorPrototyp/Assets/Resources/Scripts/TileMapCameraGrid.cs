@@ -180,7 +180,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     private void ActivateRoomObjectsVerticalForPooling(int activateC, int j)
     {
-        inactiveRoomObjects.Peek().transform.position = new Vector3(roomMap.RoomData[(int)GridZeroPointX + j, activateC].Position.x, roomMap.RoomData[(int)GridZeroPointX + j, activateC].Position.y, -0.5f);
+        inactiveRoomObjects.Peek().transform.position = new Vector3((int)GridZeroPointX + j, activateC, -0.5f);
         inactiveRoomObjects.Peek().SetActive(true);
         roomMap.RoomData[(int)GridZeroPointX + j, activateC].myObject = inactiveRoomObjects.Peek();
         inactiveRoomObjects.Peek().GetComponent<SpriteRenderer>().sprite = roomMap.RoomData[(int)GridZeroPointX + j, activateC].Texture;
@@ -189,7 +189,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     private void ActivateObjectsVerticalForPooling(int activateC, int j)
     {
-        inactiveObjects.Peek().transform.position = new Vector3(objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position.x, objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Position.y, -1);
+        inactiveObjects.Peek().transform.position = new Vector3((int)GridZeroPointX + j, activateC, -1);
         inactiveObjects.Peek().SetActive(true);
         objectMap.ObjectData[(int)GridZeroPointX + j, activateC].myObject = inactiveObjects.Peek();
         inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[(int)GridZeroPointX + j, activateC].Texture;
@@ -264,7 +264,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     private void ActivateRoomObjectsHorizontalForPooling(int activateC, int j)
     {
-        inactiveRoomObjects.Peek().transform.position = new Vector3(roomMap.RoomData[activateC, (int)GridZeroPointY + j].Position.x, roomMap.RoomData[activateC, (int)GridZeroPointY + j].Position.y, -0.5f);
+        inactiveRoomObjects.Peek().transform.position = new Vector3(activateC, (int)GridZeroPointY + j, -0.5f);
         inactiveRoomObjects.Peek().SetActive(true);
         roomMap.RoomData[activateC, (int)GridZeroPointY + j].myObject = inactiveRoomObjects.Peek();
         inactiveRoomObjects.Peek().GetComponent<SpriteRenderer>().sprite = roomMap.RoomData[activateC, (int)GridZeroPointY + j].Texture;
@@ -273,7 +273,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     private void ActivateObjectsHorizontalForPooling(int activateC, int j)
     {
-        inactiveObjects.Peek().transform.position = new Vector3(objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position.x, objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Position.y, -1);
+        inactiveObjects.Peek().transform.position = new Vector3(activateC, (int)GridZeroPointY + j, -1);
         inactiveObjects.Peek().SetActive(true);
         objectMap.ObjectData[activateC, (int)GridZeroPointY + j].myObject = inactiveObjects.Peek();
         inactiveObjects.Peek().GetComponent<SpriteRenderer>().sprite = objectMap.ObjectData[activateC, (int)GridZeroPointY + j].Texture;

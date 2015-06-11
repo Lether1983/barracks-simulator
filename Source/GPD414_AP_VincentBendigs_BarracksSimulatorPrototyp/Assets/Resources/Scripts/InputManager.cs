@@ -209,13 +209,23 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (hit.collider != null)
         {
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -1);
-            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
-            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
-            gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+            for (int i = 0; i < manager.object_object.infos.Length; i++)
+            {
+                var info = manager.object_object.infos[i];
+
+                Vector2 hitinfo = (Vector2)hit.transform.position + info.delta;
+
+                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hitinfo.x, hitinfo.y, -1);
+                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].Position = hit.transform.position;
+                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
+                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
+                gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject);
+                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].startobject = manager.object_object;
+            }
+
         }
+        
     }
 
     private void DoorPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
@@ -298,10 +308,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         else if (manager.BuildFoundation)
         {
-            Sprite texture = manager.Wall;
-            Sprite texture2 = manager.Beton;
-
-            DrawFoundationLogicOnMap((int)startX,(int)startY,(int)endX,(int)endY, texture, texture2);
+            DrawFoundationLogicOnMap((int)startX,(int)startY,(int)endX,(int)endY);
         }
     }
 
@@ -316,21 +323,15 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (CheckIndoorSet() == false && CheckTextureForIndoor(i,j,Texture) == false && map.MapData[i,j].Texture != manager.Wall)
+                if (CheckIndoorSet() == false && manager.ground_Object.isOutdoor && map.MapData[i,j].isOverridable)
                 {
-                    if (map.MapData[i, j].Texture != Texture)
-                    {
-                        map.MapData[i, j].Texture = Texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
-                    }
+                        map.MapData[i, j].Texture = manager.ground_Object.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
                 }
-                else if (CheckIndoorSet() && CheckTextureForIndoor(i, j, Texture) && map.MapData[i, j].Texture != manager.Wall)
+                else if (CheckIndoorSet() && manager.ground_Object.isIndoor && map.MapData[i, j].isOverridable)
                 {
-                    if (map.MapData[i, j].Texture != Texture)
-                    {
-                        map.MapData[i, j].Texture = Texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
-                    }
+                    map.MapData[i, j].Texture = manager.ground_Object.texture;
+                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
                 }
             }
         }
@@ -349,18 +350,15 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
-                    if (map.MapData[i, j].Texture != Texture)
-                    {
-                        map.MapData[i, j] = new WallTile(map.MapData[i, j]);
-                        map.MapData[i, j].Texture = Texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = Texture;
-                    }
+                        map.MapData[i, j].Texture = manager.ground_Object.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
+                        map.MapData[i, j].isOverridable = false;
                 }
             }
         }
     }
 
-    private void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY, Sprite WallTexture, Sprite GroundTexture)
+    private void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
@@ -373,22 +371,20 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
-                    if (map.MapData[i, j].Texture != WallTexture)
-                    {
-                        map.MapData[i, j] = new WallTile(map.MapData[i, j]);
-                        map.MapData[i, j].Texture = WallTexture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = WallTexture;
+                        map.MapData[i, j].Texture = manager.wall_Object.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.wall_Object.texture;
+                        map.MapData[i, j].isOverridable = false;
                         map.MapData[i, j].IsIndoor = true;
-                    }
+                        map.MapData[i, j].IsOutdoor = false;
                 }
                 else
                 {
-                    if (map.MapData[i, j].Texture != GroundTexture)
-                    {
-                        map.MapData[i, j].Texture = GroundTexture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = GroundTexture;
+                    
+                        map.MapData[i, j].Texture = manager.ground_Object.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
+                        map.MapData[i, j].isOverridable = true;
                         map.MapData[i, j].IsIndoor = true;
-                    }
+                        map.MapData[i, j].IsOutdoor = false;
                 }
             }
         }
@@ -410,7 +406,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(roomMap.RoomData[i,j].roomObject != null && map.MapData[i,j].GetType() == typeof(WallTile))
+                if(roomMap.RoomData[i,j].roomObject != null || map.MapData[i,j].isOverridable == false)
                 {
                     return true;
                 }
@@ -444,28 +440,6 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         return false;
     }
 
-    private bool CheckTextureForIndoor(int i, int j,Sprite Texture)
-    {
-        // Indoor is True Outdoor is False
-        if (Texture == manager.Desert)
-        {
-            return false;
-        }
-        else if (Texture == manager.Grass)
-        {
-            return false;
-        }
-        else if (Texture == manager.Wall)
-        {
-            return true;
-        }
-        else if (Texture == manager.Beton)
-        {
-            return true;
-        }
-        return false;
-    }
-
     private void DestroySpriteOnMap(int startX, int startY, int endX, int endY)
     {
         int minX = Mathf.Min(startX, endX);
@@ -479,13 +453,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (CheckIndoorSet() == false)
                 {
-                    map.MapData[i, j].Texture = manager.Desert;
-                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                    map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
+                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
                 }
                 else if (CheckIndoorSet())
                 {
-                        map.MapData[i, j].Texture = manager.Beton;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Beton;
+                        map.MapData[i, j].Texture = manager.IndoorDefault.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.IndoorDefault.texture;
                 }
             }
         }
@@ -506,15 +480,16 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 {
                    if (CheckIndoorSet() == false)
                     {
-                        map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
-                        map.MapData[i, j].Texture = manager.Desert;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                        map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
+                        map.MapData[i, j].isOverridable = true;
                     }
                     else if (CheckIndoorSet())
                     {
-                        map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
-                        map.MapData[i, j].Texture = manager.Beton;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Beton;
+                        map.MapData[i, j].Texture = manager.IndoorDefault.texture;
+                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.IndoorDefault.texture;
+                        map.MapData[i, j].isOverridable = true;
+
                     }
                 }
             }
@@ -532,10 +507,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                map.MapData[i, j] = new GroundTile(map.MapData[i, j]);
-                map.MapData[i, j].Texture = manager.Desert;
-                map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.Desert;
+                map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
+                map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
                 map.MapData[i, j].IsIndoor = false;
+                map.MapData[i, j].isOverridable = true;
+                map.MapData[i, j].IsOutdoor = true;
             }
         }
     }
@@ -573,9 +549,18 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if(hit.collider != null)
         {
-            objectMap.ObjectData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject.SetActive(false);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Push(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
-            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = null;
+            var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject.infos;
+
+            Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position;
+
+            for (int i = 0; i < info.Length; i++)
+            {
+                var target = Reference + info[i].delta;
+                objectMap.ObjectData[(int)target.x, (int)target.y].myObject.SetActive(false);
+                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Push(objectMap.ObjectData[(int)target.x, (int)target.y].myObject);
+                objectMap.ObjectData[(int)target.x, (int)target.y].startobject = null;
+                objectMap.ObjectData[(int)target.x, (int)target.y].myObject = null;
+            }
         }
     }
 
