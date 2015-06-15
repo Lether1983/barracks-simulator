@@ -29,9 +29,6 @@ public class GameManager : MonoBehaviour
     #endregion
     
     #region Menü Building Bools
-    public bool BuildDesert;
-    public bool BuildGrass;
-    public bool BuildBeton;
     public bool BuildWalls;
     public bool BuildFoundation;
     public bool InObjectBuildMode;
@@ -191,10 +188,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetAllBuildingModi()
     {
-        BuildDesert = false;
-        BuildGrass = false;
         BuildWalls = false;
-        BuildBeton = false;
         BuildFoundation = false;
         InRoomBuildMode = false;
         InObjectBuildMode = false;

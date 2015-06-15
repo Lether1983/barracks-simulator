@@ -78,7 +78,6 @@
     <Compile Include="Assets\Resources\Scripts\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMap.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMapCameraGrid.cs" />
-    <Compile Include="Assets\Resources\Scripts\WallTile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
