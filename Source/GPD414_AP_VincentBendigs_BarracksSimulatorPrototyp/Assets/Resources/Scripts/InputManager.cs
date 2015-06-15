@@ -282,29 +282,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
         startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
 
-        if (manager.BuildDesert)
+        if (manager.ground_Object != null && !manager.BuildWalls)
         {
-            Sprite texture = manager.Desert;
-
-            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
+            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
-        else if (manager.BuildGrass)
+        if (manager.BuildWalls)
         {
-            Sprite texture = manager.Grass;
 
-            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
-        }
-        else if (manager.BuildBeton)
-        {
-            Sprite texture = manager.Beton;
-
-            ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
-        }
-        else if (manager.BuildWalls)
-        {
-            Sprite texture = manager.Wall;
-
-            DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY, texture);
+            DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
         else if (manager.BuildFoundation)
         {
@@ -312,7 +297,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    private void ChangeSpriteOnMap(int startX,int startY, int endX,int endY,Sprite Texture)
+    private void ChangeSpriteOnMap(int startX,int startY, int endX,int endY)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
@@ -337,7 +322,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    private void DrawWallLogicOnMap(int startX, int startY, int endX, int endY, Sprite Texture)
+    private void DrawWallLogicOnMap(int startX, int startY, int endX, int endY)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
