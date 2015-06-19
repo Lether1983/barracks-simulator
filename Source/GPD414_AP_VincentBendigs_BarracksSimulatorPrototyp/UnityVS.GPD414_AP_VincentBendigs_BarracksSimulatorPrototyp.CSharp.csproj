@@ -72,9 +72,14 @@
     <Compile Include="Assets\Resources\Scripts\RoomManager.cs" />
     <Compile Include="Assets\Resources\Scripts\RoomMap.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
+    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
+    <Compile Include="Assets\Resources\Scripts\Soldiers.cs" />
     <Compile Include="Assets\Resources\Scripts\SpriteTile.cs" />
+    <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\ActionBehaviorScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\ActionSchlafBehaviorScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\IdleBehaviorScript.cs" />
     <Compile Include="Assets\Resources\Scripts\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMap.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMapCameraGrid.cs" />

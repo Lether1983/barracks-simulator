@@ -5,6 +5,7 @@ public class MenuController : MonoBehaviour
 {
     #region Panel GameObjects
     public GameObject BauPanel;
+    public GameObject DienstPanel;
     public GameObject GroundTilePanel;
     public GameObject WallTilePanel;
     public GameObject FoundationTilePanel;
@@ -15,6 +16,7 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         BauPanel.SetActive(false);
+        DienstPanel.SetActive(false);
         GroundTilePanel.SetActive(false);
         WallTilePanel.SetActive(false);
         FoundationTilePanel.SetActive(false);
@@ -117,6 +119,7 @@ public class MenuController : MonoBehaviour
     }
 
 
+    //Panel Activation and Deactivation
 
     public void BauMenuPanelActivate()
     {
@@ -127,7 +130,21 @@ public class MenuController : MonoBehaviour
        else
        {
            BauPanel.SetActive(true);
+           DienstPanel.SetActive(false);
        }
+    }
+   
+    public void DienstMenuPanelActivate()
+    {
+        if (DienstPanel.activeInHierarchy)
+        {
+            DienstPanel.SetActive(false);
+        }
+        else
+        {
+            DienstPanel.SetActive(true);
+            BauPanel.SetActive(false);
+        }
     }
 
     public void TileMenuPanelActivate()
