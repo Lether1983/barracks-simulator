@@ -13,17 +13,17 @@ enum SanitaetsZugehörigkeit { VersorgungsSanitaeter,KampfSanitaeter,EinsatzSani
 
 public class Soldiers : MonoBehaviour
 {
-    KompanieObject ownKompanie;
-    RoomObjects OwnRoom;
-    RoomObjects WorkPlace;
+    public KompanieObject ownKompanie;
+    public RoomObjects OwnRoom;
+    public RoomObjects WorkPlace;
 
 
-    float TrainingsLevel;
-    float isDirty;
-    float tired;
-    float diversity;
-    float hasToUseTheToilette;
-    float hungry;
-    float homeIll;
-    float needFitness;
+    public float TrainingsLevel;
+    public float isDirty;
+    public float tired;
+    public float diversity;
+    public float hasToUseTheToilette;
+    public float hungry;
+    public float homeIll;
+    public float needFitness;
 }
