@@ -26,4 +26,9 @@ public class Soldiers : MonoBehaviour
     public float hungry;
     public float homeIll;
     public float needFitness;
+
+    void Start()
+    {
+        hungry = 50;
+    }
 }
