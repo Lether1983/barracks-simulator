@@ -7,6 +7,7 @@ public class ObjectsObject : ScriptableObject
 
     public Objectinfo[] infos;
     public bool isPassible;
+    public UseableObjects type;
 
 
     [System.Serializable]

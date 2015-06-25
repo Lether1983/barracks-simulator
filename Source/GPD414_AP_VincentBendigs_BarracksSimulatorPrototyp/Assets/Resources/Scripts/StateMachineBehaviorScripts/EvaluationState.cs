@@ -1,18 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EvaluationState : StateMachineBehaviour {
+public class EvaluationState : StateMachineBehaviour 
+{
+    [EnumFlag]
+    public trusterStates states;
+    [EnumFlag]
+    public CheckScope checkScope;
+    [EnumFlag]
+    public AttributeCheck attributeCheck;
 
+    Evaluator evaluator;
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-	    
+	    if(evaluator == null)
+        {
+            evaluator = animator.gameObject.GetComponent<Evaluator>();
+        }
+        evaluator.GetEvaluationForStates(states,checkScope,attributeCheck);
 	}
 
 	// OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
-	//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+    {
+	
+	}
 
 	// OnStateExit is called before OnStateExit is called on any state inside this state machine
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

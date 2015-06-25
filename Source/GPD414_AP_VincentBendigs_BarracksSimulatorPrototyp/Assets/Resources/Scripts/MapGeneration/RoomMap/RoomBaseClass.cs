@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 
+
+
 public class RoomBaseClass : ICloneable
 {
     public GameObject myObject;

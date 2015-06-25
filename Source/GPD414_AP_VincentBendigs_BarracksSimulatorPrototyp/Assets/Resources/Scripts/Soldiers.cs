@@ -16,6 +16,7 @@ public class Soldiers : MonoBehaviour
     public KompanieObject ownKompanie;
     public RoomObjects OwnRoom;
     public RoomObjects WorkPlace;
+    public RoomManager roomManager;
 
 
     public float TrainingsLevel;
@@ -29,6 +30,9 @@ public class Soldiers : MonoBehaviour
 
     void Start()
     {
-        hungry = 50;
+        tired = 76;
+        isDirty = 76;
+        needFitness = 76;
+        hasToUseTheToilette = 76;
     }
 }

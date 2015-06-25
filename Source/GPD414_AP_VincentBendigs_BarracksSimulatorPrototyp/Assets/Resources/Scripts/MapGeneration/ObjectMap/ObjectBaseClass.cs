@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 
+public enum UseableObjects { Bed, Toilette, Door, Shower, SportEquipment, Phone,TV,Food,SchoolDesk};
+
 public class ObjectBaseClass : ICloneable
 {
     public Vector2 Position;

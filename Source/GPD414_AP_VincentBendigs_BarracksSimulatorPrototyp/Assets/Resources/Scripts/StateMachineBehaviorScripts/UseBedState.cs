@@ -4,12 +4,17 @@ using System.Collections;
 public class UseBedState : StateMachineBehaviour
 {
     Soldiers me;
+    Evaluator evaluator;
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
         if (me == null)
         {
             me = animator.gameObject.GetComponent<Soldiers>();
+        }
+        if(evaluator == null)
+        {
+            evaluator = animator.gameObject.GetComponent<Evaluator>();
         }
 	}
 
@@ -18,7 +23,7 @@ public class UseBedState : StateMachineBehaviour
     {
         if (me.tired > 0)
         {
-            me.tired--;
+            me.tired -= 2*Time.deltaTime;
         }
         else
         {

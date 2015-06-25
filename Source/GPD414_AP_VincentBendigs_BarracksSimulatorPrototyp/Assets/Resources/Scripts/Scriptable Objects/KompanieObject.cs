@@ -10,4 +10,9 @@ public class KompanieObject :ScriptableObject
     [SerializeField]
     public List<Soldiers> soldierList;
 
+
+    internal bool GetRoomObjects(UseableObjects useableObjects)
+    {
+        throw new System.NotImplementedException();
+    }
 }

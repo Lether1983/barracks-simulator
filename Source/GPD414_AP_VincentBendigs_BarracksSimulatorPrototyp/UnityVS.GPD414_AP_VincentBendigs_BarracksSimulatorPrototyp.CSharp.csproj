@@ -57,9 +57,17 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="DH.Messaging">
+      <HintPath>Assets\Resources\Scripts\Libs\DH.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="DH.Messaging.Extensions">
+      <HintPath>Assets\Resources\Scripts\Libs\DH.Messaging.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\Canvas\InputManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\ChangeStateEventArgs.cs" />
+    <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
     <Compile Include="Assets\Resources\Scripts\Evaluator.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />

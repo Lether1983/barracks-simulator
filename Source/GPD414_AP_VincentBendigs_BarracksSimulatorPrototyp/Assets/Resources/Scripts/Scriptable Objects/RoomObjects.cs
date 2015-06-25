@@ -9,4 +9,16 @@ public class RoomObjects : ScriptableObject
     public KompanieObject kompanieObject;
     
     public Sprite texture;
+
+    public bool GetRoomObjects(UseableObjects usableObject)
+    {
+        foreach (var item in roomObjectList)
+        {
+            if(item.type == usableObject)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
