@@ -2,16 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// ungenutzt
 enum direction { Up,Down,Left,Right};
 public class TileMapCameraGrid : MonoBehaviour
 {
     #region Fields
+    // Auslagern
     public Stack<GameObject> inactiveObjects;
+    // Auslagern
     public Stack<GameObject> inactiveRoomObjects;
     public float timer= 0;
     public GameObject TileSpawn;
     public GameObject ObjectSpawn;
     public GameObject RoomSpawn;
+    // Auslagern
     Stack<GameObject> inactiveTiles;
     GameManager manager;
     CameraControl mainCamera;
@@ -28,8 +32,11 @@ public class TileMapCameraGrid : MonoBehaviour
 
     void Start()
     {
+        // weg
         inactiveTiles = new Stack<GameObject>();
+        // weg
         inactiveObjects = new Stack<GameObject>();
+        // weg
         inactiveRoomObjects = new Stack<GameObject>();
         GridZeroPointX = this.transform.position.x - (width / 2);
         GridZeroPointY = this.transform.position.y - (height / 2);
@@ -37,9 +44,13 @@ public class TileMapCameraGrid : MonoBehaviour
         GridMaxPointY = this.transform.position.y + (height / 2);
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mainCamera = this.gameObject.GetComponent<CameraControl>();
+        // entfällt/wird angepasst
         FillCameraFieldNew();
+        // entfällt/wird angepasst
         FillCameraObjectField();
+        // entfällt/wird angepasst
         FillStackOfRoomObjects();
+        // entfällt/wird angepasst
         ShowMapContentNew();
     }
     
@@ -47,6 +58,7 @@ public class TileMapCameraGrid : MonoBehaviour
     {
         timer += Time.deltaTime;
        
+        // wird angepasst
         if(mainCamera.moveDirection.x != 0 && mainCamera.moveDirection.y != 0)
         {
             if (timer > 0.3)
@@ -66,6 +78,7 @@ public class TileMapCameraGrid : MonoBehaviour
         
     }
 
+    // weg
     public void MoveCameraGrid()
     {
         if(mainCamera.moveDirection.x < -0.1)
@@ -98,6 +111,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
     }
 
+    // wird angepasst/vereinfacht
     private void CameraMove(direction directions)
     {
         int deActivateCoord;
@@ -139,6 +153,7 @@ public class TileMapCameraGrid : MonoBehaviour
  
     #region VerticalPooling
 
+    // wird verändert, vereinfacht
     void MoveVertical(int activateC, int deactivateC)
     {
         for (int i = 0; i < width; i++)
@@ -169,6 +184,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     }
 
+    // weg
     private void ActivateTilesVerticalForPooling(int activateC, int j)
     {
         inactiveTiles.Peek().transform.position = map.MapData[(int)GridZeroPointX + j, activateC].Position;
@@ -178,6 +194,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveTiles.Pop();
     }
 
+    // weg
     private void ActivateRoomObjectsVerticalForPooling(int activateC, int j)
     {
         inactiveRoomObjects.Peek().transform.position = new Vector3((int)GridZeroPointX + j, activateC, -0.5f);
@@ -187,6 +204,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveRoomObjects.Pop();
     }
 
+    // weg
     private void ActivateObjectsVerticalForPooling(int activateC, int j)
     {
         inactiveObjects.Peek().transform.position = new Vector3((int)GridZeroPointX + j, activateC, -1);
@@ -196,6 +214,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveObjects.Pop();
     }
 
+    // weg
     private void DeactivateTilesVerticalForPooling(int deactivateC, int i)
     {
         map.MapData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
@@ -203,6 +222,7 @@ public class TileMapCameraGrid : MonoBehaviour
         map.MapData[(int)GridZeroPointX + i, deactivateC].myObject = null;
     }
 
+    // weg
     private void DeactivateRoomObjectsVerticalForPooling(int deactivateC, int i)
     {
         roomMap.RoomData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
@@ -210,6 +230,7 @@ public class TileMapCameraGrid : MonoBehaviour
         roomMap.RoomData[(int)GridZeroPointX + i, deactivateC].myObject = null;
     }
 
+    // weg
     private void DeactivateObjectsVerticalForPooling(int deactivateC, int i)
     {
         objectMap.ObjectData[(int)GridZeroPointX + i, deactivateC].myObject.SetActive(false);
@@ -221,6 +242,7 @@ public class TileMapCameraGrid : MonoBehaviour
 
     #region HorizontalPooling
 
+    // wird verändert/vereinfacht
     void MoveHorizontal(int activateC, int deactivateC)
     {
 
@@ -253,6 +275,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
     }
 
+    // weg
     private void ActivateTilesHorizontalForPooling(int activateC, int j)
     {
         inactiveTiles.Peek().transform.position = map.MapData[activateC, (int)GridZeroPointY + j].Position;
@@ -262,6 +285,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveTiles.Pop();
     }
 
+    // weg
     private void ActivateRoomObjectsHorizontalForPooling(int activateC, int j)
     {
         inactiveRoomObjects.Peek().transform.position = new Vector3(activateC, (int)GridZeroPointY + j, -0.5f);
@@ -271,6 +295,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveRoomObjects.Pop();
     }
 
+    // weg
     private void ActivateObjectsHorizontalForPooling(int activateC, int j)
     {
         inactiveObjects.Peek().transform.position = new Vector3(activateC, (int)GridZeroPointY + j, -1);
@@ -280,6 +305,7 @@ public class TileMapCameraGrid : MonoBehaviour
         inactiveObjects.Pop();
     }
 
+    // weg
     private void DeactivateTilesHorizontalForPooling(int deactivateC, int i)
     {
         map.MapData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
@@ -287,6 +313,7 @@ public class TileMapCameraGrid : MonoBehaviour
         map.MapData[deactivateC, (int)GridZeroPointY + i].myObject = null;
     }
 
+    // weg
     private void DeactivateRoomObjectsHorizontalForPooling(int deactivateC, int i)
     {
         roomMap.RoomData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
@@ -294,6 +321,7 @@ public class TileMapCameraGrid : MonoBehaviour
         roomMap.RoomData[deactivateC, (int)GridZeroPointY + i].myObject = null;
     }
 
+    // weg
     private void DeactivateObjectsHorizontalForPooling(int deactivateC, int i)
     {
         objectMap.ObjectData[deactivateC, (int)GridZeroPointY + i].myObject.SetActive(false);
@@ -303,6 +331,7 @@ public class TileMapCameraGrid : MonoBehaviour
     
     #endregion
 
+    // weg
     public void ShowMapContentNew()
     {
         for (int i = 0; i < width; i++)
@@ -321,6 +350,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
     }
 
+    // weg
     void FillCameraObjectField()
     {
         for (int i = 0; i < width * height; i++)
@@ -333,6 +363,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
     }
 
+    // weg
     void FillCameraFieldNew()
     {
         for (int i = 0; i < width * height; i++)
@@ -344,6 +375,7 @@ public class TileMapCameraGrid : MonoBehaviour
         }
     }
 
+    // weg
     void FillStackOfRoomObjects()
     {
         for (int i = 0; i < width * height; i++)

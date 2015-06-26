@@ -19,6 +19,7 @@ public enum CheckScope
     Everywhere = 1 << 2,
     WorkPlace = 1 << 3
 }
+
 public enum AttributeCheck
 {
     IsDirty = 1 << 0,
@@ -45,7 +46,6 @@ public class Evaluator : MonoBehaviour
     {
         subscribtion = MessageBusManager.Subscribe<ChangeStateEventArgs>("ChangeState");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
-        currentTrusterState = trusterStates.SleepTime;
     }
 
     void changeMessage_OnMessageReceived(MessageSubscription<ChangeStateEventArgs> s, MessageReceivedEventArgs<ChangeStateEventArgs> args)

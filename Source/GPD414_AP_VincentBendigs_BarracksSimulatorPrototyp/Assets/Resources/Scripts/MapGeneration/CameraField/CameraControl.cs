@@ -7,7 +7,12 @@ public class CameraControl : MonoBehaviour
     public Vector2 moveDirection;
     public float Speed;
     public bool isOnMove;
+    public Rect fieldOfView;
+    public int ViewExtention = 5;
     private float Boundary = 10;
+   
+    [SerializeField]
+    Camera camera;
     TileMap map = TileMap.Instance();
 	
     // Update is called once per frame
@@ -34,17 +39,17 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") <= 0)
         {
-            if (this.GetComponent<Camera>().orthographicSize < 11)
+            if (camera.orthographicSize < 11)
             {
-                this.GetComponent<Camera>().orthographicSize++;
+                camera.orthographicSize++;
             }
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") >= 0)
         {
-            if(this.GetComponent<Camera>().orthographicSize > 5)
+            if(camera.orthographicSize > 5)
             {
-                this.GetComponent<Camera>().orthographicSize--;
+                camera.orthographicSize--;
             }
         }
 
@@ -101,5 +106,8 @@ public class CameraControl : MonoBehaviour
         transform.Translate(moveDirection*Time.deltaTime);
         transform.position = new Vector3(Mathf.Clamp(this.transform.position.x, (float)(map.purchasedLandWidthMin), (float)(map.purchasedLandWidthMax)),
                                          Mathf.Clamp(this.transform.position.y, (float)(map.purchasedLandHeightMin), (float)(map.purchasedLandHeightMax)),-10);
+
+        Vector2 Size = new Vector2(camera.orthographicSize * camera.aspect, camera.orthographicSize);
+        fieldOfView = Rect.MinMaxRect(transform.position.x - Size.x, transform.position.y + Size.y, transform.position.x + Size.x, transform.position.y - Size.y);
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\ObjectManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGrid.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectBaseClass.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\GroundTile.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileMap.cs" />
+    <Compile Include="Assets\Resources\Scripts\Pool.cs" />
+    <Compile Include="Assets\Resources\Scripts\PoolCheck.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseSportEquipmentState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
+    <Compile Include="Assets\Resources\Scripts\TileMapCameraGridNew.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
