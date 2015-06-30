@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ObjectTileMap 
+public class ObjectTileMap
 {
     public ObjectBaseClass[,] ObjectData;
 
@@ -14,7 +14,7 @@ public class ObjectTileMap
         {
             for (int j = 0; j < MapSize; j++)
             {
-                ObjectData[i, j] = new ObjectBaseClass();
+                ObjectData[i, j] = new ObjectBaseClass() { Position = new Vector2(i, j) };
             }
         }
     }

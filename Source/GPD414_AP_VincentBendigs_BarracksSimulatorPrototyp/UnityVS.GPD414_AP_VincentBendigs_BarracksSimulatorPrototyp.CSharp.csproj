@@ -65,10 +65,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\Scripts\Canvas\DropZone.cs" />
     <Compile Include="Assets\Resources\Scripts\Canvas\InputManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Canvas\draggable.cs" />
     <Compile Include="Assets\Resources\Scripts\ChangeStateEventArgs.cs" />
     <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
     <Compile Include="Assets\Resources\Scripts\Evaluator.cs" />
+    <Compile Include="Assets\Resources\Scripts\GameClock.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\ObjectManager.cs" />
@@ -102,6 +105,8 @@
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
     <Compile Include="Assets\Resources\Scripts\TileMapCameraGridNew.cs" />
+    <Compile Include="Assets\Resources\Scripts\Truster.cs" />
+    <Compile Include="Assets\Resources\Scripts\trusterState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

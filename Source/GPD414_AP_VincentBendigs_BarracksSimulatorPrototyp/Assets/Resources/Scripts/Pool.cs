@@ -51,6 +51,7 @@ public class Pool : MonoBehaviour
         GameObject instance;
 
         instance = GameObject.Instantiate(Prefab);
+        instance.hideFlags = HideFlags.HideInHierarchy;
         if(factory != null)
         {
             factory.Invoke(instance);

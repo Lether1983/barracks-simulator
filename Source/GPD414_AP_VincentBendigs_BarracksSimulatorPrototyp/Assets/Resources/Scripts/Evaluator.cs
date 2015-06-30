@@ -54,6 +54,10 @@ public class Evaluator : MonoBehaviour
         {
             return;
         }
+        if(args.Message.NewState == currentTrusterState)
+        {
+            return;
+        }
         currentTrusterState = args.Message.NewState;
         switch (args.Message.NewState)
         {

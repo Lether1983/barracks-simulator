@@ -7,10 +7,11 @@ using System;
 public class RoomBaseClass : ICloneable
 {
     public GameObject myObject;
-    public GameObject roomObject;
+    public RoomBaseClass roomObject;
     public Vector2 Position;
     public Sprite Texture;
-    public Vector3 ScaleValue;
+    public Vector2 Size;
+    public Vector2 roomStartValue;
 
     public System.Object Clone()
     {

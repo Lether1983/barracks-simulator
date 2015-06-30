@@ -8,7 +8,10 @@ public class RoomObjects : ScriptableObject
     List<ObjectsObject> roomObjectList;
     public KompanieObject kompanieObject;
     
-    public Sprite texture;
+    public Sprite defaultTexture;
+
+    public SpriteInfo[] infos;
+
 
     public bool GetRoomObjects(UseableObjects usableObject)
     {

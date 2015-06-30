@@ -14,7 +14,7 @@ public class RoomMap
         {
             for (int j = 0; j < MapSize; j++)
             {
-                RoomData[i, j] = new RoomBaseClass();
+                RoomData[i, j] = new RoomBaseClass() { Position = new Vector2(i, j) };
             }
         }
     }

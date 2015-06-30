@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
     public GameObject FoundationTilePanel;
     public GameObject ObjectTilePanel;
     public GameObject RoomTilePanel;
+    public GameObject DienstplanPanel;
     #endregion
 
     void Start()
@@ -23,6 +24,7 @@ public class MenuController : MonoBehaviour
         FoundationTilePanel.SetActive(false);
         ObjectTilePanel.SetActive(false);
         RoomTilePanel.SetActive(false);
+        DienstplanPanel.SetActive(false);
     }
 
 
@@ -145,6 +147,18 @@ public class MenuController : MonoBehaviour
         {
             DienstPanel.SetActive(true);
             BauPanel.SetActive(false);
+        }
+    }
+
+    public void DienstplanPanelActivate()
+    {
+        if(DienstplanPanel.activeInHierarchy)
+        {
+            DienstplanPanel.SetActive(false);
+        }
+        else
+        {
+            DienstplanPanel.SetActive(true);
         }
     }
 

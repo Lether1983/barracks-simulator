@@ -34,5 +34,10 @@ public class Soldiers : MonoBehaviour
         isDirty = 76;
         needFitness = 76;
         hasToUseTheToilette = 76;
+        hungry = 76;
+        diversity = 76;
+        homeIll = 76;
+        TrainingsLevel = 0;
+
     }
 }

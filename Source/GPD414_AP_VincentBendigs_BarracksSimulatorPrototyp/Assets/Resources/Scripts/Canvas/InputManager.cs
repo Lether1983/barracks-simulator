@@ -57,12 +57,12 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
             if (manager.InObjectBuildMode)
             {
-                if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject == null &&
+                if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
                     map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].isOverridable)
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }
-                else if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject == null &&
+                else if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
                         gmanager.GetComponent<ObjectManager>().DoorPlacement)
                 {
                     DoorPlacementOnMap(eventData, hit);
@@ -173,7 +173,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 for (int j = minY; j < maxY; j++)
                 {
-                    roomMap.RoomData[i, j].roomObject = roomMap.RoomData[minX,minY].myObject;
+                    roomMap.RoomData[i, j].roomObject = roomMap.RoomData[minX,minY];
                 }
             }
         }
@@ -194,15 +194,16 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         
         if (RommIsBlocked() == false)
         {
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.position = new Vector3(minX, minY, -0.5f);
-            roomMap.RoomData[minX, minY].Position = new Vector2(minX, minY);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().transform.localScale = new Vector3(maxX - minX, maxY - minY, 1);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek().SetActive(true);
-            roomMap.RoomData[minX, minY].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Peek();
-            gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[minX, minY].myObject);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Pop();
+            for (int i = minX; i < maxX; i++)
+            {
+                for (int j = minY; j < maxY; j++)
+                {
+                    roomMap.RoomData[i, j].roomStartValue = new Vector2(minX, minY);
+                    gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[i, j].myObject);
+                    roomMap.RoomData[i, j].Size = new Vector2(maxX - minX, maxY - minY);
+                }
+            }
         }
-        
     }
 
     private void ObjectPlacementOnMap(PointerEventData eventData,RaycastHit2D hit)
@@ -214,31 +215,20 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 var info = manager.object_object.infos[i];
 
                 Vector2 hitinfo = (Vector2)hit.transform.position + info.delta;
-
-                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hitinfo.x, hitinfo.y, -1);
-                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].Position = hit.transform.position;
-                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
-                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
+                
+                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].ParentPosition = hit.transform.position;
                 gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject);
-                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
                 objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].startobject = manager.object_object;
             }
-
         }
-        
     }
 
     private void DoorPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
     {
-        manager.DestroyOneTile(hit.transform.gameObject);
         if (hit.collider != null)
         {
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, -1);
-            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position = hit.transform.position;
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek().SetActive(true);
-            objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject = mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Peek();
-            gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Pop();
+            manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject);
+            ObjectPlacementOnMap(eventData, hit);
         }
     }
     
@@ -503,48 +493,37 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void RoomDestroymentOnMap(RaycastHit2D hit)
     {
-        endX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x;
-        endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
-        startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
-        startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
-        int minX = Mathf.Min((int)startX, (int)endX);
-        int minY = Mathf.Min((int)startY, (int)endY);
-        int maxX = Mathf.CeilToInt(Mathf.Max(startX, endX));
-        int maxY = Mathf.CeilToInt(Mathf.Max(startY, endY));
-
-        
         if (hit.collider != null)
         {
-            GameObject TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y].roomObject;
+            RoomBaseClass TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y];
 
-            for (int i = (int)TempRoomObject.transform.position.x; i < (int)TempRoomObject.transform.position.x + (int)TempRoomObject.transform.localScale.x; i++)
+            for (int i = (int)TempRoomObject.roomStartValue.x; i < (int)TempRoomObject.roomStartValue.x + (int)TempRoomObject.Size.x; i++)
             {
-                for (int j = (int)TempRoomObject.transform.position.y; j < (int)TempRoomObject.transform.position.y + (int)TempRoomObject.transform.localScale.y; j++)
+                for (int j = (int)TempRoomObject.roomStartValue.y; j < (int)TempRoomObject.roomStartValue.y + (int)TempRoomObject.Size.y; j++)
                 {
                     roomMap.RoomData[i,j].roomObject = null;
+                    roomMap.RoomData[i,j].Texture = null;
+                    roomMap.RoomData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = null;
                 }
             }
-            TempRoomObject.SetActive(false);
-            mainCamera.GetComponent<TileMapCameraGrid>().inactiveRoomObjects.Push(TempRoomObject);
         }
-
     }
 
     private void ObjectDestroymentOnMap(RaycastHit2D hit)
     {
         if(hit.collider != null)
         {
+            if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null) return;
             var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject.infos;
 
-            Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].Position;
+            Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].ParentPosition;
 
             for (int i = 0; i < info.Length; i++)
             {
                 var target = Reference + info[i].delta;
-                objectMap.ObjectData[(int)target.x, (int)target.y].myObject.SetActive(false);
-                mainCamera.GetComponent<TileMapCameraGrid>().inactiveObjects.Push(objectMap.ObjectData[(int)target.x, (int)target.y].myObject);
                 objectMap.ObjectData[(int)target.x, (int)target.y].startobject = null;
-                objectMap.ObjectData[(int)target.x, (int)target.y].myObject = null;
+                objectMap.ObjectData[(int)target.x, (int)target.y].Texture = null;
+                objectMap.ObjectData[(int)target.x, (int)target.y].myObject.GetComponent<SpriteRenderer>().sprite = null;
             }
         }
     }

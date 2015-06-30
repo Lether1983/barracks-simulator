@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public ObjectsObject object_object;
     public RoomObjects room_object;
 
+    private Truster truster;
+
     
     #region Sprites
     public Sprite Grass;
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
         objectMap = ObjectTileMap.Instance();
         roomMap = RoomMap.Instance();
         GenerateAMap(map);
+        truster = ScriptableObject.CreateInstance<Truster>();
     }
     
     void GenerateAMap(TileMap map)
@@ -168,7 +171,7 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < object_object.infos.Length; i++)
         {
-             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Position;
+             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].ParentPosition;
              Vector2 HittetTransform = hittetObject.transform.position;
              Vector2 delta = HittetTransform - Reference;
 
@@ -182,8 +185,22 @@ public class GameManager : MonoBehaviour
 
     public void PlaceRoomByClickOnMap(GameObject hittetObjectForRoom)
     {
-        hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = room_object.texture;
-        roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = room_object.texture;
+        if (room_object == null) return;
+
+        for (int i = 0; i < room_object.infos.Length; i++)
+        {
+            Vector2 Reference = roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].roomStartValue;
+            Vector2 HittetTransform = hittetObjectForRoom.transform.position;
+            Vector2 delta = HittetTransform - Reference;
+            if(room_object.infos[i].delta == delta)
+            {
+                hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = room_object.infos[i].texture;
+                roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = room_object.infos[i].texture;
+                return;
+            }
+        }
+        hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = room_object.defaultTexture;
+        roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = room_object.defaultTexture;
     }
 
     public void ResetAllBuildingModi()
