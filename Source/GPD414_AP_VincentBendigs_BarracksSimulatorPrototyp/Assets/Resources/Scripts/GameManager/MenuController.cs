@@ -27,7 +27,6 @@ public class MenuController : MonoBehaviour
         DienstplanPanel.SetActive(false);
     }
 
-
     // WallTilesButtons
     public void WallButtonSet()
     {
@@ -62,7 +61,6 @@ public class MenuController : MonoBehaviour
         this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
     }
-
 
     //RoomButtons
     public void RoomStubePlacement()
@@ -103,7 +101,6 @@ public class MenuController : MonoBehaviour
         this.GetComponent<GameManager>().DestroyObjects = !this.GetComponent<GameManager>().DestroyObjects;
     }
 
-
     // Build Modi
 
     public void RoomBuildButtonSet()
@@ -120,7 +117,6 @@ public class MenuController : MonoBehaviour
     {
         this.gameObject.GetComponent<GameManager>().InObjectBuildMode = !this.gameObject.GetComponent<GameManager>().InObjectBuildMode;
     }
-
 
     //Panel Activation and Deactivation
 
@@ -242,7 +238,6 @@ public class MenuController : MonoBehaviour
         }
     }
 
-
     public void GroundTileButtonSet(GroundObject ground_Object)
     {
         this.GetComponent<GameManager>().ground_Object = ground_Object;
@@ -263,4 +258,13 @@ public class MenuController : MonoBehaviour
         this.GetComponent<GameManager>().room_object = room_object;
     }
 
+    public void TrusterState(TrusterState state)
+    {
+        this.GetComponent<GameManager>().state = state;
+    }
+
+    public void SetKompanie(KompanieObject kompnaie)
+    {
+        this.GetComponent<GameManager>().kompanie = kompnaie;
+    }
 }

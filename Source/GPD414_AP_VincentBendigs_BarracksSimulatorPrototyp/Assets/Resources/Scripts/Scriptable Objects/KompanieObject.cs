@@ -9,7 +9,8 @@ public class KompanieObject :ScriptableObject
     public List<RoomObjects> roomList;
     [SerializeField]
     public List<Soldiers> soldierList;
-
+    
+    public Truster truster;
 
     internal bool GetRoomObjects(UseableObjects useableObjects)
     {

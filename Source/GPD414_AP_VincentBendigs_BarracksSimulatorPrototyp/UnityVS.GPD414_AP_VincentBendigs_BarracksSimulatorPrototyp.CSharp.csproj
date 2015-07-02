@@ -65,12 +65,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Scripts\Canvas\DropZone.cs" />
     <Compile Include="Assets\Resources\Scripts\Canvas\InputManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\Canvas\draggable.cs" />
     <Compile Include="Assets\Resources\Scripts\ChangeStateEventArgs.cs" />
     <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
-    <Compile Include="Assets\Resources\Scripts\Evaluator.cs" />
+    <Compile Include="Assets\Resources\Scripts\Figuren\Evaluator.cs" />
+    <Compile Include="Assets\Resources\Scripts\Figuren\Soldiers.cs" />
     <Compile Include="Assets\Resources\Scripts\GameClock.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
@@ -78,22 +77,21 @@
     <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
-    <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGrid.cs" />
+    <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGridNew.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectTileMap.cs" />
+    <Compile Include="Assets\Resources\Scripts\MapGeneration\Pool.cs" />
+    <Compile Include="Assets\Resources\Scripts\MapGeneration\PoolCheck.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\RoomMap\RoomBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\RoomMap\RoomMap.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\CaveRandomShowMap.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\GroundTile.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\Pool.cs" />
-    <Compile Include="Assets\Resources\Scripts\PoolCheck.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
-    <Compile Include="Assets\Resources\Scripts\Soldiers.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EvaluationState.cs" />
@@ -104,9 +102,8 @@
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseSportEquipmentState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
-    <Compile Include="Assets\Resources\Scripts\TileMapCameraGridNew.cs" />
     <Compile Include="Assets\Resources\Scripts\Truster.cs" />
-    <Compile Include="Assets\Resources\Scripts\trusterState.cs" />
+    <Compile Include="Assets\Resources\Scripts\TrusterState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

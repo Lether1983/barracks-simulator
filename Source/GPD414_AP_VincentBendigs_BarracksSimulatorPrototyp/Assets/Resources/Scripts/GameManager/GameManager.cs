@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
-enum SpriteNames { Desert,Water,Grass,BlackTile}
 
 public class GameManager : MonoBehaviour 
 {
     public GameObject spriteAtlas;
+    public GameObject[] images;
     TileMap map;
     ObjectTileMap objectMap;
     RoomMap roomMap;
@@ -17,8 +18,8 @@ public class GameManager : MonoBehaviour
     public ObjectsObject object_object;
     public RoomObjects room_object;
 
-    private Truster truster;
-
+    public KompanieObject kompanie;
+    public TrusterState state;
     
     #region Sprites
     public Sprite Grass;
@@ -61,7 +62,6 @@ public class GameManager : MonoBehaviour
         objectMap = ObjectTileMap.Instance();
         roomMap = RoomMap.Instance();
         GenerateAMap(map);
-        truster = ScriptableObject.CreateInstance<Truster>();
     }
     
     void GenerateAMap(TileMap map)
@@ -220,5 +220,21 @@ public class GameManager : MonoBehaviour
         GetComponent<ObjectManager>().IplaceShower = false;
         GetComponent<ObjectManager>().DoorPlacement = false;
         ground_Object = null;
+    }
+
+    public void SetTruster(int hour)
+    {
+        kompanie.truster.trusterplan[hour] = state;
+        images[hour].GetComponentInChildren<Text>().text = state.name;
+        images[hour].GetComponent<Image>().color = state.color;
+    }
+
+    public void SetTrusterNames()
+    {
+        for (int i = 0; i < images.Length; i++)
+        {
+            images[i].GetComponentInChildren<Text>().text = kompanie.truster.trusterplan[i].name;
+            images[i].GetComponent<Image>().color = kompanie.truster.trusterplan[i].color;
+        }
     }
 }

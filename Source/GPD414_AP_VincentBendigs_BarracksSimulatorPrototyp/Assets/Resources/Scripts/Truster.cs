@@ -4,20 +4,15 @@ using DH.Messaging.Bus;
 
 public class Truster : ScriptableObject
 {
-    public trusterState[] trusterplan;
+    public TrusterState[] trusterplan;
     MessageSubscription<int> subscribtion;
-    
     public KompanieObject kompanieObject;
 
     public void OnEnable()
     {
         subscribtion = MessageBusManager.Subscribe<int>("ChangeHour");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
-        trusterplan = new trusterState[24];
-        for (int i = 0; i < trusterplan.Length; i++)
-        {
-            trusterplan[i] = new trusterState();
-        }
+        trusterplan = new TrusterState[24];
         fillTrusterPlan();
     }
 
@@ -32,23 +27,23 @@ public class Truster : ScriptableObject
 		{
 		    if(i == 0 || i > 0 || i < 6 ||i == 23)
             {
-                trusterplan[i].state = trusterStates.SleepTime;
+                trusterplan[i] = Resources.Load<TrusterState>("Prefabs/Scriptable Objects/States/SleepTime");
             }
             if(i == 6 || i == 18)
             {
-                trusterplan[i].state = trusterStates.ShowerTime;
+                trusterplan[i] = Resources.Load<TrusterState>("Prefabs/Scriptable Objects/States/ShowerTime");
             }
             if(i == 7 || i == 13 || i == 19)
             {
-                trusterplan[i].state = trusterStates.EatTime;
+                trusterplan[i] = Resources.Load<TrusterState>("Prefabs/Scriptable Objects/States/EatTime");
             }
             if(i > 7 && i < 13 || i > 13 && i < 18)
             {
-                trusterplan[i].state = trusterStates.WorkTime;
+                trusterplan[i] = Resources.Load<TrusterState>("Prefabs/Scriptable Objects/States/WorkTime");
             }
             if(i > 19 && i < 23)
             {
-                trusterplan[i].state = trusterStates.FreeTime;
+                trusterplan[i] = Resources.Load<TrusterState>("Prefabs/Scriptable Objects/States/FreeTime");
             }
 		}
     }
