@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public RoomObjects room_object;
 
     public KompanieObject kompanie;
-    public TrusterState state;
+    public trusterState state;
     
     #region Sprites
     public Sprite Grass;

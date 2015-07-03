@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TrusterState : ScriptableObject
+public class trusterState : ScriptableObject
 {
     public trusterStates state;
     [SerializeField]

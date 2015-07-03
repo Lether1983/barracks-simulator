@@ -6,7 +6,7 @@ using System.Linq;
 public class AStarManager : MonoBehaviour
 {
     public int heuristicValue;
-    public GroundTileMap tileMap;
+    public TileMap tileMap;
     LinkedList<GroundTile> way;
     float finalCost;
 
@@ -62,9 +62,9 @@ public class AStarManager : MonoBehaviour
                         {
                             if (ClosedList.Contains((GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j]) && totalCost > tempTotalCost)
                             {
-                                ResetNodeInList(destination,OpenList,currentNode,j,tempTotalCost,item);
+                                ResetNodeInList(destination, OpenList, currentNode, j, tempTotalCost, item);
 
-                                totalCost = AddNewNodeToOpenList(destination,OpenList,totalCost,currentNode,j);
+                                totalCost = AddNewNodeToOpenList(destination, OpenList, totalCost, currentNode, j);
                             }
                             else
                             {

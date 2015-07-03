@@ -258,7 +258,7 @@ public class MenuController : MonoBehaviour
         this.GetComponent<GameManager>().room_object = room_object;
     }
 
-    public void TrusterState(TrusterState state)
+    public void TrusterState(trusterState state)
     {
         this.GetComponent<GameManager>().state = state;
     }
