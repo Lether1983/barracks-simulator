@@ -90,6 +90,7 @@
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\GroundTile.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileMap.cs" />
+    <Compile Include="Assets\Resources\Scripts\QuickSort.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />

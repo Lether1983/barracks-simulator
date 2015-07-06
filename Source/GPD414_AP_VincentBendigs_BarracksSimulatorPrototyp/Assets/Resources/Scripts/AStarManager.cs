@@ -7,7 +7,7 @@ public class AStarManager : MonoBehaviour
 {
     public int heuristicValue;
     public TileMap tileMap;
-    LinkedList<GroundTile> way;
+    List<GroundTile> way;
     float finalCost;
 
     public int GetTotalCost(int currentTotalCost,int nextTotalCost)
@@ -16,25 +16,25 @@ public class AStarManager : MonoBehaviour
         return newTotalcost;
     }
 
-    public LinkedList<GroundTile> GetFinalPath(GroundTile rootNode,GroundTile destination,LinkedList<GroundTile> OpenList,LinkedList<GroundTile> ClosedList,int totalCost)
+    public List<GroundTile> GetFinalPath(GroundTile rootNode,GroundTile destination,List<GroundTile> OpenList,List<GroundTile> ClosedList,int totalCost)
     {
         GroundTile currentNode = rootNode;
 
         if (currentNode == destination)
         {
-            way = new LinkedList<GroundTile>();
-            way.AddFirst(currentNode);
+            way = new List<GroundTile>();
+            way.Insert(0,currentNode);
             return way;
         }
         else
         {
-            for (int i = 0; i < OpenList.Count; i++)
+            while (OpenList.Count > 0)
             {
-                currentNode = OpenList.ElementAt(0);
+                currentNode = OpenList.First();
 
                 if (currentNode == destination)
                 {
-                    way.AddFirst(currentNode);
+                    way.Insert(0,currentNode);
                     return way;
                 }
                 else
@@ -72,14 +72,14 @@ public class AStarManager : MonoBehaviour
                             }
                         }
                     }
-                    ClosedList.AddFirst(currentNode);
+                    ClosedList.Insert(0,currentNode);
                 }
             }
         }
         return way;
     }
 
-    private int AddNewNodeToOpenList(GroundTile destination, LinkedList<GroundTile> OpenList, int totalCost, GroundTile currentNode, int j)
+    private int AddNewNodeToOpenList(GroundTile destination, List<GroundTile> OpenList, int totalCost, GroundTile currentNode, int j)
     {
         GroundTile newNode;
         newNode = (GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j];
@@ -88,30 +88,30 @@ public class AStarManager : MonoBehaviour
         newNode.finalCost = CalculateFinalCost(Vector2.Distance(newNode.Position, destination.Position), heuristicValue, totalCost);
         newNode.parentWaypoint = currentNode;
 
-        if (OpenList.First.Value.finalCost < newNode.finalCost)
+        if (OpenList[0].finalCost < newNode.finalCost)
         {
-            OpenList.AddAfter(OpenList.First,(GroundTile)newNode.Clone());
+            OpenList.Add((GroundTile)newNode.Clone());
         }
         else
         {
-            OpenList.AddFirst((GroundTile)newNode.Clone());
+            OpenList.Insert(0,(GroundTile)newNode.Clone());
         }
         return totalCost;
     }
 
-    private void ResetNodeInList(GroundTile destination, LinkedList<GroundTile> OpenList, GroundTile currentNode, int j, int tempTotalCost, GroundTile item)
+    private void ResetNodeInList(GroundTile destination, List<GroundTile> OpenList, GroundTile currentNode, int j, int tempTotalCost, GroundTile item)
     {
         item.finalCost = CalculateFinalCost(Vector2.Distance(tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j].Position, destination.Position), heuristicValue, tempTotalCost);
 
         OpenList.Remove(item);
 
-        if (OpenList.First.Value.finalCost < item.finalCost)
+        if (OpenList[0].finalCost < item.finalCost)
         {
-            OpenList.AddAfter(OpenList.First, (GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j].Clone());
+            OpenList.Add((GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j].Clone());
         }
         else
         {
-            OpenList.AddFirst((GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j].Clone());
+            OpenList.Insert(0,(GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j].Clone());
         }
     }
 
@@ -122,8 +122,9 @@ public class AStarManager : MonoBehaviour
         return finalCost;   
     }
 
-    void SortOpenListWithFinalCost(LinkedList<GroundTile> OpenList)
+    void SortOpenListWithFinalCost(List<GroundTile> OpenList)
     {
-        OpenList.OrderBy(e => e.finalCost);
+        QuickSort quickSort = new QuickSort();
+        quickSort.Sort(OpenList,0,OpenList.Count-1);
     }
 }
