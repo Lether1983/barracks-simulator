@@ -4,15 +4,18 @@ using System.Collections;
 public class GroundTile : TileBaseClass
 {
     public GroundTile parentWaypoint;
-    public float Duarbility;
-    //private TileBaseClass[] neighbors;
     public float finalCost { get; set; }
-
+    public GroundTile(int x, int y)
+    {
+        this.Position.x = x;
+        this.Position.y = y;
+    }
     public GroundTile(int x, int y,Sprite texture)
     {
         this.Position.x = x;
         this.Position.y = y;
         this.Texture = texture;
+        
     }
     public GroundTile(TileBaseClass copy)
     {
@@ -21,9 +24,6 @@ public class GroundTile : TileBaseClass
         this.IsIndoor = copy.IsIndoor;
     }
 
-    //public override TileBaseClass[] GetNeighbors()
-    //{
-    //    return neighbors;
-    //}
 
+    
 }

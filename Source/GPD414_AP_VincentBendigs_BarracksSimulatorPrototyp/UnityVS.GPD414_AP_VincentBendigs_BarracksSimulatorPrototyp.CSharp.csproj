@@ -65,8 +65,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Scripts\AStarController.cs" />
-    <Compile Include="Assets\Resources\Scripts\AStarManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Canvas\InputManager.cs" />
     <Compile Include="Assets\Resources\Scripts\ChangeStateEventArgs.cs" />
     <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
@@ -90,6 +88,8 @@
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\GroundTile.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileBaseClass.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileMap.cs" />
+    <Compile Include="Assets\Resources\Scripts\Pathfinding\AStarController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Pathfinding\AStarManager.cs" />
     <Compile Include="Assets\Resources\Scripts\QuickSort.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />

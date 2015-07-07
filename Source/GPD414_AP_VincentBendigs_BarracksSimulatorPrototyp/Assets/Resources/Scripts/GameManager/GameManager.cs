@@ -224,9 +224,12 @@ public class GameManager : MonoBehaviour
 
     public void SetTruster(int hour)
     {
-        kompanie.truster.trusterplan[hour] = state;
-        images[hour].GetComponentInChildren<Text>().text = state.name;
-        images[hour].GetComponent<Image>().color = state.color;
+        if (state != null)
+        {
+            kompanie.truster.trusterplan[hour] = state;
+            images[hour].GetComponentInChildren<Text>().text = state.name;
+            images[hour].GetComponent<Image>().color = state.color;
+        }
     }
 
     public void SetTrusterNames()

@@ -10,42 +10,42 @@ public class QuickSort
         if(left < right)
         {
             int pivot = Partition(openList, left, right);
-            if(pivot > 1)
-            {
-                Sort(openList,left,pivot-1);
-            }
-            if(pivot +1 < right)
-            {
-                Sort(openList, pivot + 1, right);
-            }
+            Sort(openList, left, pivot - 1);
+            Sort(openList, pivot + 1, right);
         }
 
     }
 
     public int Partition(List<GroundTile> openList,int left,int right)
     {
-        float pivot = openList[left].finalCost;
+        int i = left;
+        int j = right - 1;
+        float pivot = openList[right].finalCost;
 
-        while (true)
+        while (i < j)
         {
-            while (openList[left].finalCost < pivot)
+            while (openList[i].finalCost <= pivot && i < right)
             {
-                left++;   
+                i++;
             }
-            while (openList[right].finalCost > pivot)
+            while (openList[j].finalCost >= pivot && j > left)
             {
-                right--;
+                j--;
             }
-            if(left < right)
+            if (i < j)
             {
-                float temp = openList[right].finalCost;
-                openList[right].finalCost = openList[left].finalCost;
-                openList[left].finalCost = temp;
-            }
-            else
-            {
-                return right;
+                GroundTile temp = openList[i];
+                openList[i] = openList[j];
+                openList[j] = temp;
             }
         }
+
+        if (openList[i].finalCost > pivot)
+        {
+            GroundTile temp = openList[i];
+            openList[i] = openList[right];
+            openList[right] = temp;
+        }
+        return i;
     }
 }

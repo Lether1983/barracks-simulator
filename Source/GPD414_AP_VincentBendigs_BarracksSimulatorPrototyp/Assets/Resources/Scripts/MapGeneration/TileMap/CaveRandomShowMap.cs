@@ -150,11 +150,11 @@ public class CaveRandomShowMap
         }
     }
 
-    public Sprite ShowMap(int x,int y,int OffSetX,int OffsetY)
+    public GroundObject ShowMap(int x,int y,int OffSetX,int OffsetY)
     {
         x = x - OffSetX;
         y = y - OffsetY;
-        return Map[x, y] == 1 ? manager.Grass : manager.Desert;
+        return Map[x, y] == 1 ? manager.OutdoorDefault : manager.OutdoorDefault;
     }
 
     private int RandomPercent(int PercentAreWalls)

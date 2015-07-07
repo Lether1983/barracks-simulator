@@ -27,6 +27,7 @@ public class TileMap
         ShowMap.MakeGrassFields();
         generateAFieldOfView(MapSize);
         FillStartField(MapSize);
+        GetNeighborsTiles(MapSize);
         
     }
 
@@ -47,10 +48,9 @@ public class TileMap
             {
                 if(i > purchasedLandWidthMin && i < purchasedLandWidthMax && j > purchasedLandHeightMin && j < purchasedLandHeightMax)
                 {
-                    MapData[i, j] = new GroundTile(i, j, ShowMap.ShowMap(i, j,(int)purchasedLandWidthMin,(int)purchasedLandHeightMin));
-                    MapData[i, j].IsIndoor = false;
-                    MapData[i, j].IsOutdoor = true;
-                    MapData[i, j].isOverridable = true;
+                    MapData[i, j] = new GroundTile(i,j);
+                    //MapData[i, j] = new GroundTile(ShowMap.ShowMap(i, j,(int)purchasedLandWidthMin,(int)purchasedLandHeightMin));
+                    MapData[i, j].GetAllValues(ShowMap.ShowMap(i, j, (int)purchasedLandWidthMin, (int)purchasedLandHeightMin));
                 }
                 else
                 {
@@ -59,6 +59,21 @@ public class TileMap
             }
         }
     }
+
+    void GetNeighborsTiles(int MapSize)
+    {
+        for (int i = 0; i <MapSize ; i++)
+        {
+            for (int j = 0; j < MapSize; j++)
+            {
+                MapData[i, j].GetYourNeighbors();
+            }
+        }
+    }
+
+
+
+
 
     public static TileMap Instance()
     {
