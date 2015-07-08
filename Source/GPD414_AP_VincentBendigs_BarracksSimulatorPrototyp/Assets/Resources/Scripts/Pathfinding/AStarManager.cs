@@ -40,6 +40,7 @@ public class AStarManager : MonoBehaviour
 
                 if (currentNode.Position == destination.Position)
                 {
+                    way = new List<GroundTile>();
                     way.Insert(0,currentNode);
                     return way;
                 }

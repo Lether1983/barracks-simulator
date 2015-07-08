@@ -154,7 +154,7 @@ public class CaveRandomShowMap
     {
         x = x - OffSetX;
         y = y - OffsetY;
-        return Map[x, y] == 1 ? manager.OutdoorDefault : manager.OutdoorDefault;
+        return Map[x, y] == 1 ? manager.OutdoorDefault : manager.GrassDefault;
     }
 
     private int RandomPercent(int PercentAreWalls)

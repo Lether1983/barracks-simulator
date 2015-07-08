@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GroundObject wall_Object;
     public GroundObject IndoorDefault;
     public GroundObject OutdoorDefault;
+    public GroundObject GrassDefault;
     public ObjectsObject object_object;
     public RoomObjects room_object;
 

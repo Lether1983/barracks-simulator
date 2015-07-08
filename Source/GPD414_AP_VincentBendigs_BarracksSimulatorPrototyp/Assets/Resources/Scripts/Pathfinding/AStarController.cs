@@ -48,7 +48,7 @@ public class AStarController : MonoBehaviour
     {
         TileMap map = controller.tileMap;
         rootNode = (GroundTile)controller.tileMap.MapData[250, 250];
-        destination = (GroundTile)controller.tileMap.MapData[255, 255];
+        destination = (GroundTile)controller.tileMap.MapData[235, 255];
         rootNode.totalCost = GetTotalCost(rootNode.totalCost, rootNode.movementCost);
         rootNode.finalCost = CalculateFinalCost(CalulateDistanz(),controller.heuristicValue, rootNode.totalCost);
         AddRootToOpenList();
