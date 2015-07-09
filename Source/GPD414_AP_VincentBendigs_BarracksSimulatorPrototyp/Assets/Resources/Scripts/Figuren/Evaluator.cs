@@ -35,7 +35,9 @@ public enum AttributeCheck
 public class Evaluator : MonoBehaviour 
 {
     public trusterStates currentTrusterState;
+    public ObjectLogicObject tempObject;
     MessageSubscription<ChangeStateEventArgs> subscribtion;
+    TileMap map = TileMap.Instance();
     [SerializeField]
     Soldiers me;
     [SerializeField]
@@ -81,22 +83,24 @@ public class Evaluator : MonoBehaviour
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
-        if((checkScope & CheckScope.OwnRoom) > 0/*&& me.OwnRoom.GetRoomObjects(@object)*/)
+        
+        if ((checkScope & CheckScope.OwnRoom) > 0 && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null)
         {
+            me.GoTo((GroundTile)map.MapData[(int)tempObject.position.x, (int)tempObject.position.y]);
             return true;
         }
-        else if ((checkScope & CheckScope.Company) > 0/*&& me.OwnKompanie.GetRoomObjects(@object)*/)
-        {
-            return true;
-        }
-        else if ((checkScope & CheckScope.WorkPlace) > 0/*&& me.WorkPlace.GetRoomObjects(@object)*/)
-        {
-            return true;
-        }
-        else if ((checkScope & CheckScope.Everywhere) > 0 /*&& me.roomManager.GetRoomObjects(@object)*/)
-        {
-            return true;
-        }
+        //else if ((checkScope & CheckScope.Company) > 0/*&& me.OwnKompanie.GetRoomObjects(@object)*/)
+        //{
+        //    return true;
+        //}
+        //else if ((checkScope & CheckScope.WorkPlace) > 0/*&& me.WorkPlace.GetRoomObjects(@object)*/)
+        //{
+        //    return true;
+        //}
+        //else if ((checkScope & CheckScope.Everywhere) > 0 /*&& me.roomManager.GetRoomObjects(@object)*/)
+        //{
+        //    return true;
+        //}
         return false;
     }
 

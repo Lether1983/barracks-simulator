@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
 
     public KompanieObject kompanie;
     public trusterState state;
+
+
+    public AStarController controller;
+
+
     
     #region Sprites
     public Sprite Grass;
@@ -103,13 +108,12 @@ public class GameManager : MonoBehaviour
                 if (ground_Object.isOutdoor)
                 {
                     hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(ground_Object);
                 }
                 if (ground_Object.isOverridable == false)
                 {
                     hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = false;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(ground_Object);
                 }
             }
         }
@@ -120,13 +124,12 @@ public class GameManager : MonoBehaviour
                 if (ground_Object.isIndoor)
                 {
                     hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(ground_Object);
                 }
                 if (ground_Object.isOverridable == false)
                 {
                     hittedGameobject.GetComponent<SpriteRenderer>().sprite = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = ground_Object.texture;
-                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = false;
+                    map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(ground_Object);
                 }
             }
         }
@@ -139,13 +142,12 @@ public class GameManager : MonoBehaviour
             if (DestroyTiles)
             {
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutdoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutdoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(OutdoorDefault);
             }
             else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = OutdoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = OutdoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = true;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(OutdoorDefault);
             }
         }
         else if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor)
@@ -153,13 +155,12 @@ public class GameManager : MonoBehaviour
             if (DestroyTiles)
             {
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = IndoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = IndoorDefault.texture;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(IndoorDefault);
             }
             else if (DestroyWalls || GetComponent<ObjectManager>().DoorPlacement)
             {
                 hittedGameobject.GetComponent<SpriteRenderer>().sprite = IndoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].Texture = IndoorDefault.texture;
-                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable = true;
+                map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].GetAllValues(IndoorDefault);
             }
         }
     }
@@ -172,7 +173,7 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < object_object.infos.Length; i++)
         {
-             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].ParentPosition;
+             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].@object.position;
              Vector2 HittetTransform = hittetObject.transform.position;
              Vector2 delta = HittetTransform - Reference;
 
@@ -190,7 +191,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < room_object.infos.Length; i++)
         {
-            Vector2 Reference = roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].roomStartValue;
+            Vector2 Reference = roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].room.Position;
             Vector2 HittetTransform = hittetObjectForRoom.transform.position;
             Vector2 delta = HittetTransform - Reference;
             if(room_object.infos[i].delta == delta)
@@ -240,5 +241,11 @@ public class GameManager : MonoBehaviour
             images[i].GetComponentInChildren<Text>().text = kompanie.truster.trusterplan[i].name;
             images[i].GetComponent<Image>().color = kompanie.truster.trusterplan[i].color;
         }
+    }
+
+    public void SetDestinationWithAButton()
+    {
+        controller.getTargetPosition((GroundTile)map.MapData[256, 260]);
+        controller.GetFinalPath();
     }
 }

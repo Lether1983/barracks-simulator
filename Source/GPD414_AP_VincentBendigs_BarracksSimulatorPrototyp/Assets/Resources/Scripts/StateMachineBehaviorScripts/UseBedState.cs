@@ -21,13 +21,16 @@ public class UseBedState : StateMachineBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (me.tired > 0)
+        if((Vector2)me.transform.position == evaluator.tempObject.position)
         {
-            me.tired -= 2*Time.deltaTime;
-        }
-        else
-        {
-            animator.SetBool("UseBed", false);
+            if (me.tired > 0)
+            {
+                me.tired -= 2*Time.deltaTime;
+            }
+            else
+            {
+                animator.SetBool("UseBed", false);
+            }
         }
 	}
 

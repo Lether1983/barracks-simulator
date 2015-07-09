@@ -3,7 +3,8 @@ using System.Collections;
 
 public class UseTVState : StateMachineBehaviour 
 {
-    Soldiers me; 
+    Soldiers me;
+    Evaluator evaluator;
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
@@ -16,13 +17,16 @@ public class UseTVState : StateMachineBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-	    if(me.diversity > 0)
+        if ((Vector2)me.transform.position == evaluator.tempObject.position)
         {
-            me.diversity--;
-        }
-        else
-        {
-            animator.SetBool("UseTV", false);
+            if (me.diversity > 0)
+            {
+                me.diversity--;
+            }
+            else
+            {
+                animator.SetBool("UseTV", false);
+            }
         }
 	}
 

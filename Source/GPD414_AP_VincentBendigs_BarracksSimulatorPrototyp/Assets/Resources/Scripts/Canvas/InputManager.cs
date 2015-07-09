@@ -194,13 +194,18 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         
         if (RommIsBlocked() == false)
         {
+            RoomLogicObject room = new RoomLogicObject();
+            room.Position = new Vector2(minX, minY);
+            room.Size = new Vector2(maxX - minX, maxY - minY);
+            room.RoomInfo = manager.room_object;
+            manager.gameObject.GetComponent<RoomManager>().addNewRoom(room);
+
             for (int i = minX; i < maxX; i++)
             {
                 for (int j = minY; j < maxY; j++)
                 {
-                    roomMap.RoomData[i, j].roomStartValue = new Vector2(minX, minY);
+                    roomMap.RoomData[i, j].room = room;
                     gmanager.GetComponent<GameManager>().PlaceRoomByClickOnMap(roomMap.RoomData[i, j].myObject);
-                    roomMap.RoomData[i, j].Size = new Vector2(maxX - minX, maxY - minY);
                 }
             }
         }
@@ -210,17 +215,28 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (hit.collider != null)
         {
+            ObjectLogicObject @object = new ObjectLogicObject();
+            @object.position = hit.transform.position;
+            @object.info = manager.object_object;
+            @object.Room = GetRoomByClick(hit.transform.position);
+            if(@object.Room != null)
+            {
+                @object.Room.Objects.Add(@object);
+            }
             for (int i = 0; i < manager.object_object.infos.Length; i++)
             {
                 var info = manager.object_object.infos[i];
 
                 Vector2 hitinfo = (Vector2)hit.transform.position + info.delta;
-                
-                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].ParentPosition = hit.transform.position;
+                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].@object = @object;
                 gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject);
-                objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].startobject = manager.object_object;
             }
         }
+    }
+
+    private RoomLogicObject GetRoomByClick(Vector2 hit)
+    {
+       return roomMap.RoomData[(int)hit.x, (int)hit.y].room;
     }
 
     private void DoorPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
@@ -325,9 +341,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
-                        map.MapData[i, j].Texture = manager.ground_Object.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
-                        map.MapData[i, j].isOverridable = false;
+                    map.MapData[i, j].GetAllValues(manager.ground_Object);
                 }
             }
         }
@@ -346,20 +360,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if(i == minX || i == maxX || j == minY || j == maxY)
                 {
-                        map.MapData[i, j].Texture = manager.wall_Object.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.wall_Object.texture;
-                        map.MapData[i, j].isOverridable = false;
-                        map.MapData[i, j].IsIndoor = true;
-                        map.MapData[i, j].IsOutdoor = false;
+                    map.MapData[i, j].GetAllValues(manager.wall_Object);
                 }
                 else
                 {
-                    
-                        map.MapData[i, j].Texture = manager.ground_Object.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
-                        map.MapData[i, j].isOverridable = true;
-                        map.MapData[i, j].IsIndoor = true;
-                        map.MapData[i, j].IsOutdoor = false;
+                    map.MapData[i, j].GetAllValues(manager.ground_Object);
                 }
             }
         }
@@ -381,7 +386,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(roomMap.RoomData[i,j].roomObject != null || map.MapData[i,j].isOverridable == false)
+                if(roomMap.RoomData[i,j].room != null || map.MapData[i,j].isOverridable == false)
                 {
                     return true;
                 }
@@ -428,13 +433,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (CheckIndoorSet() == false)
                 {
-                    map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
-                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
+                    map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
                 }
                 else if (CheckIndoorSet())
                 {
-                        map.MapData[i, j].Texture = manager.IndoorDefault.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.IndoorDefault.texture;
+                    map.MapData[i, j].GetAllValues(manager.IndoorDefault);
                 }
             }
         }
@@ -455,16 +458,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 {
                    if (CheckIndoorSet() == false)
                     {
-                        map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
-                        map.MapData[i, j].isOverridable = true;
+                        map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
                     }
                     else if (CheckIndoorSet())
                     {
-                        map.MapData[i, j].Texture = manager.IndoorDefault.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.IndoorDefault.texture;
-                        map.MapData[i, j].isOverridable = true;
-
+                        map.MapData[i, j].GetAllValues(manager.IndoorDefault);
                     }
                 }
             }
@@ -495,13 +493,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (hit.collider != null)
         {
-            RoomBaseClass TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y];
+            RoomLogicObject TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y].room;
 
-            for (int i = (int)TempRoomObject.roomStartValue.x; i < (int)TempRoomObject.roomStartValue.x + (int)TempRoomObject.Size.x; i++)
+            for (int i = (int)TempRoomObject.Position.x; i < (int)TempRoomObject.Position.x + (int)TempRoomObject.Size.x; i++)
             {
-                for (int j = (int)TempRoomObject.roomStartValue.y; j < (int)TempRoomObject.roomStartValue.y + (int)TempRoomObject.Size.y; j++)
+                for (int j = (int)TempRoomObject.Position.y; j < (int)TempRoomObject.Position.y + (int)TempRoomObject.Size.y; j++)
                 {
-                    roomMap.RoomData[i,j].roomObject = null;
+                    roomMap.RoomData[i,j].room = null;
                     roomMap.RoomData[i,j].Texture = null;
                     roomMap.RoomData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = null;
                 }

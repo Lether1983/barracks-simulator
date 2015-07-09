@@ -7,7 +7,7 @@ public class AStarManager : MonoBehaviour
 {
     public int heuristicValue;
     public TileMap tileMap;
-    List<GroundTile> way;
+    GroundTile way;
     float finalCost;
 
 
@@ -22,15 +22,14 @@ public class AStarManager : MonoBehaviour
         return newTotalcost;
     }
 
-    public List<GroundTile> GetFinalPath(GroundTile rootNode,GroundTile destination,List<GroundTile> OpenList,List<GroundTile> ClosedList,int totalCost)
+    public GroundTile GetFinalPath(GroundTile rootNode,GroundTile destination,List<GroundTile> OpenList,List<GroundTile> ClosedList,int totalCost)
     {
         GroundTile currentNode = rootNode;
 
         if (currentNode.Position == destination.Position)
         {
-            way = new List<GroundTile>();
-            way.Insert(0,currentNode);
-            return way;
+
+            way = destination;
         }
         else
         {
@@ -40,40 +39,41 @@ public class AStarManager : MonoBehaviour
 
                 if (currentNode.Position == destination.Position)
                 {
-                    way = new List<GroundTile>();
-                    way.Insert(0,currentNode);
+                    way = currentNode;
                     return way;
                 }
                 else
                 {
-
-                    for (int j = 0; j < tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors().Count; j++)
+                    if (currentNode.IsPassible)
                     {
-                        GroundTile TempGroundTile = (GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j];
-                        int tempTotalCost = GetTotalCost(currentNode.totalCost, TempGroundTile.movementCost);
+                        for (int j = 0; j < tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors().Count; j++)
+                        {
+                            GroundTile TempGroundTile = (GroundTile)tileMap.MapData[(int)currentNode.Position.x, (int)currentNode.Position.y].GetNeighbors()[j];
+                            int tempTotalCost = GetTotalCost(currentNode.totalCost, TempGroundTile.movementCost);
 
-                        GroundTile ResultOpenTile;
-                        GroundTile ResultCloseTile;
-                        ResultOpenTile = OpenList.Find(OpenTile => OpenTile.Position == TempGroundTile.Position);
-                        ResultCloseTile = ClosedList.Find(ClosedTile => ClosedTile.Position == TempGroundTile.Position);
-                        if(ResultOpenTile != null)
-                        {
-                            if(currentNode.totalCost > tempTotalCost)
+                            GroundTile ResultOpenTile;
+                            GroundTile ResultCloseTile;
+                            ResultOpenTile = OpenList.Find(OpenTile => OpenTile.Position == TempGroundTile.Position);
+                            ResultCloseTile = ClosedList.Find(ClosedTile => ClosedTile.Position == TempGroundTile.Position);
+                            if (ResultOpenTile != null)
                             {
-                                TempGroundTile.totalCost = ResetNodeInList(destination, OpenList, currentNode, j, tempTotalCost, ResultOpenTile);
-                            } 
-                            continue;
-                        }
-                        else if(ResultCloseTile != null)
-                        {
-                            if(totalCost > tempTotalCost)
-                            {
-                                ClosedList.Remove(ResultCloseTile);
-                                TempGroundTile.totalCost = ResetNodeInList(destination, OpenList, currentNode, j, tempTotalCost, ResultCloseTile);
+                                if (currentNode.totalCost > tempTotalCost)
+                                {
+                                    TempGroundTile.totalCost = ResetNodeInList(destination, OpenList, currentNode, j, tempTotalCost, ResultOpenTile);
+                                }
+                                continue;
                             }
-                            continue;
+                            else if (ResultCloseTile != null)
+                            {
+                                if (totalCost > tempTotalCost)
+                                {
+                                    ClosedList.Remove(ResultCloseTile);
+                                    TempGroundTile.totalCost = ResetNodeInList(destination, OpenList, currentNode, j, tempTotalCost, ResultCloseTile);
+                                }
+                                continue;
+                            }
+                            AddNewNodeToOpenList(destination, OpenList, currentNode, j);
                         }
-                        AddNewNodeToOpenList(destination, OpenList, currentNode, j);
                     }
                     OpenList.Remove(currentNode);
                     ClosedList.Insert(0,currentNode);

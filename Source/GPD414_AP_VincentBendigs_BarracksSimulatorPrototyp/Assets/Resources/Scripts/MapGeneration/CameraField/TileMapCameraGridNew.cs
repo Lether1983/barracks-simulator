@@ -39,12 +39,15 @@ public class TileMapCameraGridNew : MonoBehaviour
         {
             for (int j = Mathf.FloorToInt(TempRect.yMax)-1; j < Mathf.CeilToInt(TempRect.yMin)+1; j++)
             {
-                var temptile = map.MapData[i, j];
-                var tempObject = objectMap.ObjectData[i,j];
-                var tempRoom = roomMap.RoomData[i, j];
-                SetTile(new Vector2(i, j), temptile);
-                SetObject(new Vector2(i, j), tempObject);
-                SetRoom(new Vector2(i, j), tempRoom);
+                if(i >= 0 && j >= 0 && i < map.MapData.GetLength(0)&& j < map.MapData.GetLength(1))
+                {
+                    var temptile = map.MapData[i, j];
+                    var tempObject = objectMap.ObjectData[i,j];
+                    var tempRoom = roomMap.RoomData[i, j];
+                    SetTile(new Vector2(i, j), temptile);
+                    SetObject(new Vector2(i, j), tempObject);
+                    SetRoom(new Vector2(i, j), tempRoom);
+                }
             }
         }
 	}

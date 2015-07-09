@@ -12,7 +12,7 @@ public class CameraControl : MonoBehaviour
     private float Boundary = 10;
    
     [SerializeField]
-    Camera camera;
+    Camera viewCamera;
     TileMap map = TileMap.Instance();
 	
     // Update is called once per frame
@@ -39,17 +39,17 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") <= 0)
         {
-            if (camera.orthographicSize < 16)
+            if (viewCamera.orthographicSize <= 16)
             {
-                camera.orthographicSize++;
+                viewCamera.orthographicSize++;
             }
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") >= 0)
         {
-            if(camera.orthographicSize > 5)
+            if(viewCamera.orthographicSize > 5)
             {
-                camera.orthographicSize--;
+                viewCamera.orthographicSize--;
             }
         }
 
@@ -107,7 +107,7 @@ public class CameraControl : MonoBehaviour
         transform.position = new Vector3(Mathf.Clamp(this.transform.position.x, (float)(map.purchasedLandWidthMin), (float)(map.purchasedLandWidthMax)),
                                          Mathf.Clamp(this.transform.position.y, (float)(map.purchasedLandHeightMin), (float)(map.purchasedLandHeightMax)),-10);
 
-        Vector2 Size = new Vector2(camera.orthographicSize * camera.aspect, camera.orthographicSize);
+        Vector2 Size = new Vector2(viewCamera.orthographicSize * viewCamera.aspect, viewCamera.orthographicSize);
         fieldOfView = Rect.MinMaxRect(transform.position.x - Size.x, transform.position.y + Size.y, transform.position.x + Size.x, transform.position.y - Size.y);
     }
 }

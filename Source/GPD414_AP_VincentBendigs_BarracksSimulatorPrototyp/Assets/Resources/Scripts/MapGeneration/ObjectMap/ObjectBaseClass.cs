@@ -8,6 +8,7 @@ public class ObjectBaseClass : ICloneable
 {
     public Vector2 Position;
     public Vector2 ParentPosition;
+    public ObjectLogicObject @object;
     public Sprite Texture;
     public GameObject myObject;
     public ObjectsObject startobject;

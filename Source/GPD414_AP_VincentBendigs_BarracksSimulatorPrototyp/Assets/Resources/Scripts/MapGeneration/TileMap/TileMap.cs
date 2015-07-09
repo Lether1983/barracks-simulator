@@ -49,7 +49,6 @@ public class TileMap
                 if(i > purchasedLandWidthMin && i < purchasedLandWidthMax && j > purchasedLandHeightMin && j < purchasedLandHeightMax)
                 {
                     MapData[i, j] = new GroundTile(i,j);
-                    //MapData[i, j] = new GroundTile(ShowMap.ShowMap(i, j,(int)purchasedLandWidthMin,(int)purchasedLandHeightMin));
                     MapData[i, j].GetAllValues(ShowMap.ShowMap(i, j, (int)purchasedLandWidthMin, (int)purchasedLandHeightMin));
                 }
                 else

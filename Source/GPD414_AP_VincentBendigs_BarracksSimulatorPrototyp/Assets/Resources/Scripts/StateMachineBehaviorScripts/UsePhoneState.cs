@@ -4,6 +4,7 @@ using System.Collections;
 public class UsePhoneState : StateMachineBehaviour 
 {
     Soldiers me;
+    Evaluator evaluator;
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -16,13 +17,16 @@ public class UsePhoneState : StateMachineBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)  
     {
-	    if(me.homeIll > 0)
+        if ((Vector2)me.transform.position == evaluator.tempObject.position)
         {
-            me.homeIll--;
-        }
-        else
-        {
-            animator.SetBool("UsePhone", false);
+            if (me.homeIll > 0)
+            {
+                me.homeIll--;
+            }
+            else
+            {
+                animator.SetBool("UsePhone", false);
+            }
         }
 	}
 
