@@ -61,6 +61,7 @@ public class Evaluator : MonoBehaviour
             return;
         }
         currentTrusterState = args.Message.NewState;
+
         switch (args.Message.NewState)
         {
             case trusterStates.SleepTime:
@@ -83,16 +84,18 @@ public class Evaluator : MonoBehaviour
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
+        if (me.OwnRoom == null) return false;
         
-        if ((checkScope & CheckScope.OwnRoom) > 0 && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null)
-        {
-            me.GoTo((GroundTile)map.MapData[(int)tempObject.position.x, (int)tempObject.position.y]);
-            return true;
-        }
-        //else if ((checkScope & CheckScope.Company) > 0/*&& me.OwnKompanie.GetRoomObjects(@object)*/)
-        //{
-        //    return true;
-        //}
+        if ((checkScope & CheckScope.OwnRoom) > 0 && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null) 
+		{
+			me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
+			return true;
+		}
+		//else if ((checkScope & CheckScope.Company) > 0 && (tempObject = me.ownKompanie.GetRoomObjects(@object)) != null)
+		//{
+		//	me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
+		//  return true;
+		//}
         //else if ((checkScope & CheckScope.WorkPlace) > 0/*&& me.WorkPlace.GetRoomObjects(@object)*/)
         //{
         //    return true;

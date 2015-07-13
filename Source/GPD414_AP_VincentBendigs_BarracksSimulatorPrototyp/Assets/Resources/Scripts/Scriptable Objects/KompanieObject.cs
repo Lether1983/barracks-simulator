@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,8 +12,15 @@ public class KompanieObject :ScriptableObject
     
     public Truster truster;
 
-    internal bool GetRoomObjects(UseableObjects useableObjects)
-    {
-        throw new System.NotImplementedException();
-    }
+//	internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
+//    {
+//		foreach (var item in roomList)
+//		{
+//			if (item.type == usableObject)
+//			{
+//				return item;
+//			}
+//		}
+//		return null;
+//    }
 }

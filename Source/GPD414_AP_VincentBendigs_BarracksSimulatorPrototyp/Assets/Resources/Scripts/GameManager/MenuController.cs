@@ -67,7 +67,6 @@ public class MenuController : MonoBehaviour
     {
         this.gameObject.GetComponent<GameManager>().ResetAllBuildingModi();
         this.GetComponent<GameManager>().InRoomBuildMode = !this.GetComponent<GameManager>().InRoomBuildMode;
-        this.GetComponent<RoomManager>().MeIsAStube = !this.GetComponent<RoomManager>().MeIsAStube;
     }
    
     //Destroy Buttons

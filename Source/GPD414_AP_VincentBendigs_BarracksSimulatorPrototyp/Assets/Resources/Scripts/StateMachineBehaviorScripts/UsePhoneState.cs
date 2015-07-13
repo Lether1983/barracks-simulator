@@ -12,6 +12,10 @@ public class UsePhoneState : StateMachineBehaviour
         {
             me = animator.gameObject.GetComponent<Soldiers>();
         }
+		if(evaluator == null)
+		{
+			evaluator = animator.gameObject.GetComponent<Evaluator>();
+		}
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

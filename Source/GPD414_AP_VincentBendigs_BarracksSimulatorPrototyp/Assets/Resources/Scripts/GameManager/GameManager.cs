@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
 
     public AStarController controller;
+	public AStarController controller2;
 
 
     
@@ -218,7 +219,6 @@ public class GameManager : MonoBehaviour
         DestroyFoundation = false;
         DestroyObjects = false;
         DestroyRooms = false;
-        GetComponent<RoomManager>().MeIsAStube = false;
         GetComponent<ObjectManager>().IplaceShower = false;
         GetComponent<ObjectManager>().DoorPlacement = false;
         ground_Object = null;
@@ -245,7 +245,13 @@ public class GameManager : MonoBehaviour
 
     public void SetDestinationWithAButton()
     {
+
         controller.getTargetPosition((GroundTile)map.MapData[256, 260]);
         controller.GetFinalPath();
     }
+
+	public void ResetPerson()
+	{
+		controller.gameObject.transform.position = new Vector3 (256, 240, -2);
+	}
 }

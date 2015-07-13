@@ -7,9 +7,6 @@ public class RoomManager : MonoBehaviour
 {
     #region RoomBools
 
-
-    public bool MeIsAStube;
-
     #endregion
 
     public List<RoomLogicObject> everywhereRooms;
