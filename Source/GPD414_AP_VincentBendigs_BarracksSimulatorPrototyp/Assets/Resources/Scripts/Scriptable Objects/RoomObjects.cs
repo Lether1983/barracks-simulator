@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public enum TypeOfRoom { Stube,Dusche,Waeschekammer}
+public enum TypeOfRoom { Stube,Dusche,Waeschekammer,Kueche,Kantine,Buero,Aufentallsraum}
 public class RoomObjects : ScriptableObject
 {
     public Sprite defaultTexture;

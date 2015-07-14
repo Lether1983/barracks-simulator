@@ -78,6 +78,8 @@
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
+     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
+     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EvaluationState.cs" />
@@ -88,8 +90,6 @@
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseSportEquipmentState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
-     <Compile Include="Assets\Resources\Scripts\Truster.cs" />
-     <Compile Include="Assets\Resources\Scripts\trusterState.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
