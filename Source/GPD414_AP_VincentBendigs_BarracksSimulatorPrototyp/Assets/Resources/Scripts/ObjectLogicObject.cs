@@ -7,12 +7,14 @@ public class ObjectLogicObject
     public Vector2 position;
     public ObjectsObject info;
     public RoomLogicObject Room;
+    public bool isInUse;
+
 
     public UseableObjects type
     { 
         get
         {
-         return info.type;
+            return info.type;
         } 
     }
 }

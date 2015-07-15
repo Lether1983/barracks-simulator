@@ -25,7 +25,10 @@ public class UseSportEquipmentState : StateMachineBehaviour
         {
             if (me.needFitness > 0)
             {
-                me.needFitness--;
+                me.needFitness -= (5/3600f + 76f/3600) * Time.deltaTime * me.manager.speed;
+                me.isDirty += 2.5f / 3600 * Time.deltaTime * me.manager.speed;
+                me.hungry += 2.5f / 3600 * Time.deltaTime * me.manager.speed;
+                me.hasToUseTheToilette += 2.5f / 3600 * Time.deltaTime * me.manager.speed;
             }
             else
             {

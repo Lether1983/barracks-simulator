@@ -25,7 +25,7 @@ public class UseShowerState : StateMachineBehaviour
         {
             if (me.isDirty > 0)
             {
-                me.isDirty--;
+                me.isDirty -= (5/3600f+76/600f) * Time.deltaTime * me.manager.speed;
             }
             else
             {

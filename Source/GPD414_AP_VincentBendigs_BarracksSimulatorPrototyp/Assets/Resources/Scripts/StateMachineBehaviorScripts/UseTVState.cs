@@ -25,7 +25,7 @@ public class UseTVState : StateMachineBehaviour
         {
             if (me.diversity > 0)
             {
-                me.diversity--;
+                me.diversity -= (5 / 3600f+76f / 3600f) * Time.deltaTime * me.manager.speed;
             }
             else
             {

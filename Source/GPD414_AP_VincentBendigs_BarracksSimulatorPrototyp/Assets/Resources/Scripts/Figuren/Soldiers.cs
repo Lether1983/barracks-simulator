@@ -30,18 +30,13 @@ public class Soldiers : MonoBehaviour
     public float needFitness;
     public bool shouldMove = false;
 
+    public GameManager manager;
+
     void Start()
     {
         subscribtion = MessageBusManager.Subscribe<RoomLogicObject>("freeStube");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
-        tired = 76;
-        isDirty = 76;
-        needFitness = 76;
-        hasToUseTheToilette = 76;
-        hungry = 76;
-        diversity = 76;
-        homeIll = 76;
-        TrainingsLevel = 0;
+        manager = roomManager.gameObject.GetComponent<GameManager>();
     }
 
     private void changeMessage_OnMessageReceived(MessageSubscription<RoomLogicObject> s, MessageReceivedEventArgs<RoomLogicObject> args)
@@ -49,7 +44,7 @@ public class Soldiers : MonoBehaviour
         if (OwnRoom == null && args.Message.Claim(this))
         {
              OwnRoom = args.Message;
-             OwnRoom.kompanieObject = this.ownKompanie;
+             roomManager.AssignRoomToCompany(this.ownKompanie, args.Message);
         }
     }
 
@@ -61,6 +56,20 @@ public class Soldiers : MonoBehaviour
 
     void Update()
     {
+        tired += 5/3600f*Time.deltaTime * manager.speed;
+        isDirty += 5 / 3600f * Time.deltaTime * manager.speed;
+        needFitness += 5 / 3600f * Time.deltaTime * manager.speed;
+        hasToUseTheToilette += 5 / 3600f * Time.deltaTime * manager.speed;
+        hungry += 5 / 3600f * Time.deltaTime * manager.speed;
+        diversity += 5 / 3600f * Time.deltaTime * manager.speed;
+        homeIll += 5 / 3600f * Time.deltaTime * manager.speed;
+
+        if(hungry < 12)
+        {
+            hasToUseTheToilette += 2.5f/3600f * Time.deltaTime * manager.speed;
+        }
+
+
         if (this.gameObject.transform.position.x == waypoint.x && this.gameObject.transform.position.y == waypoint.y && this.gameObject.transform.position.z == -2)
         {
             shouldMove = false;

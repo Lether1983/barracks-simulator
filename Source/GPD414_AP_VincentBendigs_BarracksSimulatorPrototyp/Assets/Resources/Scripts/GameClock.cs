@@ -8,8 +8,7 @@ public class GameClock : MonoBehaviour
     
 
     public Transform hour, minute;
-
-    public float Speed;
+    public GameManager manager;
     bool ifcanRaise;
     TimeSpan time = new TimeSpan();
     
@@ -20,7 +19,7 @@ public class GameClock : MonoBehaviour
 
     void Update()
     {
-        time = time.Add(TimeSpan.FromSeconds(Time.deltaTime * Speed));
+        time = time.Add(TimeSpan.FromSeconds(Time.deltaTime * manager.speed));
 
         if (time.Minutes == 0)
         {

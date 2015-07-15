@@ -25,7 +25,7 @@ public class UsePhoneState : StateMachineBehaviour
         {
             if (me.homeIll > 0)
             {
-                me.homeIll--;
+                me.homeIll-= (5/3600f+76f/1200f) * Time.deltaTime * me.manager.speed;
             }
             else
             {

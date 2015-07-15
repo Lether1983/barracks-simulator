@@ -38,7 +38,10 @@ public class RoomLogicObject
         {
             if (item.type == usableObject)
             {
-                return item;
+                if(item.isInUse == false)
+                {
+                    return item;
+                }
             }
         }
         return null;

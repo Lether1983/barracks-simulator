@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour 
 {
+    public float speed;
     public GameObject spriteAtlas;
     public GameObject[] images;
     TileMap map;

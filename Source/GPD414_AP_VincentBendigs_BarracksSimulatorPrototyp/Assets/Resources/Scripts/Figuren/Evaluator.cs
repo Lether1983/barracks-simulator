@@ -42,7 +42,7 @@ public class Evaluator : MonoBehaviour
     Soldiers me;
     [SerializeField]
     Animator animator;
-    int checkValue = 75;
+    int checkValue = 50;
 
     void Awake()
     {
@@ -72,6 +72,10 @@ public class Evaluator : MonoBehaviour
                 animator.SetTrigger("IsNotWorkTime");
                 break;
             case trusterStates.WorkTime:
+                if(me.WorkPlace == null)
+                {
+                    animator.SetTrigger("IsNotWorkTime");
+                }
                 animator.SetTrigger("IsWorkTime");
                 break;
             default:
@@ -84,26 +88,26 @@ public class Evaluator : MonoBehaviour
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
-        if (me.OwnRoom == null) return false;
-        
-        if ((checkScope & CheckScope.OwnRoom) > 0 && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null) 
+
+        if ((checkScope & CheckScope.OwnRoom) > 0 && me.OwnRoom != null && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null) 
 		{
 			me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
 			return true;
 		}
-		//else if ((checkScope & CheckScope.Company) > 0 && (tempObject = me.ownKompanie.GetRoomObjects(@object)) != null)
-		//{
-		//	me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
-		//  return true;
-		//}
-        //else if ((checkScope & CheckScope.WorkPlace) > 0/*&& me.WorkPlace.GetRoomObjects(@object)*/)
-        //{
-        //    return true;
-        //}
-        //else if ((checkScope & CheckScope.Everywhere) > 0 /*&& me.roomManager.GetRoomObjects(@object)*/)
-        //{
-        //    return true;
-        //}
+		else if ((checkScope & CheckScope.Company) > 0 && (tempObject = me.ownKompanie.GetRoomObjects(@object)) != null)
+		{
+			me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
+		    return true;
+		}
+        else if ((checkScope & CheckScope.WorkPlace) > 0&&me.WorkPlace != null &&(tempObject = me.WorkPlace.GetRoomObjects(@object))!= null)
+        {
+            return true;
+        }
+        else if ((checkScope & CheckScope.Everywhere) > 0 &&(tempObject = me.roomManager.GetRoomObjects(@object))!= null)
+        {
+            return true;
+        }
+
         return false;
     }
 

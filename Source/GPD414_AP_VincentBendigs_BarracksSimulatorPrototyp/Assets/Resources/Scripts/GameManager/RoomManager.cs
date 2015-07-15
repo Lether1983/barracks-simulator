@@ -25,13 +25,32 @@ public class RoomManager : MonoBehaviour
     public void addNewRoom(RoomLogicObject room)
     {
         everywhereRooms.Add(room);
+
         if(room.type == TypeOfRoom.Stube)
         {
             MessageBusManager.AddMessage<RoomLogicObject>("freeStube", room);
         }
     }
-    internal object GetRoomObjects(UseableObjects @object)
+
+    public void AssignRoomToCompany(KompanieObject company,RoomLogicObject room)
     {
-        throw new System.NotImplementedException();
+        company.roomList.Add(room);
+        room.kompanieObject = company;
+        everywhereRooms.Remove(room);
+    }
+
+
+    internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
+    {
+        foreach (var item in everywhereRooms)
+        {
+            ObjectLogicObject tempObject = item.GetRoomObjects(usableObject);
+
+            if (tempObject != null)
+            {
+                return tempObject;
+            }
+        }
+        return null;
     }
 }

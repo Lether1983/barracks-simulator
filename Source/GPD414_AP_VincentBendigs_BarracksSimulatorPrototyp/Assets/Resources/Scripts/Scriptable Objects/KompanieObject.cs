@@ -6,21 +6,31 @@ using System.Collections.Generic;
 public class KompanieObject :ScriptableObject
 {
     [SerializeField]
-    public List<RoomObjects> roomList;
+    public List<RoomLogicObject> roomList;
     [SerializeField]
     public List<Soldiers> soldierList;
     
     public Truster truster;
 
-//	internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
-//    {
-//		foreach (var item in roomList)
-//		{
-//			if (item.type == usableObject)
-//			{
-//				return item;
-//			}
-//		}
-//		return null;
-//    }
+    void OnEnable()
+    {
+        if (roomList == null)
+        {
+            roomList = new List<RoomLogicObject>();
+        }
+    }
+
+    internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
+    {
+        foreach (var item in roomList)
+        {
+            ObjectLogicObject tempObject = item.GetRoomObjects(usableObject);
+
+            if (tempObject != null)
+            {
+                return tempObject;
+            }
+        }
+        return null;
+    }
 }

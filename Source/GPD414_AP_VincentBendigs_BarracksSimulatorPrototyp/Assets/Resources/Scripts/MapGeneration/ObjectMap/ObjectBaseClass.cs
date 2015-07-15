@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public enum UseableObjects { Bed, Toilette, Door, Shower, SportEquipment, Phone,TV,Food,SchoolDesk};
+public enum UseableObjects { Bed, Toilette, Door, Shower, SportEquipment, Phone,TV,Food,SchoolDesk,Bench,Table,EssensAusgabe,WaescheKorb,Herd,Kuehltruhe,Tischkicker,Stuhl,Schreibtisch,Muelleimer,Schrank};
 
 public class ObjectBaseClass : ICloneable
 {

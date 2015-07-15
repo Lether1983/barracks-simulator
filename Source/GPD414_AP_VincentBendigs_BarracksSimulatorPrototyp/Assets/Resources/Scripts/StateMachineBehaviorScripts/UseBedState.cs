@@ -25,7 +25,7 @@ public class UseBedState : StateMachineBehaviour
         {
             if (me.tired > 0)
             {
-                me.tired -= 2*Time.deltaTime;
+                me.tired -= (5/3600f+76f/14400f)* Time.deltaTime*me.manager.speed;
             }
             else
             {

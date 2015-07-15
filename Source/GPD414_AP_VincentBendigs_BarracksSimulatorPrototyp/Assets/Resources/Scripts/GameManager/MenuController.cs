@@ -262,8 +262,8 @@ public class MenuController : MonoBehaviour
         this.GetComponent<GameManager>().state = state;
     }
 
-    public void SetKompanie(KompanieObject kompnaie)
+    public void SetKompanie(KompanieObject kompanie)
     {
-        this.GetComponent<GameManager>().kompanie = kompnaie;
+        this.GetComponent<GameManager>().kompanie = kompanie;
     }
 }

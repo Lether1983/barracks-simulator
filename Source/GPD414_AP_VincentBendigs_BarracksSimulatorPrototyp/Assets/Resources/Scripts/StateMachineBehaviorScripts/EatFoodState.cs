@@ -25,7 +25,7 @@ public class EatFoodState : StateMachineBehaviour
         {
             if (me.hungry > 0)
             {
-                me.hungry--;
+                me.hungry -= (5 / 3600f+76f / 1800f) * Time.deltaTime * me.manager.speed;
             }
             else
             {

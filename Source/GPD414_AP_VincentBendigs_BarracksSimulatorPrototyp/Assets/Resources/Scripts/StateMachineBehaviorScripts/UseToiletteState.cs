@@ -25,7 +25,7 @@ public class UseToiletteState : StateMachineBehaviour
         {
             if (me.hasToUseTheToilette > 0)
             {
-                me.hasToUseTheToilette--;
+                me.hasToUseTheToilette -= (5 / 3600f+76f / 120f) * Time.deltaTime * me.manager.speed;
             }
             else
             {
