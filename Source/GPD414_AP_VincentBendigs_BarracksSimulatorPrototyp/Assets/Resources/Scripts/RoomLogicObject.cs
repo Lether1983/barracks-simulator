@@ -36,7 +36,7 @@ public class RoomLogicObject
     {
         foreach (var item in Objects)
         {
-            if (item.type == usableObject)
+            if ((item.type & usableObject) > 0)
             {
                 if(item.isInUse == false)
                 {

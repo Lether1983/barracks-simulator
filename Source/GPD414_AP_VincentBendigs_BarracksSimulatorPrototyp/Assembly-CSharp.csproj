@@ -51,11 +51,13 @@
      <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
      <Compile Include="Assets\Resources\Scripts\Figuren\Evaluator.cs" />
      <Compile Include="Assets\Resources\Scripts\Figuren\Soldiers.cs" />
+     <Compile Include="Assets\Resources\Scripts\Figuren\WorkEvaluator.cs" />
      <Compile Include="Assets\Resources\Scripts\GameClock.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\ObjectManager.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\GameManager\WorkManager.cs" />
      <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGridNew.cs" />
@@ -75,10 +77,12 @@
      <Compile Include="Assets\Resources\Scripts\QuickSort.cs" />
      <Compile Include="Assets\Resources\Scripts\RoomLogicObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
+     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Job.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
+     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\WorkObjects.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
@@ -90,6 +94,8 @@
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseSportEquipmentState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
+     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\WorkEvaluation.cs" />
+     <Compile Include="Assets\Resources\Scripts\WorkTask.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

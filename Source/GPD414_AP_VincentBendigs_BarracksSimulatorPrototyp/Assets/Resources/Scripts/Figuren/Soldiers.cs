@@ -2,14 +2,17 @@
 using System.Collections;
 using DH.Messaging.Bus;
 
-enum DinstgradGruppen { NormalSolider, TimeSoldier, ProfessionalSoldiers };
+public enum DinstgradGruppen { NormalSolider, TimeSoldier, ProfessionalSoldiers };
 
-enum KompaniezugehoerigkeitsGruppen { AusbildungsKompanien, KampfKompanien, VersorgungsKompanien, LehrKompanien, KampfUnterstuetzungsKompanien, SanitaetsKompanien };
+public enum KompaniezugehoerigkeitsGruppen { AusbildungsKompanien, KampfKompanien, VersorgungsKompanien, LehrKompanien, KampfUnterstuetzungsKompanien, SanitaetsKompanien };
 
-enum KampfkompanienZugehörigkeit { JaegerKompanie,PanzerKompanie,GrenadierKompanie,PanzerGrenadierKompanie};
-enum VersorgungsKompanieZugehörigkeit { TransportKompanie,InstansetzungsKompanie,UnterstuetzungsKompanie,MilitaerPolizeiKompanie,VersorgungsKompanie};
-enum KampfUnterstuetzungsKomapnieZugehörigkeit { EODKompanie,ABCAbwehrKompanie,PionierKompanie,HeeresfliegerKompanie,FernmeldeKompanie};
-enum SanitaetsZugehörigkeit { VersorgungsSanitaeter,KampfSanitaeter,EinsatzSanitaeter,KrankenhausSanitaeter};
+public enum Kompaniezugehorigkeit
+{
+    JaegerKompanie, PanzerKompanie, GrenadierKompanie, PanzerGrenadierKompanie, 
+    TransportKompanie, InstansetzungsKompanie, UnterstuetzungsKompanie, MilitaerPolizeiKompanie, 
+    VersorgungsKompanie, EODKompanie, ABCAbwehrKompanie, PionierKompanie, HeeresfliegerKompanie, 
+    FernmeldeKompanie, VersorgungsSanitaeter, KampfSanitaeter, EinsatzSanitaeter, KrankenhausSanitaeter
+};
 
 public class Soldiers : MonoBehaviour
 {
@@ -17,6 +20,7 @@ public class Soldiers : MonoBehaviour
     public KompanieObject ownKompanie;
     public RoomLogicObject OwnRoom;
     public RoomLogicObject WorkPlace;
+    public Job myJob;
     public RoomManager roomManager;
     public Vector3 waypoint;
 
@@ -43,8 +47,8 @@ public class Soldiers : MonoBehaviour
     {
         if (OwnRoom == null && args.Message.Claim(this))
         {
-             OwnRoom = args.Message;
-             roomManager.AssignRoomToCompany(this.ownKompanie, args.Message);
+            OwnRoom = args.Message;
+            roomManager.AssignRoomToCompany(this.ownKompanie, args.Message);
         }
     }
 
@@ -56,7 +60,7 @@ public class Soldiers : MonoBehaviour
 
     void Update()
     {
-        tired += 5/3600f*Time.deltaTime * manager.speed;
+        tired += 5 / 3600f * Time.deltaTime * manager.speed;
         isDirty += 5 / 3600f * Time.deltaTime * manager.speed;
         needFitness += 5 / 3600f * Time.deltaTime * manager.speed;
         hasToUseTheToilette += 5 / 3600f * Time.deltaTime * manager.speed;
@@ -64,9 +68,9 @@ public class Soldiers : MonoBehaviour
         diversity += 5 / 3600f * Time.deltaTime * manager.speed;
         homeIll += 5 / 3600f * Time.deltaTime * manager.speed;
 
-        if(hungry < 12)
+        if (hungry < 12)
         {
-            hasToUseTheToilette += 2.5f/3600f * Time.deltaTime * manager.speed;
+            hasToUseTheToilette += 2.5f / 3600f * Time.deltaTime * manager.speed;
         }
 
 
@@ -75,7 +79,7 @@ public class Soldiers : MonoBehaviour
             shouldMove = false;
             MessageBusManager.AddMessage<int>("Reachtarget", 1);
         }
-        else if(shouldMove)
+        else if (shouldMove)
         {
             this.transform.Translate(waypoint.x - transform.position.x, waypoint.y - transform.position.y, 0);
         }

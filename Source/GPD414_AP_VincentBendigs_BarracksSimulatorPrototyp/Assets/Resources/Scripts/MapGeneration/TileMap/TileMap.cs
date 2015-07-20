@@ -41,7 +41,7 @@ public class TileMap
 
     private void FillStartField(int maxSize)
     {
-        BlackSprite = Resources.Load<Sprite>("Sprites/BlackTile");
+        BlackSprite = Resources.Load<Sprite>("Sprites/GroundTile/BlackTile");
         for (int i = 0; i < maxSize; i++)
         {
             for (int j = 0; j < maxSize; j++)

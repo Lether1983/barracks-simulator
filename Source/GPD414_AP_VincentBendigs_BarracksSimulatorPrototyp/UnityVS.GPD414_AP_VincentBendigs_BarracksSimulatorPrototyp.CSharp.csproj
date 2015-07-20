@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{97A425CF-BD56-BB24-A262-0D61D83C375C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.0.1f1</UnityVersion>
@@ -56,9 +54,6 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
@@ -75,11 +70,13 @@
     <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
     <Compile Include="Assets\Resources\Scripts\Figuren\Evaluator.cs" />
     <Compile Include="Assets\Resources\Scripts\Figuren\Soldiers.cs" />
+    <Compile Include="Assets\Resources\Scripts\Figuren\WorkEvaluator.cs" />
     <Compile Include="Assets\Resources\Scripts\GameClock.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\ObjectManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\GameManager\WorkManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGridNew.cs" />
@@ -99,9 +96,13 @@
     <Compile Include="Assets\Resources\Scripts\QuickSort.cs" />
     <Compile Include="Assets\Resources\Scripts\RoomLogicObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
+    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Job.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\ObjectsObject.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
+    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
+    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\WorkObjects.cs" />
+    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EvaluationState.cs" />
@@ -112,8 +113,8 @@
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseSportEquipmentState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
-    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
-    <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
+    <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\WorkEvaluation.cs" />
+    <Compile Include="Assets\Resources\Scripts\WorkTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

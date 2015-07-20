@@ -9,7 +9,8 @@ public class KompanieObject :ScriptableObject
     public List<RoomLogicObject> roomList;
     [SerializeField]
     public List<Soldiers> soldierList;
-    
+
+    public KompaniezugehoerigkeitsGruppen OberGruppe;
     public Truster truster;
 
     void OnEnable()

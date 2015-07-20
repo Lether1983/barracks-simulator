@@ -48,6 +48,7 @@ public class Evaluator : MonoBehaviour
     {
         subscribtion = MessageBusManager.Subscribe<ChangeStateEventArgs>("ChangeState");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
+        animator.SetInteger("KompanieGruppenZugehörigkeit",(int)me.ownKompanie.OberGruppe);
     }
 
     void changeMessage_OnMessageReceived(MessageSubscription<ChangeStateEventArgs> s, MessageReceivedEventArgs<ChangeStateEventArgs> args)
@@ -118,35 +119,35 @@ public class Evaluator : MonoBehaviour
             return;
         }
 
-        if(CanSetBool(checki,attri,AttributeCheck.HasToUseTheToilette,me.hasToUseTheToilette,UseableObjects.Toilette))
+        if(CanSetBool(checki,attri,AttributeCheck.HasToUseTheToilette,me.hasToUseTheToilette,UseableObjects.ReduceToilette))
         {
             animator.SetBool("UseToilette", true);
         }
-        else if (CanSetBool(checki, attri, AttributeCheck.Tired, me.tired, UseableObjects.Bed))
+        else if (CanSetBool(checki, attri, AttributeCheck.Tired, me.tired, UseableObjects.ReduceTired))
         {
             animator.SetBool("UseBed", true);
         }
-        else if (CanSetBool(checki, attri, AttributeCheck.Diversity, me.diversity, UseableObjects.TV))
+        else if (CanSetBool(checki, attri, AttributeCheck.Diversity, me.diversity, UseableObjects.ReduceDiversity))
         {
             animator.SetBool("UseTV", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.HomeIll, me.homeIll, UseableObjects.Phone))
+        else if(CanSetBool(checki, attri, AttributeCheck.HomeIll, me.homeIll, UseableObjects.ReduceHomeIll))
         {
             animator.SetBool("UsePhone", true);
         }
-        else if (CanSetBool(checki, attri, AttributeCheck.IsDirty, me.isDirty, UseableObjects.Shower))
+        else if (CanSetBool(checki, attri, AttributeCheck.IsDirty, me.isDirty, UseableObjects.ReduceDirty))
         {
             animator.SetBool("UseShower", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.Food))
+        else if(CanSetBool(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.ReduceHunger))
         {
             animator.SetBool("EatFood", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.NeedFitness, me.needFitness, UseableObjects.SportEquipment))
+        else if(CanSetBool(checki, attri, AttributeCheck.NeedFitness, me.needFitness, UseableObjects.ReduceFitness))
         {
             animator.SetBool("UseSportsEquipment", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.TrainLevel, me.TrainingsLevel, UseableObjects.SchoolDesk))
+        else if(CanSetBool(checki, attri, AttributeCheck.TrainLevel, me.TrainingsLevel, UseableObjects.IncreaceTraining))
         {
             animator.SetBool("TrainBasics", true);
         }

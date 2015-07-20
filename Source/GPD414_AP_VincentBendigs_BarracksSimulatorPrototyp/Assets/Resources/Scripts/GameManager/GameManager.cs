@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using DH.Messaging.Bus;
 
 
 public class GameManager : MonoBehaviour 
@@ -19,25 +21,17 @@ public class GameManager : MonoBehaviour
     public GroundObject GrassDefault;
     public ObjectsObject object_object;
     public RoomObjects room_object;
+    MessageSubscription<int> subscribtion;
 
     public KompanieObject kompanie;
     public trusterState state;
+
+    public List<ObjectLogicObject> AllObjects;
 
 
     public AStarController controller;
 	public AStarController controller2;
 
-
-    
-    #region Sprites
-    public Sprite Grass;
-    public Sprite Desert;
-    public Sprite Wall;
-    public Sprite Beton;
-    public Sprite Dusche;
-    public Sprite Door;
-    public Sprite RoomSprite;
-    #endregion
     
     #region Menü Building Bools
     public bool BuildWalls;
@@ -66,10 +60,21 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake()
     {
+        subscribtion = MessageBusManager.Subscribe<int>("ChangeHour");
+        subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
+        AllObjects = new List<ObjectLogicObject>();
         map = TileMap.Instance();
         objectMap = ObjectTileMap.Instance();
         roomMap = RoomMap.Instance();
         GenerateAMap(map);
+    }
+
+    private void changeMessage_OnMessageReceived(MessageSubscription<int> s, MessageReceivedEventArgs<int> args)
+    {
+        foreach (var item in AllObjects)
+        {
+            item.Update(this.gameObject.GetComponent<WorkManager>());
+        }
     }
     
     void GenerateAMap(TileMap map)

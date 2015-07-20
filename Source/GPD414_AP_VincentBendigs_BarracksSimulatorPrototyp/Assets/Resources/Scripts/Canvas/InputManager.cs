@@ -219,6 +219,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             @object.position = hit.transform.position;
             @object.info = manager.object_object;
             @object.Room = GetRoomByClick(hit.transform.position);
+            if((@object.type & UseableObjects.Updateable) > 0)
+            {
+                manager.AllObjects.Add(@object);
+            }
             if(@object.Room != null)
             {
                 @object.Room.Objects.Add(@object);
