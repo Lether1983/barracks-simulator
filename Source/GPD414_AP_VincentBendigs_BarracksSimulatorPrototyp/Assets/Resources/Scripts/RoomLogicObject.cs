@@ -8,6 +8,8 @@ public class RoomLogicObject
     public Vector2 Size;
     public RoomObjects RoomInfo;
     public List<ObjectLogicObject> Objects = new List<ObjectLogicObject>();
+    public Soldiers[] workers;
+    public int Workerscount;
     Soldiers soldier;
 
     public KompanieObject kompanieObject;
@@ -45,5 +47,10 @@ public class RoomLogicObject
             }
         }
         return null;
+    }
+    public void GetWorkerSpaces()
+    {
+        workers = new Soldiers[(((int)Size.x * (int)Size.y) / 10)];
+        Workerscount = workers.Length;
     }
 }

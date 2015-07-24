@@ -8,6 +8,7 @@ public class WorkObjects : ScriptableObject
     public int Uses;
 
     public TypeofWorkObjects Type;
+    public ObjectsObject target;
     public GameObject myObject;
     public Vector3 Position;
     public Sprite Image;

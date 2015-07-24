@@ -30,6 +30,10 @@ public class RoomManager : MonoBehaviour
         {
             MessageBusManager.AddMessage<RoomLogicObject>("freeStube", room);
         }
+        if(room.type == TypeOfRoom.Kueche)
+        {
+            MessageBusManager.AddMessage<RoomLogicObject>("FreeWorkPlace", room);
+        }
     }
 
     public void AssignRoomToCompany(KompanieObject company,RoomLogicObject room)

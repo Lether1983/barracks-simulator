@@ -6,14 +6,17 @@ using UnityEngine.UI;
 using DH.Messaging.Bus;
 
 
-public class GameManager : MonoBehaviour 
+public class GameManager : MonoBehaviour
 {
     public float speed;
+
     public GameObject spriteAtlas;
     public GameObject[] images;
+
     TileMap map;
     ObjectTileMap objectMap;
     RoomMap roomMap;
+
     public GroundObject ground_Object;
     public GroundObject wall_Object;
     public GroundObject IndoorDefault;
@@ -21,18 +24,21 @@ public class GameManager : MonoBehaviour
     public GroundObject GrassDefault;
     public ObjectsObject object_object;
     public RoomObjects room_object;
+
     MessageSubscription<int> subscribtion;
 
     public KompanieObject kompanie;
     public trusterState state;
 
     public List<ObjectLogicObject> AllObjects;
+    public List<Soldiers> AllSoldiers;
+    public List<Soldiers> AllCivilians;
 
 
     public AStarController controller;
-	public AStarController controller2;
+    public AStarController controller2;
 
-    
+
     #region Menü Building Bools
     public bool BuildWalls;
     public bool BuildFoundation;
@@ -55,14 +61,16 @@ public class GameManager : MonoBehaviour
     bool smallMap = false;
     bool midMap = false;
     bool largeMap = true;
-    
 
-	// Use this for initialization
-	void Awake()
+
+    // Use this for initialization
+    void Awake()
     {
         subscribtion = MessageBusManager.Subscribe<int>("ChangeHour");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
         AllObjects = new List<ObjectLogicObject>();
+        AllCivilians = new List<Soldiers>();
+        AllSoldiers = new List<Soldiers>();
         map = TileMap.Instance();
         objectMap = ObjectTileMap.Instance();
         roomMap = RoomMap.Instance();
@@ -76,24 +84,24 @@ public class GameManager : MonoBehaviour
             item.Update(this.gameObject.GetComponent<WorkManager>());
         }
     }
-    
+
     void GenerateAMap(TileMap map)
     {
-        if(smallMap)
+        if (smallMap)
         {
             map.StartFieldOfViewValue = 20;
             map.GenerateStartMap(smallMaxMapSize);
             objectMap.GenerateObjectDataMap(smallMaxMapSize);
             roomMap.GenerateRoomObjects(smallMaxMapSize);
         }
-        else if(midMap)
+        else if (midMap)
         {
             map.StartFieldOfViewValue = 40;
             map.GenerateStartMap(middMaxMapSize);
             objectMap.GenerateObjectDataMap(middMaxMapSize);
             roomMap.GenerateRoomObjects(middMaxMapSize);
         }
-        else if(largeMap)
+        else if (largeMap)
         {
             map.StartFieldOfViewValue = 80;
             map.GenerateStartMap(bigMaxMapSize);
@@ -174,17 +182,17 @@ public class GameManager : MonoBehaviour
 
     public void PlaceObjectByClick(GameObject hittetObject)
     {
-        if(object_object == null)
+        if (object_object == null)
         {
             return;
         }
         for (int i = 0; i < object_object.infos.Length; i++)
         {
-             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].@object.position;
-             Vector2 HittetTransform = hittetObject.transform.position;
-             Vector2 delta = HittetTransform - Reference;
+            Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].@object.position;
+            Vector2 HittetTransform = hittetObject.transform.position;
+            Vector2 delta = HittetTransform - Reference;
 
-            if(object_object.infos[i].delta == delta)
+            if (object_object.infos[i].delta == delta)
             {
                 hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.infos[i].texture;
                 objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].Texture = object_object.infos[i].texture;
@@ -201,7 +209,7 @@ public class GameManager : MonoBehaviour
             Vector2 Reference = roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].room.Position;
             Vector2 HittetTransform = hittetObjectForRoom.transform.position;
             Vector2 delta = HittetTransform - Reference;
-            if(room_object.infos[i].delta == delta)
+            if (room_object.infos[i].delta == delta)
             {
                 hittetObjectForRoom.GetComponent<SpriteRenderer>().sprite = room_object.infos[i].texture;
                 roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].Texture = room_object.infos[i].texture;
@@ -218,7 +226,7 @@ public class GameManager : MonoBehaviour
         BuildFoundation = false;
         InRoomBuildMode = false;
         InObjectBuildMode = false;
-        
+
         DestroyTiles = false;
         DestroyModus = false;
         DestroyWalls = false;
@@ -256,8 +264,8 @@ public class GameManager : MonoBehaviour
         controller.GetFinalPath();
     }
 
-	public void ResetPerson()
-	{
-		controller.gameObject.transform.position = new Vector3 (256, 240, -2);
-	}
+    public void ResetPerson()
+    {
+        controller.gameObject.transform.position = new Vector3(256, 240, -2);
+    }
 }

@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             if (manager.InObjectBuildMode)
             {
                 if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
-                    map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].isOverridable)
+                    map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].isOverridable)
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }
@@ -75,17 +75,17 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     manager.ChangeTileByClick(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
                 }
             }
-            if(manager.DestroyModus)
+            if (manager.DestroyModus)
             {
-                if(manager.DestroyRooms)
+                if (manager.DestroyRooms)
                 {
                     RoomDestroymentOnMap(hit);
                 }
-                if(manager.DestroyObjects)
+                if (manager.DestroyObjects)
                 {
                     ObjectDestroymentOnMap(hit);
                 }
-                if(hit.collider != null)
+                if (hit.collider != null)
                 {
                     manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
                 }
@@ -108,7 +108,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
             RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
             endPos = eventData.position;
-       
+
             if (hit.collider != null)
             {
                 DrawRect = true;
@@ -117,7 +117,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
                     manager.ChangeTileByClick(hit.transform.gameObject);
-                    if(manager.DestroyModus)
+                    if (manager.DestroyModus)
                     {
                         manager.DestroyOneTile(hit.transform.gameObject);
                     }
@@ -173,7 +173,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 for (int j = minY; j < maxY; j++)
                 {
-                    roomMap.RoomData[i, j].roomObject = roomMap.RoomData[minX,minY];
+                    roomMap.RoomData[i, j].roomObject = roomMap.RoomData[minX, minY];
                 }
             }
         }
@@ -186,18 +186,22 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         endY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y;
         startX = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x;
         startY = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y;
-        int minX = Mathf.Min((int)startX,(int)endX);
-        int minY = Mathf.Min((int)startY,(int)endY);
-        int maxX = Mathf.CeilToInt(Mathf.Max(startX,endX));
-        int maxY = Mathf.CeilToInt(Mathf.Max(startY,endY));
+        int minX = Mathf.Min((int)startX, (int)endX);
+        int minY = Mathf.Min((int)startY, (int)endY);
+        int maxX = Mathf.CeilToInt(Mathf.Max(startX, endX));
+        int maxY = Mathf.CeilToInt(Mathf.Max(startY, endY));
 
-        
+
         if (RommIsBlocked() == false)
         {
             RoomLogicObject room = new RoomLogicObject();
             room.Position = new Vector2(minX, minY);
             room.Size = new Vector2(maxX - minX, maxY - minY);
             room.RoomInfo = manager.room_object;
+            if ((room.RoomInfo.checkRoom & RoomUsability.laborFactor) > 0)
+            {
+                room.GetWorkerSpaces();
+            }
             manager.gameObject.GetComponent<RoomManager>().addNewRoom(room);
 
             for (int i = minX; i < maxX; i++)
@@ -211,7 +215,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    private void ObjectPlacementOnMap(PointerEventData eventData,RaycastHit2D hit)
+    private void ObjectPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
     {
         if (hit.collider != null)
         {
@@ -219,11 +223,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             @object.position = hit.transform.position;
             @object.info = manager.object_object;
             @object.Room = GetRoomByClick(hit.transform.position);
-            if((@object.type & UseableObjects.Updateable) > 0)
+            if ((@object.type & UseableObjects.Updateable) > 0)
             {
                 manager.AllObjects.Add(@object);
             }
-            if(@object.Room != null)
+            if (@object.Room != null)
             {
                 @object.Room.Objects.Add(@object);
             }
@@ -240,18 +244,18 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private RoomLogicObject GetRoomByClick(Vector2 hit)
     {
-       return roomMap.RoomData[(int)hit.x, (int)hit.y].room;
+        return roomMap.RoomData[(int)hit.x, (int)hit.y].room;
     }
 
     private void DoorPlacementOnMap(PointerEventData eventData, RaycastHit2D hit)
     {
         if (hit.collider != null)
         {
-            manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x,(int)hit.transform.position.y].myObject);
+            manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
             ObjectPlacementOnMap(eventData, hit);
         }
     }
-    
+
     private void DrawSelectionBox(PointerEventData eventData)
     {
         float xDif;
@@ -303,11 +307,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         else if (manager.BuildFoundation)
         {
-            DrawFoundationLogicOnMap((int)startX,(int)startY,(int)endX,(int)endY);
+            DrawFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
     }
 
-    private void ChangeSpriteOnMap(int startX,int startY, int endX,int endY)
+    private void ChangeSpriteOnMap(int startX, int startY, int endX, int endY)
     {
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
@@ -318,10 +322,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (CheckIndoorSet() == false && manager.ground_Object.isOutdoor && map.MapData[i,j].isOverridable)
+                if (CheckIndoorSet() == false && manager.ground_Object.isOutdoor && map.MapData[i, j].isOverridable)
                 {
-                        map.MapData[i, j].Texture = manager.ground_Object.texture;
-                        map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
+                    map.MapData[i, j].Texture = manager.ground_Object.texture;
+                    map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
                 }
                 else if (CheckIndoorSet() && manager.ground_Object.isIndoor && map.MapData[i, j].isOverridable)
                 {
@@ -339,11 +343,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         int maxX = Mathf.Max(startX, endX);
         int maxY = Mathf.Max(startY, endY);
 
-        for (int i= minX; i <= maxX; i++)
+        for (int i = minX; i <= maxX; i++)
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if(i == minX || i == maxX || j == minY || j == maxY)
+                if (i == minX || i == maxX || j == minY || j == maxY)
                 {
                     map.MapData[i, j].GetAllValues(manager.ground_Object);
                 }
@@ -362,7 +366,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if(i == minX || i == maxX || j == minY || j == maxY)
+                if (i == minX || i == maxX || j == minY || j == maxY)
                 {
                     map.MapData[i, j].GetAllValues(manager.wall_Object);
                 }
@@ -390,7 +394,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if(roomMap.RoomData[i,j].room != null || map.MapData[i,j].isOverridable == false)
+                if (roomMap.RoomData[i, j].room != null || map.MapData[i, j].isOverridable == false)
                 {
                     return true;
                 }
@@ -415,11 +419,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j < maxY; j++)
             {
-                if (map.MapData[i,j].IsIndoor)
+                if (map.MapData[i, j].IsIndoor)
                 {
                     return true;
                 }
-            } 
+            }
         }
         return false;
     }
@@ -460,7 +464,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (i == minX || i == maxX || j == minY || j == maxY)
                 {
-                   if (CheckIndoorSet() == false)
+                    if (CheckIndoorSet() == false)
                     {
                         map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
                     }
@@ -497,14 +501,14 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (hit.collider != null)
         {
-            RoomLogicObject TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x,(int)hit.transform.position.y].room;
+            RoomLogicObject TempRoomObject = roomMap.RoomData[(int)hit.transform.position.x, (int)hit.transform.position.y].room;
 
             for (int i = (int)TempRoomObject.Position.x; i < (int)TempRoomObject.Position.x + (int)TempRoomObject.Size.x; i++)
             {
                 for (int j = (int)TempRoomObject.Position.y; j < (int)TempRoomObject.Position.y + (int)TempRoomObject.Size.y; j++)
                 {
-                    roomMap.RoomData[i,j].room = null;
-                    roomMap.RoomData[i,j].Texture = null;
+                    roomMap.RoomData[i, j].room = null;
+                    roomMap.RoomData[i, j].Texture = null;
                     roomMap.RoomData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = null;
                 }
             }
@@ -513,17 +517,32 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void ObjectDestroymentOnMap(RaycastHit2D hit)
     {
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
-            if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null) return;
-            var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject.infos;
+            //@if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null) return;
+            if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object == null) return;
+            //@var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].infos;
+            var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.info.infos;
 
-            Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].ParentPosition;
+            //+
+            manager.AllObjects.Remove(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object);
+
+            // ???
+            //WorkManager wManager = gmanager.GetComponent<WorkManager>();
+            //if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.storagePlace1)
+            //{
+            //    DestroyImmediate(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.storagePlace1);
+            //}
+            // ???
+
+            //@Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].parentposition;
+            Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.position;
 
             for (int i = 0; i < info.Length; i++)
             {
                 var target = Reference + info[i].delta;
-                objectMap.ObjectData[(int)target.x, (int)target.y].startobject = null;
+                //@objectMap.ObjectData[(int)target.x, (int)target.y].startobject = null;
+                objectMap.ObjectData[(int)target.x, (int)target.y].@object = null;
                 objectMap.ObjectData[(int)target.x, (int)target.y].Texture = null;
                 objectMap.ObjectData[(int)target.x, (int)target.y].myObject.GetComponent<SpriteRenderer>().sprite = null;
             }
@@ -539,13 +558,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
         if (manager.DestroyTiles)
         {
-            DestroySpriteOnMap((int)startX,(int)startY,(int)endX,(int)endY);
+            DestroySpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
-        else if(manager.DestroyWalls)
+        else if (manager.DestroyWalls)
         {
             DestroyWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
-        else if(manager.DestroyFoundation)
+        else if (manager.DestroyFoundation)
         {
             DestroyFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }

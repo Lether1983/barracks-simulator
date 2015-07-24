@@ -11,6 +11,7 @@ public class KompanieObject :ScriptableObject
     public List<Soldiers> soldierList;
 
     public KompaniezugehoerigkeitsGruppen OberGruppe;
+    public Kompaniezugehorigkeit KompanieType;
     public Truster truster;
 
     void OnEnable()

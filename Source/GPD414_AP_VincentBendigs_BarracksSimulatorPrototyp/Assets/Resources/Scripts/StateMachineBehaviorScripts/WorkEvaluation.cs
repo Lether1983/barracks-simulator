@@ -11,6 +11,7 @@ public class WorkEvaluation : StateMachineBehaviour
         {
             evaluator = animator.gameObject.GetComponent<WorkEvaluator>();
         }
+        evaluator.GetEvaluationForWork();
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine

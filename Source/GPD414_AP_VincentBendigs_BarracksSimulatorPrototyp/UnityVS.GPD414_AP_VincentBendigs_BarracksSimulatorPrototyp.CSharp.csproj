@@ -78,6 +78,7 @@
     <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameManager\WorkManager.cs" />
     <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
+    <Compile Include="Assets\Resources\Scripts\LookUp.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGridNew.cs" />
     <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectBaseClass.cs" />

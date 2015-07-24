@@ -2,11 +2,11 @@
 using System.Collections;
 
 [System.Serializable]
-    public struct SpriteInfo
-    {
-        public Vector2 delta;
-        public Sprite texture;
-    }
+public struct SpriteInfo
+{
+    public Vector2 delta;
+    public Sprite texture;
+}
 
 [System.Flags]
 public enum UseableObjects : int
