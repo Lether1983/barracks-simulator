@@ -34,6 +34,7 @@ public class RoomLogicObject
             return RoomInfo.type;
         }
     }
+
     public ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
     {
         foreach (var item in Objects)

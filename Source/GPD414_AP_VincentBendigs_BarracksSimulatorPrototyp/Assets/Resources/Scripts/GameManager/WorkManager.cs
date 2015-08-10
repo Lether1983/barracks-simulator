@@ -1,31 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 
-public class WorkManager : MonoBehaviour 
+public class WorkManager : MonoBehaviour
 {
     public List<WorkObjects> FinishedWorkObjects = new List<WorkObjects>();
 
     public List<WorkTask> WorkInProgress = new List<WorkTask>();
     LookUp<TypeOfWork, WorkTask> lookUp = new LookUp<TypeOfWork, WorkTask>();
+    RoomManager manager;
 
-
-    public void CreateWork(TypeOfWork type, Vector2 StartPosition, Vector2 EndPosition, WorkObjects item,int targetUses)
+    public void Awake()
     {
-        WorkTask TempWork = new WorkTask(type, item, StartPosition, EndPosition,targetUses);
-        lookUp.Add(type,TempWork);
+        manager = this.gameObject.GetComponent<RoomManager>();
+    }
+
+    public void CreateWork(TypeOfWork type, Vector2 StartPosition, Vector2 EndPosition, WorkObjects item, int targetUses)
+    {
+        WorkTask TempWork = new WorkTask(type, item, StartPosition, EndPosition, targetUses);
+        lookUp.Add(type, TempWork);
     }
 
     public WorkTask GetWorkForMe(Soldiers soldiers)
     {
         foreach (var item in lookUp)
         {
-            if((soldiers.myJob.Types & item.Key) > 0 )
+            if ((soldiers.myJob.Types & item.Key) > 0)
             {
                 WorkTask temptask = item.Value[0];
 
-                lookUp.Remove(item.Key,temptask);
+                lookUp.Remove(item.Key, temptask);
 
                 return temptask;
             }
@@ -43,9 +49,7 @@ public class WorkManager : MonoBehaviour
         List<WorkTask> tempList = new List<WorkTask>();
         foreach (var item in WorkInProgress)
         {
-            if (item == null)
-                Debug.Log("Bleurgh");
-            if(item.type == type)
+            if (item.type == type)
             {
                 tempList.Add(item);
             }
@@ -58,21 +62,68 @@ public class WorkManager : MonoBehaviour
         List<WorkObjects> tempList = new List<WorkObjects>();
         foreach (var item in FinishedWorkObjects)
         {
-            if(item.Type == type)
+            if (item.Type == type)
             {
                 tempList.Add(item);
             }
-        }    
+        }
         return tempList;
     }
 
-    public void AddToLookUp(TypeOfWork type,WorkTask task)
+    public void AddToLookUp(TypeOfWork type, WorkTask task)
     {
         lookUp.Add(type, task);
     }
 
-    public void CreateAdvancedWork(TypeOfWork type,WorkObjects item,TypeofWorkObjects objectType)
+    public void CreateAdvancedWork(TypeOfWork type, WorkObjects Workitem)
     {
+        foreach (var item in FinishedWorkObjects)
+        {
+            if (type == TypeOfWork.Cooking)
+            {
+                WorkTask tempTask = new WorkTask(TypeOfWork.MovingFood, Workitem, Workitem.myObject.transform.position, GetTargetPosition(Workitem), 0);
+                AddToLookUp(TypeOfWork.MovingFood, tempTask);
+                FinishedWorkObjects.Remove(item);
+                break;
+            }
+        }
+    }
 
+    public Vector2 GetTargetPosition(WorkObjects WorkItem)
+    {
+        RoomLogicObject TempRoom;
+
+        for (int j = 0; j < manager.everywhereRooms.Count; j++)
+        {
+            TempRoom = manager.everywhereRooms[j];
+            if (TempRoom.type == TypeOfRoom.Kantine)
+            {
+                for (int i = 0; i < TempRoom.Objects.Count; i++)
+                {
+                    ObjectLogicObject tempObject = TempRoom.Objects[i];
+
+                    if (tempObject.info.name == WorkItem.target.name)
+                    {
+                        if (tempObject.storagePlace1 == null)
+                        {
+                            return new Vector3(tempObject.position.x, tempObject.position.y-1, -2f);
+                        }
+                        else if (tempObject.storagePlace2 == null)
+                        {
+                            return new Vector3(tempObject.position.x + 1, tempObject.position.y-1, -2f);
+                        }
+                        else if (tempObject.storagePlace3 == null)
+                        {
+                            return new Vector3(tempObject.position.x + 2, tempObject.position.y-1, -2f);
+                        }
+                        else if (tempObject.storagePlace4 == null)
+                        {
+                            return new Vector3(tempObject.position.x + 3, tempObject.position.y-1, -2f);
+                        }
+                    }
+                }
+            }
+        }
+        return Vector2.zero;
     }
 }

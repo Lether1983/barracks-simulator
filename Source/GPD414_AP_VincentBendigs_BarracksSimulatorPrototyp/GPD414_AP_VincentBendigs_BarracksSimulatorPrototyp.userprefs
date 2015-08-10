@@ -1,12 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Pathfinding\AStarManager.cs">
-    <Files>
-      <File FileName="Assets\Resources\Scripts\Pathfinding\AStarManager.cs" Line="49" Column="10" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Catchpoint exceptionName="System.AccessViolationException" />
+      <Catchpoint exceptionName="System.ApplicationException" />
+      <Catchpoint exceptionName="System.ArgumentException" />
+      <Catchpoint exceptionName="System.ArgumentNullException" />
+      <Catchpoint exceptionName="System.ArgumentOutOfRangeException" />
+      <Catchpoint exceptionName="System.ArithmeticException" />
+      <Catchpoint exceptionName="System.DivideByZeroException" />
+      <Catchpoint exceptionName="System.FormatException" />
+      <Catchpoint exceptionName="System.IndexOutOfRangeException" />
+      <Catchpoint exceptionName="System.InvalidCastException" />
+      <Catchpoint exceptionName="System.InvalidOperationException" />
+      <Catchpoint exceptionName="System.NotImplementedException" />
+      <Catchpoint exceptionName="System.NotSupportedException" />
+      <Catchpoint exceptionName="System.NullReferenceException" />
+      <Catchpoint exceptionName="System.OverflowException" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

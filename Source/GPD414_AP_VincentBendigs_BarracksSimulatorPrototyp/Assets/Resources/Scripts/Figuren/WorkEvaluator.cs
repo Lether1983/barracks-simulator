@@ -20,7 +20,7 @@ public class WorkEvaluator : MonoBehaviour
         {
             me.GoTo((GroundTile)map.MapData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y]);
             me.workManager.WorkInProgress.Add(me.currentTask);
-            animator.SetBool("DoWork",true);
+            animator.SetBool("DoWork", true);
         }
         else
         {

@@ -29,6 +29,8 @@ public class Soldiers : MonoBehaviour
     public Vector3 waypoint;
     public WorkTask currentTask;
 
+    public WorkObjects currentObjectToCarry;
+
     public float TrainingsLevel;
     public float isDirty;
     public float tired;
