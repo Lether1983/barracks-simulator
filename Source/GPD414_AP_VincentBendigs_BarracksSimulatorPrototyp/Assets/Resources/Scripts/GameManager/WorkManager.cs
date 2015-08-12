@@ -123,6 +123,24 @@ public class WorkManager : MonoBehaviour
                     }
                 }
             }
+            if(TempRoom.type == TypeOfRoom.Waeschekammer)
+            {
+                for (int i = 0; i < TempRoom.Objects.Count; i++)
+                {
+                    ObjectLogicObject tempObject2 = TempRoom.Objects[i];
+                    if (tempObject2.info.name == WorkItem.target.name)
+                    {
+                        if(tempObject2.storagePlace1 == null)
+                        {
+                            return new Vector3(tempObject2.position.x, tempObject2.position.y - 1, -2f);
+                        }
+                        else if(tempObject2.storagePlace2 == null)
+                        {
+                            return new Vector3(tempObject2.position.x+1, tempObject2.position.y - 1, -2f);
+                        }
+                    }
+                }
+            }
         }
         return Vector2.zero;
     }

@@ -9,7 +9,10 @@ public class WorkObjects : ScriptableObject
 
     public TypeofWorkObjects Type;
     public ObjectsObject target;
+    public ObjectsObject placeOfGeneration;
     public GameObject myObject;
     public Vector3 Position;
     public Sprite Image;
+    [EnumFlag]
+    public UseableObjects type;
 }

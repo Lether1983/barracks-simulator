@@ -85,6 +85,20 @@ public class Evaluator : MonoBehaviour
 
     }
 
+    bool CanSetBoolForUse(CheckScope checkScope,AttributeCheck attributes,AttributeCheck targetAttribute,float value,UseableObjects @object)
+    {
+        if ((attributes & targetAttribute) == 0) return false;
+        if (value < checkValue) return false;
+
+        if((checkScope & CheckScope.Everywhere) > 0 && (tempObject = me.roomManager.GetRoomObjects(@object)).storagePlace1 != null)
+        {
+            me.GoTo((GroundTile)map.MapData[(int)tempObject.storagePlace1.transform.position.x, (int)tempObject.storagePlace1.transform.position.y]);
+            return true;
+        }
+        return false;
+    }
+
+
     bool CanSetBool(CheckScope checkScope,AttributeCheck attributes,AttributeCheck targetAttribute,float value, UseableObjects @object)
     {
         if ((attributes & targetAttribute) == 0) return false;
@@ -139,7 +153,7 @@ public class Evaluator : MonoBehaviour
         {
             animator.SetBool("UseShower", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.ReduceHunger))
+        else if (CanSetBoolForUse(checki,attri,AttributeCheck.Hungry,me.hungry,UseableObjects.CanStore))
         {
             animator.SetBool("EatFood", true);
         }

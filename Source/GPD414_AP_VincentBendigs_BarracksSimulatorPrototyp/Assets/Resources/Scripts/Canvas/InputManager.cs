@@ -519,29 +519,17 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     {
         if (hit.collider != null)
         {
-            //@if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null) return;
             if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object == null) return;
-            //@var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].infos;
+           
             var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.info.infos;
 
-            //+
             manager.AllObjects.Remove(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object);
 
-            // ???
-            //WorkManager wManager = gmanager.GetComponent<WorkManager>();
-            //if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.storagePlace1)
-            //{
-            //    DestroyImmediate(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.storagePlace1);
-            //}
-            // ???
-
-            //@Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].parentposition;
             Vector2 Reference = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.position;
 
             for (int i = 0; i < info.Length; i++)
             {
                 var target = Reference + info[i].delta;
-                //@objectMap.ObjectData[(int)target.x, (int)target.y].startobject = null;
                 objectMap.ObjectData[(int)target.x, (int)target.y].@object = null;
                 objectMap.ObjectData[(int)target.x, (int)target.y].Texture = null;
                 objectMap.ObjectData[(int)target.x, (int)target.y].myObject.GetComponent<SpriteRenderer>().sprite = null;

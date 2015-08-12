@@ -106,7 +106,8 @@ public class Soldiers : MonoBehaviour
             shouldMove = false;
             MessageBusManager.AddMessage<int>("Reachtarget", 1);
         }
-        else if (shouldMove)
+
+        if (shouldMove)
         {
             this.transform.Translate(waypoint.x - transform.position.x, waypoint.y - transform.position.y, 0);
         }

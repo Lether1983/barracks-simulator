@@ -7,6 +7,7 @@ public class DoWorkState : StateMachineBehaviour
     Soldiers me;
     WorkEvaluator evaluator;
     TileMap map = TileMap.Instance();
+    ObjectTileMap ObjectMap = ObjectTileMap.Instance();
     float elapsedTime;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -55,21 +56,32 @@ public class DoWorkState : StateMachineBehaviour
         }
         else if (me.currentTask.type == TypeOfWork.MovingFood)
         {
-            if ((Vector2)me.transform.position == me.currentTask.StartPosition)
-            {
-                me.currentObjectToCarry = me.currentTask.Item;
-                me.currentTask.Item.myObject.SetActive(false);
-                me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
-            }
-            else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
-            {
-                me.currentObjectToCarry.myObject.SetActive(true);
-                me.currentObjectToCarry.myObject.transform.position = new Vector3(me.currentTask.EndPosition.x, me.currentTask.EndPosition.y + 1,-2f);
-                me.workManager.WorkInProgress.Remove(me.currentTask);
-                me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
-                me.currentTask = null;
-                animator.SetBool("DoWork", false);
-            }
+            MoveItemFromStartToEnd(animator);
+        }
+        else if(me.currentTask.type == TypeOfWork.MovingMaterial)
+        {
+            MoveItemFromStartToEnd(animator);
+        }
+    }
+
+    private void MoveItemFromStartToEnd(Animator animator)
+    {
+        if ((Vector2)me.transform.position == me.currentTask.StartPosition)
+        {
+            ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.storagePlace1 = null;
+            me.currentObjectToCarry = me.currentTask.Item;
+            me.currentTask.Item.myObject.SetActive(false);
+            me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
+        }
+        else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
+        {
+            me.currentObjectToCarry.myObject.SetActive(true);
+            me.currentObjectToCarry.myObject.transform.position = new Vector3(me.currentTask.EndPosition.x, me.currentTask.EndPosition.y + 1, -2f);
+            ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.storagePlace1 = me.currentObjectToCarry.myObject;
+            me.workManager.WorkInProgress.Remove(me.currentTask);
+            me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
+            me.currentTask = null;
+            animator.SetBool("DoWork", false);
         }
     }
 
