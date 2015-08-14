@@ -32,6 +32,7 @@ public class ObjectsObject : ScriptableObject
 
     public SpriteInfo[] infos;
     public bool isPassible;
+    public int storageSize;
     [EnumFlag]
     public UseableObjects type;
 }

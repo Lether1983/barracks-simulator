@@ -8,12 +8,19 @@ public class ObjectLogicObject
     public ObjectsObject info;
     public RoomLogicObject Room;
     public bool isInUse;
-    public GameObject storagePlace1;
-    public GameObject storagePlace2;
-    public GameObject storagePlace3;
-    public GameObject storagePlace4;
+    private WorkObjects[] storage;
 
-
+    public WorkObjects[] Storage
+    {
+        get
+        {
+            if (storage == null)
+            {
+                storage = new WorkObjects[info.storageSize];
+            }
+            return storage;
+        }
+    }
     public UseableObjects type
     {
         get
@@ -36,68 +43,56 @@ public class ObjectLogicObject
 
             for (int i = 0; i < FullPlateCount; i++)
             {
-                if (storagePlace1 == null)
+                for (int j = 0; j < Storage.Length; j++)
                 {
-                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x, position.y, -2f), Quaternion.identity) as GameObject;
-                    temp.name = "Essen";
-                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
-                    storagePlace1 = temp;
-                    WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
-                    Food.myObject = temp;
+                    if (Storage[j] == null)
+                    {
+                        GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + j, position.y, -2f), Quaternion.identity) as GameObject;
+                        temp.name = "Essen";
+                        temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
+                        WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
+                        Storage[j] = Food;
+                        Food.myObject = temp;
 
-                    manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x, position.y - 1), new Vector2(position.x, position.y), Food,10);
-                }
-                else if (storagePlace2 == null)
-                {
-                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + 1, position.y, -2f), Quaternion.identity) as GameObject;
-                    temp.name = "Essen";
-                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
-                    storagePlace2 = temp;
-                    WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
-                    Food.myObject = temp;
-
-                    manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x + 1, position.y - 1), new Vector2(position.x + 1, position.y), Food,10);
+                        manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x + j, position.y - 1), new Vector2(position.x + j, position.y), Food, 10);
+                    }
                 }
             }
-            if(LastPlateUses != 0)
+            if (LastPlateUses != 0)
             {
-                if (storagePlace1 == null)
+                for (int j = 0; j < Storage.Length; j++)
                 {
-                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x, position.y, -2f), Quaternion.identity) as GameObject;
-                    temp.name = "Essen";
-                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
-                    storagePlace1 = temp;
-                    WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
-                    Food.myObject = temp;
+                    if (Storage[j] == null)
+                    {
+                        GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + j, position.y, -2f), Quaternion.identity) as GameObject;
+                        temp.name = "Essen";
+                        temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
+                        WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
+                        Storage[j] = Food;
+                        Food.myObject = temp;
 
-                    manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x, position.y - 1), new Vector2(position.x, position.y), Food,LastPlateUses);
-                }
-                else if (storagePlace2 == null)
-                {
-                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + 1, position.y, -2f), Quaternion.identity) as GameObject;
-                    temp.name = "Essen";
-                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Essen");
-                    storagePlace2 = temp;
-                    WorkObjects Food = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Essen"));
-                    Food.myObject = temp;
-
-                    manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x + 1, position.y - 1), new Vector2(position.x + 1, position.y), Food,LastPlateUses);
+                        manager.CreateWork(TypeOfWork.Cooking, new Vector2(position.x + j, position.y - 1), new Vector2(position.x + j, position.y), Food, LastPlateUses);
+                        break;
+                    }
                 }
             }
         }
-       
+
         if (info.name == "Wäschekorb")
         {
-            if (storagePlace1 == null)
+            for (int j = 0; j < Storage.Length; j++)
             {
-                GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x, position.y, -2f), Quaternion.identity) as GameObject;
-                temp.name = "Clothing";
-                temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Klamotten");
-                storagePlace1 = temp;
-                WorkObjects Kleidung = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Kleidung"));
-                Kleidung.myObject = temp;
+                if (Storage[j] == null)
+                {
+                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + j, position.y, -2f), Quaternion.identity) as GameObject;
+                    temp.name = "Clothing";
+                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Klamotten");
+                    WorkObjects Kleidung = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Kleidung"));
+                    Storage[j] = Kleidung;
+                    Kleidung.myObject = temp;
 
-                manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x, position.y - 1), manager.GetTargetPosition(Kleidung), Kleidung,1);
+                    manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x + j, position.y - 1), manager.GetTargetPosition(Kleidung), Kleidung, 1);
+                }
             }
         }
     }

@@ -256,16 +256,4 @@ public class GameManager : MonoBehaviour
             images[i].GetComponent<Image>().color = kompanie.truster.trusterplan[i].color;
         }
     }
-
-    public void SetDestinationWithAButton()
-    {
-
-        controller.getTargetPosition((GroundTile)map.MapData[256, 260]);
-        controller.GetFinalPath();
-    }
-
-    public void ResetPerson()
-    {
-        controller.gameObject.transform.position = new Vector3(256, 240, -2);
-    }
 }

@@ -96,6 +96,7 @@
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\WorkEvaluation.cs" />
+     <Compile Include="Assets\Resources\Scripts\UIAnzeige.cs" />
      <Compile Include="Assets\Resources\Scripts\WorkTask.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

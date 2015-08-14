@@ -23,6 +23,7 @@ public class EatFoodState : StateMachineBehaviour
     {
         if ((Vector2)me.transform.position == evaluator.tempObject.position)
         {
+            
             if (me.hungry > 0)
             {
                 me.hungry -= (5 / 3600f+76f / 1800f) * Time.deltaTime * me.manager.speed;
@@ -37,6 +38,7 @@ public class EatFoodState : StateMachineBehaviour
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
+        
         animator.SetBool("EatFood", false);
 	}
 

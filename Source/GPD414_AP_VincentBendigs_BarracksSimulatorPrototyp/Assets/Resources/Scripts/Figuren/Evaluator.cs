@@ -89,15 +89,29 @@ public class Evaluator : MonoBehaviour
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
-
-        if((checkScope & CheckScope.Everywhere) > 0 && (tempObject = me.roomManager.GetRoomObjects(@object)).storagePlace1 != null)
+        if ((checkScope & CheckScope.Everywhere) > 0)
         {
-            me.GoTo((GroundTile)map.MapData[(int)tempObject.storagePlace1.transform.position.x, (int)tempObject.storagePlace1.transform.position.y]);
-            return true;
+            for (int i = 0; i < me.roomManager.GetRoomObjects(@object).Storage.Length; i++)
+            {
+                if ((tempObject = me.roomManager.GetRoomObjects(@object)).Storage[i] != null)
+                {
+                    me.GoTo((GroundTile)map.MapData[(int)tempObject.Storage[i].myObject.transform.position.x, (int)tempObject.Storage[i].myObject.transform.position.y]);
+                    if (me.roomManager.GetRoomObjects(@object).Storage[i] != null)
+                    {
+                        me.roomManager.GetRoomObjects(@object).Storage[i].Uses -= 3;
+                        if (me.roomManager.GetRoomObjects(@object).Storage[i].Uses <= 0)
+                        {
+                            Destroy(me.roomManager.GetRoomObjects(@object).Storage[i].myObject);
+                            me.workManager.FinishedWorkObjects.Remove(me.roomManager.GetRoomObjects(@object).Storage[i]);
+                            me.roomManager.GetRoomObjects(@object).Storage[i] = null;
+                        }
+                    }
+                    return true;
+                }
+            }
         }
         return false;
     }
-
 
     bool CanSetBool(CheckScope checkScope,AttributeCheck attributes,AttributeCheck targetAttribute,float value, UseableObjects @object)
     {

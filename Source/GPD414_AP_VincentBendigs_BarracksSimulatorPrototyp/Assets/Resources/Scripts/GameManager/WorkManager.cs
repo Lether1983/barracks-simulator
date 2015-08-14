@@ -104,21 +104,12 @@ public class WorkManager : MonoBehaviour
 
                     if (tempObject.info.name == WorkItem.target.name)
                     {
-                        if (tempObject.storagePlace1 == null)
+                        for (int k = 0; k < tempObject.Storage.Length; k++)
                         {
-                            return new Vector3(tempObject.position.x, tempObject.position.y-1, -2f);
-                        }
-                        else if (tempObject.storagePlace2 == null)
-                        {
-                            return new Vector3(tempObject.position.x + 1, tempObject.position.y-1, -2f);
-                        }
-                        else if (tempObject.storagePlace3 == null)
-                        {
-                            return new Vector3(tempObject.position.x + 2, tempObject.position.y-1, -2f);
-                        }
-                        else if (tempObject.storagePlace4 == null)
-                        {
-                            return new Vector3(tempObject.position.x + 3, tempObject.position.y-1, -2f);
+                            if (tempObject.Storage[k] == null)
+                            {
+                                return new Vector3(tempObject.position.x + k, tempObject.position.y - 1, -2f);
+                            }
                         }
                     }
                 }
@@ -130,13 +121,12 @@ public class WorkManager : MonoBehaviour
                     ObjectLogicObject tempObject2 = TempRoom.Objects[i];
                     if (tempObject2.info.name == WorkItem.target.name)
                     {
-                        if(tempObject2.storagePlace1 == null)
+                        for (int l = 0; l < tempObject2.Storage.Length; l++)
                         {
-                            return new Vector3(tempObject2.position.x, tempObject2.position.y - 1, -2f);
-                        }
-                        else if(tempObject2.storagePlace2 == null)
-                        {
-                            return new Vector3(tempObject2.position.x+1, tempObject2.position.y - 1, -2f);
+                            if (tempObject2.Storage[l] == null)
+                            {
+                                return new Vector3(tempObject2.position.x + l, tempObject2.position.y - 1, -2f);
+                            }
                         }
                     }
                 }

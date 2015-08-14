@@ -42,6 +42,7 @@ public class Soldiers : MonoBehaviour
     public bool shouldMove = false;
 
 
+    
     void Start()
     {
         subscribtion = MessageBusManager.Subscribe<RoomLogicObject>("freeStube");
@@ -49,6 +50,7 @@ public class Soldiers : MonoBehaviour
         subscribtion1 = MessageBusManager.Subscribe<RoomLogicObject>("FreeWorkPlace");
         subscribtion1.OnMessageReceived += freeWorkMessage_OnMessagesReceived;
         manager = roomManager.gameObject.GetComponent<GameManager>();
+   
         manager.AllSoldiers.Add(this);
     }
 

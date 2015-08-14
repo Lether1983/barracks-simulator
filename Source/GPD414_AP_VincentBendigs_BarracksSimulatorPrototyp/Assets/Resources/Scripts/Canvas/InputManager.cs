@@ -123,7 +123,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                     }
                 }
             }
-            DrawSelectionBox(eventData);
+            DrawSelectionBox();
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -256,7 +256,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
-    private void DrawSelectionBox(PointerEventData eventData)
+    private void DrawSelectionBox()
     {
         float xDif;
         float yDif;

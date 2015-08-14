@@ -68,18 +68,40 @@ public class DoWorkState : StateMachineBehaviour
     {
         if ((Vector2)me.transform.position == me.currentTask.StartPosition)
         {
-            ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.storagePlace1 = null;
+            int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
+            ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
             me.currentObjectToCarry = me.currentTask.Item;
             me.currentTask.Item.myObject.SetActive(false);
             me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
         }
         else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
         {
-            me.currentObjectToCarry.myObject.SetActive(true);
-            me.currentObjectToCarry.myObject.transform.position = new Vector3(me.currentTask.EndPosition.x, me.currentTask.EndPosition.y + 1, -2f);
-            ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.storagePlace1 = me.currentObjectToCarry.myObject;
+            for (int i = 0; i < ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.Storage.Length; i++)
+            {
+                if (me.currentObjectToCarry.Uses > 0)
+                {
+                    if (ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.Storage[i] == null)
+                    {
+                        me.currentObjectToCarry.myObject.SetActive(true);
+                        me.currentObjectToCarry.myObject.transform.position = new Vector3(me.currentTask.EndPosition.x, me.currentTask.EndPosition.y + 1, -2f);
+                        ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage[i] = me.currentObjectToCarry;
+                        me.workManager.WorkInProgress.Remove(me.currentTask);
+                        me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
+                        me.currentTask = null;
+                        animator.SetBool("DoWork", false);
+                        return;
+                    }
+                    else
+                    {
+                        int delta = Mathf.Clamp(10 - ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage[i].Uses, 0, me.currentObjectToCarry.Uses);
+                        me.currentObjectToCarry.Uses -= delta;
+                        ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage[i].Uses += delta;
+                    }
+                }
+            }
+            Destroy(me.currentObjectToCarry.myObject);
+            me.currentObjectToCarry = null;
             me.workManager.WorkInProgress.Remove(me.currentTask);
-            me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
             me.currentTask = null;
             animator.SetBool("DoWork", false);
         }
