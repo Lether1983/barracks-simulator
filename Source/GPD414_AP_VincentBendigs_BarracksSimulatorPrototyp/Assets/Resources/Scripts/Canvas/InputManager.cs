@@ -20,12 +20,12 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     GameManager manager;
     Vector2 startPos;
     Vector2 endPos;
-    float yScaler;
-    float xScaler;
-    private float endX;
-    private float endY;
-    private float startX;
-    private float startY;
+    float yScaler; //TODO: Vector draus machen
+    float xScaler; //TODO: Vector draus machen
+    private float endX; //TODO: Vector draus machen.
+    private float endY; //TODO: Vector draus machen.
+    private float startX; //TODO: Vector draus machen.
+    private float startY; //TODO: Vector draus machen.
     #endregion#
 
     private void Awake()
@@ -42,6 +42,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     void Update()
     {
+        //TODO: scaler = GetComponent<CanvasScaler>().referenceResolution.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
+        //Scale führt folgendes aus:
+        //x *= v.x;
+        //y *= v.y;
+        //v = angegebener Vektor
         xScaler = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         yScaler = GetComponent<CanvasScaler>().referenceResolution.y / Screen.height;
     }
@@ -52,11 +57,21 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             startPos = eventData.position;
 
+            //HACK: Es kann definitiv anders gemacht werden (es ist kein Raycast nötig)
+            // Allerdings braucht dies ein wenig Änderung in deiner gesamten Anwendung.
+            // Du kannst nämlich die Position des Hits auch auf eine Index-Position berechnen.
+            // Dafür müsstest du die eventData.position in eine WorldPosition umrechnen
+            // und diese dann durch die Tile-Size teilen und den floor nehmen. Danach brauchst du nur noch
+            // diesen veränderten Vektor als Ersatz für deinen Hit-Transform nutzen.
+
             Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
             RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
 
             if (manager.InObjectBuildMode)
             {
+                //TODO: ObjectMap auf Indexer ändern!
+                //TODO: Zwischenspeichern des Objects.
+                //ObjectBaseClass hitObject = objectMap[hit.transporm.position];
                 if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
                     map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].isOverridable)
                 {
@@ -97,7 +112,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         else if (eventData.button == PointerEventData.InputButton.Middle)
         {
-
+            //TODO: Kann entfernt werden?
         }
     }
 
@@ -113,6 +128,8 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 DrawRect = true;
                 DestroyDrawRect = true;
+                //TODO: Vector2 kann verglichen werden.
+                // mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos) == mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos)
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
@@ -127,7 +144,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-
+            // Unwichtig?
         }
     }
 
@@ -298,21 +315,24 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
         if (manager.ground_Object != null && !manager.BuildWalls)
         {
+            //TODO: Vector2 nutzen!
             ChangeSpriteOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
         if (manager.BuildWalls)
         {
-
+            //TODO: Vector2 nutzen!
             DrawWallLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
         else if (manager.BuildFoundation)
         {
+            //TODO: Vector2 nutzen!
             DrawFoundationLogicOnMap((int)startX, (int)startY, (int)endX, (int)endY);
         }
     }
 
     private void ChangeSpriteOnMap(int startX, int startY, int endX, int endY)
     {
+        //TODO: Hier könnte eine Extension-Methode verwendet werden.
         int minX = Mathf.Min(startX, endX);
         int minY = Mathf.Min(startY, endY);
         int maxX = Mathf.Max(startX, endX);
@@ -324,6 +344,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (CheckIndoorSet() == false && manager.ground_Object.isOutdoor && map.MapData[i, j].isOverridable)
                 {
+                    //TODO: Indexer für vereinfachten Zugriff nutzen.
                     map.MapData[i, j].Texture = manager.ground_Object.texture;
                     map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.ground_Object.texture;
                 }
@@ -488,6 +509,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
+                //TODO: Hier sollte eventuell map.MapData[i, j].GetAllValues(manager.OutdoorDefault) ausgeführt werden.
                 map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
                 map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
                 map.MapData[i, j].IsIndoor = false;
@@ -507,6 +529,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 for (int j = (int)TempRoomObject.Position.y; j < (int)TempRoomObject.Position.y + (int)TempRoomObject.Size.y; j++)
                 {
+                    //TODO: Der Raum sollte auch aus der Raumliste entfernt werden!
                     roomMap.RoomData[i, j].room = null;
                     roomMap.RoomData[i, j].Texture = null;
                     roomMap.RoomData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = null;

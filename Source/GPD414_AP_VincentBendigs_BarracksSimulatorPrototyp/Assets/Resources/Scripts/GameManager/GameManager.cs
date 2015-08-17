@@ -55,9 +55,11 @@ public class GameManager : MonoBehaviour
     public bool DestroyFoundation;
     #endregion
 
+    //TODO: Property machen, das aus einem Enum eine Größe macht bzw. das hinterlegte Enum als Referenz verwendet.
     int bigMaxMapSize = 512;
     int smallMaxMapSize = 128;
     int middMaxMapSize = 256;
+    //TODO: Hieraus ein Enum machen! Mit {Small, Medium, Large}
     bool smallMap = false;
     bool midMap = false;
     bool largeMap = true;
@@ -81,12 +83,14 @@ public class GameManager : MonoBehaviour
     {
         foreach (var item in AllObjects)
         {
+            //TODO: Dies schon im Awake ausführen (oder als Serialisierbares (Private oder Public) Feld in den GameManager packen, damit dies nicht immer ausgeführt wird.
             item.Update(this.gameObject.GetComponent<WorkManager>());
         }
     }
 
     void GenerateAMap(TileMap map)
     {
+        //TODO: Enum
         if (smallMap)
         {
             map.StartFieldOfViewValue = 20;
@@ -116,6 +120,9 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+        //TODO: Indexer in Map (vereinfacht vieles)
+        //TODO: Zwischenspeichern des Tiles.
+        //TileBaseClass tile = map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y];
         if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsOutdoor)
         {
             if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].isOverridable)
@@ -152,6 +159,7 @@ public class GameManager : MonoBehaviour
 
     public void DestroyOneTile(GameObject hittedGameobject)
     {
+        //TODO: Zwischenspeichern!
         if (map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y].IsIndoor == false)
         {
             if (DestroyTiles)
@@ -188,6 +196,7 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < object_object.infos.Length; i++)
         {
+            //TODO: Die ObjectData zwischenspeichern.
             Vector2 Reference = objectMap.ObjectData[(int)hittetObject.transform.position.x, (int)hittetObject.transform.position.y].@object.position;
             Vector2 HittetTransform = hittetObject.transform.position;
             Vector2 delta = HittetTransform - Reference;
@@ -206,6 +215,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < room_object.infos.Length; i++)
         {
+            //TODO: Room zwischenspeichern.
             Vector2 Reference = roomMap.RoomData[(int)hittetObjectForRoom.transform.position.x, (int)hittetObjectForRoom.transform.position.y].room.Position;
             Vector2 HittetTransform = hittetObjectForRoom.transform.position;
             Vector2 delta = HittetTransform - Reference;
@@ -242,6 +252,7 @@ public class GameManager : MonoBehaviour
     {
         if (state != null)
         {
+            //TODO: Hier wäre es besser, ein Skript "Truster" zu haben, was die Änderung des Namens und der Farbe übernimmt, damit nicht immer GetComponent ausgeführt werden muss.
             kompanie.truster.trusterplan[hour] = state;
             images[hour].GetComponentInChildren<Text>().text = state.name;
             images[hour].GetComponent<Image>().color = state.color;
@@ -252,6 +263,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < images.Length; i++)
         {
+            //TODO: "Truster"-Skript. Siehe in SetTruster(hour).
             images[i].GetComponentInChildren<Text>().text = kompanie.truster.trusterplan[i].name;
             images[i].GetComponent<Image>().color = kompanie.truster.trusterplan[i].color;
         }

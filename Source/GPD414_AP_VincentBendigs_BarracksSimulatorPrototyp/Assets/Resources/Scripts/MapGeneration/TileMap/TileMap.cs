@@ -1,18 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+//TODO: Whitespace (mehr als eine Zeile) entfernen!
 public class TileMap
 {
+    /* TODO: Indexer implementieren.
+    Es wäre eventuell angenehmer, wenn statt TileMap.Instance.MapData[x, y]
+    TileMap.Instance[x, y] verwendet würde und die Logik zum Mapping von
+    x >= 0 & x < Width
+    y >= 0 & y < Height.
+    Beispiel:
+    public TileBaseClass this[int x, int y]
+    {
+        get
+        {
+            x = Mathf.Clamp(x, 0, MapData.GetLength(0));
+            y = Mathf.Clamp(y, 0, MapData.GetLength(1));
+            return mapData[x, y];
+        }
+    }
+    Zudem kann die float-Prüfung ebenfalls auf den Indexer verschoben werden.
+    public TileBaseClass this[float x, float y]
+    {
+        get
+        {
+            x = Mathf.FloorToInt(Mathf.Clamp(x, 0, MapData.GetLength(0)));
+            y = Mathf.FloorToInt(Mathf.Clamp(x, 0, MapData.GetLength(1)));
+            return mapData[x, y];
+        }
+    }
+    Außerdem könnte in einen Indexer auch ein Vektor eingebaut werden:
+    public TileBaseClass this[Vector2 v]
+    {
+        get
+        {
+            return this[v.x, v.y];
+        }
+    }
+    mapData ist dann ein privates Feld.
+    */
+
     #region Fields
     public TileBaseClass[,] MapData;
-    public static TileMap instance;
+    public static TileMap instance; //TODO: Meine Meinung: statische Werte an den Anfang schreiben.
     public int BuyfieldSize = 44;
     public int StartFieldOfViewValue;
-    public float purchasedLandWidthMax;
-    public float purchasedLandWidthMin;
-    public float purchasedLandHeightMax;
-    public float purchasedLandHeightMin;
+    public float purchasedLandWidthMax; //TODO: Die Breite ist doch eine Ganzzahl.
+    public float purchasedLandWidthMin; //TODO: Die Breite ist doch eine Ganzzahl.
+    public float purchasedLandHeightMax; //TODO: Die Höhe ist doch eine Ganzzahl.
+    public float purchasedLandHeightMin; //TODO: Die Höhe ist doch eine Ganzzahl.
     #endregion
   
     CaveRandomShowMap ShowMap;
@@ -73,7 +109,17 @@ public class TileMap
 
 
 
-
+    //TODO: Hieraus eine Property machen.
+    /*
+    public static TileMap Instance
+    {
+        get
+        {
+            if (instance == null) instance = new TileMap();
+            return instance;
+        }
+    }
+    */
     public static TileMap Instance()
     {
         if (instance == null)
