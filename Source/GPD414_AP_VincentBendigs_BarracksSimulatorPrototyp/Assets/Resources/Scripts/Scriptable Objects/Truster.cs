@@ -23,6 +23,7 @@ public class Truster : ScriptableObject
 
     public void fillTrusterPlan()
     {
+        //TODO: Noch genutzt? Wenn ja, wofür :D Wird doch eigentlich alles im ScriptableObject behandelt, oder?
         for (int i = 0; i < trusterplan.Length; i++)
 		{
 		    if(i == 0 || i > 0 || i < 6 ||i == 23)

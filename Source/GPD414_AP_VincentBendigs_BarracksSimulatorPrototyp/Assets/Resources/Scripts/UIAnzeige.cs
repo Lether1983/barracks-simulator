@@ -8,6 +8,7 @@ public class UIAnzeige : MonoBehaviour
 
     void Update()
     {
+        //.ToString()
         this.gameObject.GetComponent<Text>().text = ""+ gmanager.AllSoldiers.Count;
     }
 }

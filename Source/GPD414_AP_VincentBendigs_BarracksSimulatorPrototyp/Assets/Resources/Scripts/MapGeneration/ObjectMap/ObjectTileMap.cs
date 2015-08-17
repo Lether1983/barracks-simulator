@@ -19,6 +19,7 @@ public class ObjectTileMap
         }
     }
 
+    //TODO: Property draus machen. Siehe TileMap.
     public static ObjectTileMap Instance()
     {
         if (instance == null)

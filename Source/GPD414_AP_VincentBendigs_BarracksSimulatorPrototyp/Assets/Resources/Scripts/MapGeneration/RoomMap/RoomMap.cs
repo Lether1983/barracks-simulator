@@ -19,6 +19,7 @@ public class RoomMap
         }
     }
 
+    //TODO: Property draus machen! (Siehe TileMap)
     public static RoomMap Instance()
     {
         if (instance == null)

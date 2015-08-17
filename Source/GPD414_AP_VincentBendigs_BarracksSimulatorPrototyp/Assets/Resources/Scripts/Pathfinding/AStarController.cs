@@ -5,6 +5,7 @@ using DH.Messaging.Bus;
 
 public class AStarController : MonoBehaviour 
 {
+    //TODO: Ein wenig sortieren wäre nicht schlecht. Zuerst public Zeug, dann protected dann private.
     AStarManager controller;
     MessageSubscription<int> subscribtion;
     public Stack<GroundTile> finalPath;

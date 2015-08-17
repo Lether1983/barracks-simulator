@@ -25,11 +25,14 @@ public class RoomManager : MonoBehaviour
     public void addNewRoom(RoomLogicObject room)
     {
         everywhereRooms.Add(room);
-
+        //TODO: Message mit "newroom" und dann den Raum reinhauen?
+        // Liegt wahrscheinlich näher als für alles n neue Message rauszuhauen.
         if(room.type == TypeOfRoom.Stube)
         {
             MessageBusManager.AddMessage<RoomLogicObject>("freeStube", room);
         }
+        //TODO: Du hast room.RoomInfo.RoomUsability was habitable, useable oder laborFactor ist.
+        // Nutz das doch für die Entscheidung, welche Message geworfen wird.
         if(room.type == TypeOfRoom.Kueche)
         {
             MessageBusManager.AddMessage<RoomLogicObject>("FreeWorkPlace", room);

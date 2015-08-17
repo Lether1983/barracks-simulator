@@ -96,6 +96,26 @@ public class WorkManager : MonoBehaviour
         for (int j = 0; j < manager.everywhereRooms.Count; j++)
         {
             TempRoom = manager.everywhereRooms[j];
+            //TODO: Der Code ist redundant.
+            // Lösung:
+            /*
+            for (int i = 0; i < TempRoom.Objects.Count; i++)
+            {
+                ObjectLogicObject tempObject = TempRoom.Objects[i];
+
+                if (tempObject.info.name == WorkItem.target.name)
+                {
+                    for (int k = 0; k < tempObject.Storage.Length; k++)
+                    {
+                        if (tempObject.Storage[k] == null)
+                        {
+                            return new Vector3(tempObject.position.x + k, tempObject.position.y - 1, -2f);
+                        }
+                    }
+                }
+            }
+            statt der zwei Ifs.
+            */
             if (TempRoom.type == TypeOfRoom.Kantine)
             {
                 for (int i = 0; i < TempRoom.Objects.Count; i++)

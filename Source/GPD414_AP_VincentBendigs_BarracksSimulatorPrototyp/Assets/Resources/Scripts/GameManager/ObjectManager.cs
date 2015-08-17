@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ObjectManager : MonoBehaviour
 {
+    //TODO: Weg damit? :D
+    //Nimm wenigstens Start/Update raus.
     #region Objects Bools
     public bool IplaceShower;
     public bool DoorPlacement;

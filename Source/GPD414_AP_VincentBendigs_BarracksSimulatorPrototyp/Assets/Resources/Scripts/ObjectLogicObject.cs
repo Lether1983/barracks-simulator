@@ -31,6 +31,8 @@ public class ObjectLogicObject
 
     public void Update(WorkManager manager)
     {
+        //TODO: Hier fällt mir leider nichts ein, was man verbessern könnte. Eventuell nurnoch in eine Funktion auslagern.
+        // Im Sinne von "CreateFood()".
         if (info.name == "Herd")
         {
             //Gesamt Objects Uses
