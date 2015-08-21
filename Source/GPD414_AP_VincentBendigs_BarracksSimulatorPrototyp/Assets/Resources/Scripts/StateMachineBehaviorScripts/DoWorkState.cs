@@ -6,8 +6,8 @@ public class DoWorkState : StateMachineBehaviour
 
     Soldiers me;
     WorkEvaluator evaluator;
-    TileMap map = TileMap.Instance();
-    ObjectTileMap ObjectMap = ObjectTileMap.Instance();
+    TileMap map = TileMap.Instance;
+    ObjectTileMap ObjectMap = ObjectTileMap.Instance;
     float elapsedTime;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

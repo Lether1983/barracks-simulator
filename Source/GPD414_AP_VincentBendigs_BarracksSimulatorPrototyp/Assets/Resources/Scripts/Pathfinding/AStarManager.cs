@@ -13,7 +13,7 @@ public class AStarManager : MonoBehaviour
 
     void Awake()
     {
-        tileMap = TileMap.Instance();
+        tileMap = TileMap.Instance;
     }
 
     public int GetTotalCost(int currentTotalCost,int nextTotalCost)

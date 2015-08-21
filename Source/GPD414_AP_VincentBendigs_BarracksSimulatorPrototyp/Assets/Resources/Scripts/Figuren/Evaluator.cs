@@ -37,7 +37,7 @@ public class Evaluator : MonoBehaviour
     public trusterStates currentTrusterState;
     public ObjectLogicObject tempObject;
     MessageSubscription<ChangeStateEventArgs> subscribtion;
-    TileMap map = TileMap.Instance();
+    TileMap map = TileMap.Instance;
     [SerializeField]
     Soldiers me;
     [SerializeField]

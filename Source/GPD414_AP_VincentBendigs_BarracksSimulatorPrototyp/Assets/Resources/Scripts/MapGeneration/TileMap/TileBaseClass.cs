@@ -17,8 +17,7 @@ public class TileBaseClass : ICloneable
     public int movementCost;
     public Sprite Texture;
     protected List<TileBaseClass> neighbors;
-    protected TileMap map = TileMap.Instance();
-    int temp = 0; //TODO: Entfernen. Wird nirgends verwendet.
+    protected TileMap map = TileMap.Instance;
 
     //TODO: Virtuel entfernen, da GetNeighbours() immer neighbours zurückgibt und nirgends überschrieben wird.
     public virtual List<TileBaseClass> GetNeighbors()
@@ -47,6 +46,7 @@ public class TileBaseClass : ICloneable
             }
         }
     }
+
     public void GetAllValues(GroundObject groundObject)
     {
         this.IsPassible = groundObject.isPassible;
@@ -61,6 +61,7 @@ public class TileBaseClass : ICloneable
             myObject.GetComponent<SpriteRenderer>().sprite = groundObject.texture;
         }
     }
+
     public System.Object Clone()
     {
         return this.MemberwiseClone();

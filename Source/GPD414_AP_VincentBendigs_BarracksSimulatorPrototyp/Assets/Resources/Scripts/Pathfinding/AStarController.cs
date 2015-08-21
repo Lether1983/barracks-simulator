@@ -5,18 +5,49 @@ using DH.Messaging.Bus;
 
 public class AStarController : MonoBehaviour 
 {
-    //TODO: Ein wenig sortieren wäre nicht schlecht. Zuerst public Zeug, dann protected dann private.
-    AStarManager controller;
-    MessageSubscription<int> subscribtion;
+    public int totalCost = 0;
     public Stack<GroundTile> finalPath;
     public List<GroundTile> OpenList;
+    AStarManager controller;
+    MessageSubscription<int> subscribtion;
     List<GroundTile> ClosedList;
     GroundTile rootNode;
     GroundTile destination;
     float Distanz = 0;
     int rootTotalCost = 0;
-    public int totalCost = 0;
 
+    public int GetTotalCost(int currentTotalCost, int nextTotalCost)
+    {
+        int newTotalcost = currentTotalCost + nextTotalCost;
+        return newTotalcost;
+    }
+
+    public void getTargetPosition(GroundTile target)
+    {
+        destination = target;
+    }
+
+    public float CalculateFinalCost(float Distanz, int heuristicValue, int totalCost)
+    {
+        float finalCost = Distanz * heuristicValue + totalCost;
+
+        return finalCost;
+    }
+
+    public void GetFinalPath()
+    {
+        finalPath.Clear();
+        ClosedList.Clear();
+        OpenList.Clear();
+        getOwnPosition();
+        rootNode.totalCost = GetTotalCost(rootNode.totalCost, rootNode.movementCost);
+        rootNode.finalCost = CalculateFinalCost(CalulateDistanz(), controller.heuristicValue, rootNode.totalCost);
+        AddRootToOpenList();
+        finalPath.Push(controller.GetFinalPath(rootNode, destination, OpenList, ClosedList, totalCost));
+        SetWay();
+        this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
+    }
+    
     void Awake()
     {
         controller = GameObject.Find("GameManager").GetComponent<AStarManager>();
@@ -35,42 +66,10 @@ public class AStarController : MonoBehaviour
              this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
         }
     }
-
-    public int GetTotalCost(int currentTotalCost, int nextTotalCost)
-    {
-        int newTotalcost = currentTotalCost + nextTotalCost;
-        return newTotalcost;
-    }
-
+    
     void getOwnPosition()
     {
         rootNode = (GroundTile)controller.tileMap.MapData[(int)this.gameObject.transform.position.x, (int)this.gameObject.transform.position.y];
-    }
-
-    public void getTargetPosition(GroundTile target)
-    {
-        destination = target;
-    }
-
-    public float CalculateFinalCost(float Distanz, int heuristicValue, int totalCost)
-    {
-         float finalCost = Distanz * heuristicValue + totalCost;
-
-        return finalCost;
-    }
-
-    public void GetFinalPath()
-    {
-        finalPath.Clear();
-        ClosedList.Clear();
-        OpenList.Clear();
-        getOwnPosition();
-        rootNode.totalCost = GetTotalCost(rootNode.totalCost, rootNode.movementCost);
-        rootNode.finalCost = CalculateFinalCost(CalulateDistanz(),controller.heuristicValue, rootNode.totalCost);
-        AddRootToOpenList();
-        finalPath.Push(controller.GetFinalPath(rootNode, destination, OpenList, ClosedList, totalCost));
-        SetWay();
-        this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
     }
 
     void SetWay()

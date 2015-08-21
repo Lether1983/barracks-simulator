@@ -19,13 +19,12 @@ public class ObjectTileMap
         }
     }
 
-    //TODO: Property draus machen. Siehe TileMap.
-    public static ObjectTileMap Instance()
+    public static ObjectTileMap Instance
     {
-        if (instance == null)
+        get
         {
-            instance = new ObjectTileMap();
+            if (instance == null) instance = new ObjectTileMap();
+            return instance;
         }
-        return instance;
     }
 }

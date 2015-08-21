@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-//TODO: Whitespace (mehr als eine Zeile) entfernen!
 public class TileMap
 {
     /* TODO: Indexer implementieren.
@@ -41,20 +40,19 @@ public class TileMap
     */
 
     #region Fields
+    public static TileMap instance; 
     public TileBaseClass[,] MapData;
-    public static TileMap instance; //TODO: Meine Meinung: statische Werte an den Anfang schreiben.
     public int BuyfieldSize = 44;
     public int StartFieldOfViewValue;
-    public float purchasedLandWidthMax; //TODO: Die Breite ist doch eine Ganzzahl.
-    public float purchasedLandWidthMin; //TODO: Die Breite ist doch eine Ganzzahl.
-    public float purchasedLandHeightMax; //TODO: Die Höhe ist doch eine Ganzzahl.
-    public float purchasedLandHeightMin; //TODO: Die Höhe ist doch eine Ganzzahl.
+    public int purchasedLandWidthMax; 
+    public int purchasedLandWidthMin; 
+    public int purchasedLandHeightMax;
+    public int purchasedLandHeightMin;
     #endregion
   
     CaveRandomShowMap ShowMap;
     int offSet = 2;
     Sprite BlackSprite;
-
 
     public void GenerateStartMap(int MapSize)
     {
@@ -64,7 +62,6 @@ public class TileMap
         generateAFieldOfView(MapSize);
         FillStartField(MapSize);
         GetNeighborsTiles(MapSize);
-        
     }
 
     void generateAFieldOfView(int maxSize)
@@ -106,11 +103,7 @@ public class TileMap
         }
     }
 
-
-
-
-    //TODO: Hieraus eine Property machen.
-    /*
+    
     public static TileMap Instance
     {
         get
@@ -118,14 +111,5 @@ public class TileMap
             if (instance == null) instance = new TileMap();
             return instance;
         }
-    }
-    */
-    public static TileMap Instance()
-    {
-        if (instance == null)
-        {
-            instance = new TileMap();
-        }
-        return instance;
     }
 }

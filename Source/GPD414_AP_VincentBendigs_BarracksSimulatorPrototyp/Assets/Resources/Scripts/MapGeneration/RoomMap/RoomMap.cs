@@ -18,14 +18,13 @@ public class RoomMap
             }
         }
     }
-
-    //TODO: Property draus machen! (Siehe TileMap)
-    public static RoomMap Instance()
+    
+    public static RoomMap Instance
     {
-        if (instance == null)
+        get
         {
-            instance = new RoomMap();
+            if (instance == null) instance = new RoomMap();
+            return instance;
         }
-        return instance;
     }
 }

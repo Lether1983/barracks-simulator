@@ -13,7 +13,7 @@ public class CameraControl : MonoBehaviour
    
     [SerializeField]
     Camera viewCamera;
-    TileMap map = TileMap.Instance();
+    TileMap map = TileMap.Instance;
 	
     // Update is called once per frame
     void Update()

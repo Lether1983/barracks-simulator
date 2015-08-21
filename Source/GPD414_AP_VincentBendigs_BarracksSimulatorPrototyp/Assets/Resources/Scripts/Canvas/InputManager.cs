@@ -14,12 +14,16 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     public bool DestroyDrawRect;
     public bool SetRoomOnMap;
 
-    TileMap map = TileMap.Instance();
-    ObjectTileMap objectMap = ObjectTileMap.Instance();
-    RoomMap roomMap = RoomMap.Instance();
+    TileMap map = TileMap.Instance;
+    ObjectTileMap objectMap = ObjectTileMap.Instance;
+    RoomMap roomMap = RoomMap.Instance;
     GameManager manager;
     Vector2 startPos;
     Vector2 endPos;
+    //Vector2 scaler;
+    //Vector2 end;
+    //Vector2 start;
+
     float yScaler; //TODO: Vector draus machen
     float xScaler; //TODO: Vector draus machen
     private float endX; //TODO: Vector draus machen.
@@ -47,6 +51,9 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         //x *= v.x;
         //y *= v.y;
         //v = angegebener Vektor
+        
+        //scaler = GetComponent<CanvasScaler>().referenceResolution.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
+        
         xScaler = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         yScaler = GetComponent<CanvasScaler>().referenceResolution.y / Screen.height;
     }
@@ -110,10 +117,6 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             manager.ResetAllBuildingModi();
         }
-        else if (eventData.button == PointerEventData.InputButton.Middle)
-        {
-            //TODO: Kann entfernt werden?
-        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -141,10 +144,6 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 }
             }
             DrawSelectionBox();
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            // Unwichtig?
         }
     }
 
@@ -332,11 +331,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void ChangeSpriteOnMap(int startX, int startY, int endX, int endY)
     {
-        //TODO: Hier könnte eine Extension-Methode verwendet werden.
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {
@@ -357,12 +356,21 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
+    private static void CalculateMinAndMax(int startX, int startY, int endX, int endY, out int minX, out int minY, out int maxX, out int maxY)
+    {
+        minX = Mathf.Min(startX, endX);
+        minY = Mathf.Min(startY, endY);
+        maxX = Mathf.Max(startX, endX);
+        maxY = Mathf.Max(startY, endY);
+    }
+
     private void DrawWallLogicOnMap(int startX, int startY, int endX, int endY)
     {
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {
@@ -378,10 +386,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void DrawFoundationLogicOnMap(int startX, int startY, int endX, int endY)
     {
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {
@@ -451,10 +460,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void DestroySpriteOnMap(int startX, int startY, int endX, int endY)
     {
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {
@@ -474,10 +484,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void DestroyWallLogicOnMap(int startX, int startY, int endX, int endY)
     {
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {
@@ -500,10 +511,11 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     private void DestroyFoundationLogicOnMap(int startX, int startY, int endX, int endY)
     {
-        int minX = Mathf.Min(startX, endX);
-        int minY = Mathf.Min(startY, endY);
-        int maxX = Mathf.Max(startX, endX);
-        int maxY = Mathf.Max(startY, endY);
+        int minX;
+        int minY;
+        int maxX;
+        int maxY;
+        CalculateMinAndMax(startX, startY, endX, endY, out minX, out minY, out maxX, out maxY);
 
         for (int i = minX; i <= maxX; i++)
         {

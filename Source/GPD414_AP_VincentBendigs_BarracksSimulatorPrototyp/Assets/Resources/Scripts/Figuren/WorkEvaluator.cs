@@ -7,7 +7,7 @@ public class WorkEvaluator : MonoBehaviour
     Soldiers me;
     [SerializeField]
     Animator animator;
-    TileMap map = TileMap.Instance();
+    TileMap map = TileMap.Instance;
 
     public void GetEvaluationForWork()
     {

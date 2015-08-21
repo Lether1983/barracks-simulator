@@ -13,9 +13,9 @@ public class TileMapCameraGridNew : MonoBehaviour
     public Pool roomPool;
     GameManager manager;
     CameraControl mainCamera;
-    TileMap map = TileMap.Instance();
-    ObjectTileMap objectMap = ObjectTileMap.Instance();
-    RoomMap roomMap = RoomMap.Instance();
+    TileMap map = TileMap.Instance;
+    ObjectTileMap objectMap = ObjectTileMap.Instance;
+    RoomMap roomMap = RoomMap.Instance;
 
     Dictionary<Vector2, GameObject> activeTiles;
     Dictionary<Vector2, GameObject> activeObjects;
