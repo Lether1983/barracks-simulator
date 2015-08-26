@@ -145,7 +145,7 @@ public class WorkManager : MonoBehaviour
                         {
                             if (tempObject2.Storage[l] == null)
                             {
-                                return new Vector3(tempObject2.position.x + l, tempObject2.position.y - 1, -2f);
+                                return new Vector3(tempObject2.position.x + l, tempObject2.position.y-1, -2f);
                             }
                         }
                     }

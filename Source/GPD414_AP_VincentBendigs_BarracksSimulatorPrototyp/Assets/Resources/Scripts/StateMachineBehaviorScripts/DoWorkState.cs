@@ -68,6 +68,7 @@ public class DoWorkState : StateMachineBehaviour
     {
         if ((Vector2)me.transform.position == me.currentTask.StartPosition)
         {
+            Debug.Log("STartpos: " + me.currentTask.StartPosition);
             int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
             ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
             me.currentObjectToCarry = me.currentTask.Item;

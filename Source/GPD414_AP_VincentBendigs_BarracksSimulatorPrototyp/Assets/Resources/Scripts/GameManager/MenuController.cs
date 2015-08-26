@@ -22,6 +22,7 @@ public class MenuController : MonoBehaviour
     public GameObject ObjectTilePanel;
     public GameObject RoomTilePanel;
     public GameObject DienstplanPanel;
+    public GameObject ToolTipTextImage;
     #endregion
 
     void Start()
@@ -34,6 +35,7 @@ public class MenuController : MonoBehaviour
         ObjectTilePanel.SetActive(false);
         RoomTilePanel.SetActive(false);
         DienstplanPanel.SetActive(false);
+        ToolTipTextImage.SetActive(false);
     }
 
     // WallTilesButtons
@@ -136,6 +138,7 @@ public class MenuController : MonoBehaviour
        }
        else
        {
+
            BauPanel.SetActive(true);
            DienstPanel.SetActive(false);
        }

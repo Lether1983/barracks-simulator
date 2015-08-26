@@ -74,17 +74,17 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             Vector2 worldpoint = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(eventData.position);
             RaycastHit2D hit = Physics2D.Raycast(worldpoint, Vector2.zero);
 
+            ObjectBaseClass baseObject = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y];
+            TileBaseClass baseTile = map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y];
+
             if (manager.InObjectBuildMode)
             {
                 //TODO: ObjectMap auf Indexer ändern!
-                //TODO: Zwischenspeichern des Objects.
-                //ObjectBaseClass hitObject = objectMap[hit.transporm.position];
-                if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
-                    map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].isOverridable)
+                if (baseObject.startobject == null && baseTile.isOverridable)
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }
-                else if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].startobject == null &&
+                else if (baseObject.startobject == null &&
                         gmanager.GetComponent<ObjectManager>().DoorPlacement)
                 {
                     DoorPlacementOnMap(eventData, hit);
@@ -94,7 +94,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 if (hit.collider != null)
                 {
-                    manager.ChangeTileByClick(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+                    manager.ChangeTileByClick(baseTile.myObject);
                 }
             }
             if (manager.DestroyModus)
@@ -109,7 +109,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 }
                 if (hit.collider != null)
                 {
-                    manager.DestroyOneTile(map.MapData[(int)hit.transform.position.x, (int)hit.transform.position.y].myObject);
+                    manager.DestroyOneTile(baseTile.myObject);
                 }
             }
         }
@@ -254,6 +254,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
                 Vector2 hitinfo = (Vector2)hit.transform.position + info.delta;
                 objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].@object = @object;
                 gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject);
+                Debug.Log("Object pos: " + hitinfo);
             }
         }
     }
@@ -521,12 +522,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                //TODO: Hier sollte eventuell map.MapData[i, j].GetAllValues(manager.OutdoorDefault) ausgeführt werden.
-                map.MapData[i, j].Texture = manager.OutdoorDefault.texture;
-                map.MapData[i, j].myObject.GetComponent<SpriteRenderer>().sprite = manager.OutdoorDefault.texture;
-                map.MapData[i, j].IsIndoor = false;
-                map.MapData[i, j].isOverridable = true;
-                map.MapData[i, j].IsOutdoor = true;
+                map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
             }
         }
     }

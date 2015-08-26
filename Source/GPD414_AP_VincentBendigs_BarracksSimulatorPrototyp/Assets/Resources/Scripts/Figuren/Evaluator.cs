@@ -89,6 +89,7 @@ public class Evaluator : MonoBehaviour
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
+        if (me.roomManager.GetRoomObjects(@object) == null) return false;
         if ((checkScope & CheckScope.Everywhere) > 0)
         {
             for (int i = 0; i < me.roomManager.GetRoomObjects(@object).Storage.Length; i++)

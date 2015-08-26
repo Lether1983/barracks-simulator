@@ -91,7 +91,7 @@ public class ObjectLogicObject
                     Storage[j] = Kleidung;
                     Kleidung.myObject = temp;
 
-                    manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x + j, position.y - 1), manager.GetTargetPosition(Kleidung), Kleidung, 1);
+                    manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x + j, position.y-1), manager.GetTargetPosition(Kleidung), Kleidung, 1);
                 }
             }
         }
