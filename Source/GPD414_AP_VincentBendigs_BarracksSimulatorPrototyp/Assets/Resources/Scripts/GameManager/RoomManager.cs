@@ -50,6 +50,18 @@ public class RoomManager : MonoBehaviour
         everywhereRooms.Remove(room);
     }
 
+    public RoomLogicObject FindRoom(TypeOfRoom room)
+    {
+        foreach (var item in everywhereRooms)
+        {
+            if(item.type == room)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
 
     internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
     {

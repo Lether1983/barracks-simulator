@@ -104,6 +104,7 @@
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\WorkObjects.cs" />
     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
+    <Compile Include="Assets\Resources\Scripts\SpawnNewFigure.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
     <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EvaluationState.cs" />

@@ -62,13 +62,26 @@ public class DoWorkState : StateMachineBehaviour
         {
             MoveItemFromStartToEnd(animator);
         }
+        else if(me.currentTask.type == TypeOfWork.TakeCloth)
+        {
+            if ((Vector2)me.transform.position == me.currentTask.StartPosition)
+            {
+                me.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Military_Normal_Front");
+                int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
+                GameObject storage = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta].myObject;
+                Destroy(storage);
+                ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
+                me.myJob = null;
+                me.manager.AllCivilians.Remove(me);
+                me.manager.AllSoldiers.Add(me);
+            }
+        }
     }
 
     private void MoveItemFromStartToEnd(Animator animator)
     {
         if ((Vector2)me.transform.position == me.currentTask.StartPosition)
         {
-            Debug.Log("STartpos: " + me.currentTask.StartPosition);
             int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
             ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
             me.currentObjectToCarry = me.currentTask.Item;
@@ -77,7 +90,7 @@ public class DoWorkState : StateMachineBehaviour
         }
         else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
         {
-            for (int i = 0; i < ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.Storage.Length; i++)
+            for (int i = 0; i < ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage.Length; i++)
             {
                 if (me.currentObjectToCarry.Uses > 0)
                 {
@@ -88,6 +101,10 @@ public class DoWorkState : StateMachineBehaviour
                         ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage[i] = me.currentObjectToCarry;
                         me.workManager.WorkInProgress.Remove(me.currentTask);
                         me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
+                        if(me.currentTask.type == TypeOfWork.MovingMaterial)
+                        {
+                            me.workManager.CreateAdvancedWork(me.currentTask.type, me.currentTask.Item);
+                        }
                         me.currentTask = null;
                         animator.SetBool("DoWork", false);
                         return;

@@ -8,9 +8,9 @@ public enum KompaniezugehoerigkeitsGruppen { AusbildungsKompanien, KampfKompanie
 
 public enum Kompaniezugehorigkeit
 {
-    None = 0,JaegerKompanie, PanzerKompanie, GrenadierKompanie, PanzerGrenadierKompanie, 
-    TransportKompanie, InstansetzungsKompanie, UnterstuetzungsKompanie, MilitaerPolizeiKompanie, 
-    VersorgungsKompanie, EODKompanie, ABCAbwehrKompanie, PionierKompanie, HeeresfliegerKompanie, 
+    None = 0, JaegerKompanie, PanzerKompanie, GrenadierKompanie, PanzerGrenadierKompanie,
+    TransportKompanie, InstansetzungsKompanie, UnterstuetzungsKompanie, MilitaerPolizeiKompanie,
+    VersorgungsKompanie, EODKompanie, ABCAbwehrKompanie, PionierKompanie, HeeresfliegerKompanie,
     FernmeldeKompanie, VersorgungsSanitaeter, KampfSanitaeter, EinsatzSanitaeter, KrankenhausSanitaeter
 };
 
@@ -29,6 +29,7 @@ public class Soldiers : MonoBehaviour
     public Vector3 waypoint;
     public WorkTask currentTask;
 
+
     public WorkObjects currentObjectToCarry;
 
     public float TrainingsLevel;
@@ -41,8 +42,8 @@ public class Soldiers : MonoBehaviour
     public float needFitness;
     public bool shouldMove = false;
 
+    float timer = 0;
 
-    
     void Start()
     {
         subscribtion = MessageBusManager.Subscribe<RoomLogicObject>("freeStube");
@@ -50,19 +51,26 @@ public class Soldiers : MonoBehaviour
         subscribtion1 = MessageBusManager.Subscribe<RoomLogicObject>("FreeWorkPlace");
         subscribtion1.OnMessageReceived += freeWorkMessage_OnMessagesReceived;
         manager = roomManager.gameObject.GetComponent<GameManager>();
-   
-        manager.AllSoldiers.Add(this);
+
+        if (ownKompanie != null)
+        {
+            manager.AllSoldiers.Add(this);
+        }
+        else
+        {
+            manager.AllCivilians.Add(this);
+        }
     }
 
     private void freeWorkMessage_OnMessagesReceived(MessageSubscription<RoomLogicObject> s, MessageReceivedEventArgs<RoomLogicObject> args)
     {
-        if(ownKompanie.KompanieType == Kompaniezugehorigkeit.VersorgungsKompanie && (WorkPlace == null || WorkPlace.Workerscount > 0))
+        if (ownKompanie.KompanieType == Kompaniezugehorigkeit.VersorgungsKompanie && (WorkPlace == null || WorkPlace.Workerscount > 0))
         {
             WorkPlace = args.Message;
             WorkPlace.Workerscount--;
             for (int i = 0; i < WorkPlace.workers.Length; i++)
             {
-                if(WorkPlace.workers[i] == null)
+                if (WorkPlace.workers[i] == null)
                 {
                     WorkPlace.workers[i] = this;
                     myJob = WorkPlace.RoomInfo.availableJobs[Random.Range(0, WorkPlace.RoomInfo.availableJobs.Length - 1)];
@@ -102,8 +110,7 @@ public class Soldiers : MonoBehaviour
             hasToUseTheToilette += 2.5f / 3600f * Time.deltaTime * manager.speed;
         }
 
-
-        if (this.gameObject.transform.position.x == waypoint.x && this.gameObject.transform.position.y == waypoint.y && this.gameObject.transform.position.z == -2)
+        if (timer > 0.25f)
         {
             shouldMove = false;
             MessageBusManager.AddMessage<int>("Reachtarget", 1);

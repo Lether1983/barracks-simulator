@@ -62,7 +62,6 @@ public class AStarController : MonoBehaviour
     {
         if (args.Message == 1 && finalPath.Count > 0)
         {
-            
              this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
         }
     }

@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
     public GameObject RoomTilePanel;
     public GameObject DienstplanPanel;
     public GameObject ToolTipTextImage;
+    public GameObject SpawnPanel;
     #endregion
 
     void Start()
@@ -36,6 +37,7 @@ public class MenuController : MonoBehaviour
         RoomTilePanel.SetActive(false);
         DienstplanPanel.SetActive(false);
         ToolTipTextImage.SetActive(false);
+        SpawnPanel.SetActive(false);
     }
 
     // WallTilesButtons
@@ -166,6 +168,20 @@ public class MenuController : MonoBehaviour
         else
         {
             DienstplanPanel.SetActive(true);
+            SpawnPanel.SetActive(false);
+        }
+    }
+
+    public void SpawnPanelActivate()
+    {
+        if(SpawnPanel.activeInHierarchy)
+        {
+            SpawnPanel.SetActive(false);
+        }
+        else
+        {
+            SpawnPanel.SetActive(true);
+            DienstplanPanel.SetActive(false);
         }
     }
 

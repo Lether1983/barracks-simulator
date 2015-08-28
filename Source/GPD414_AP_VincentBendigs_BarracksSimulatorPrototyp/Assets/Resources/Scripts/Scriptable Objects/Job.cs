@@ -11,7 +11,8 @@ public enum TypeOfWork
     Building = 1 << 3,
     Cleaning = 1 << 4,
     Repairing = 1 << 5,
-    Teaching = 1 << 6
+    Teaching = 1 << 6,
+    TakeCloth = 1 << 7
 };
 
 public class Job : ScriptableObject

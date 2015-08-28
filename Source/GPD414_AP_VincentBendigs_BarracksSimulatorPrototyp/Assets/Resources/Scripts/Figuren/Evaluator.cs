@@ -48,7 +48,6 @@ public class Evaluator : MonoBehaviour
     {
         subscribtion = MessageBusManager.Subscribe<ChangeStateEventArgs>("ChangeState");
         subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
-        animator.SetInteger("KompanieGruppenZugehörigkeit",(int)me.ownKompanie.OberGruppe);
     }
 
     void changeMessage_OnMessageReceived(MessageSubscription<ChangeStateEventArgs> s, MessageReceivedEventArgs<ChangeStateEventArgs> args)

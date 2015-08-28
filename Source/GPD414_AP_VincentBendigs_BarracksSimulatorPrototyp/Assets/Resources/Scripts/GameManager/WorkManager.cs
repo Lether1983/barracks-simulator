@@ -77,15 +77,17 @@ public class WorkManager : MonoBehaviour
 
     public void CreateAdvancedWork(TypeOfWork type, WorkObjects Workitem)
     {
-        foreach (var item in FinishedWorkObjects)
+        if (type == TypeOfWork.Cooking)
         {
-            if (type == TypeOfWork.Cooking)
-            {
-                WorkTask tempTask = new WorkTask(TypeOfWork.MovingFood, Workitem, Workitem.myObject.transform.position, GetTargetPosition(Workitem), 0);
-                AddToLookUp(TypeOfWork.MovingFood, tempTask);
-                FinishedWorkObjects.Remove(item);
-                break;
-            }
+            WorkTask tempTask = new WorkTask(TypeOfWork.MovingFood, Workitem, Workitem.myObject.transform.position, GetTargetPosition(Workitem), 0);
+            AddToLookUp(TypeOfWork.MovingFood, tempTask);
+            FinishedWorkObjects.Remove(Workitem);
+        }
+        else if(type == TypeOfWork.MovingMaterial)
+        {
+            WorkTask tempTask = new WorkTask(TypeOfWork.TakeCloth, Workitem, Workitem.myObject.transform.position, Workitem.myObject.transform.position, 0);
+            AddToLookUp(TypeOfWork.TakeCloth, tempTask);
+            FinishedWorkObjects.Remove(Workitem);
         }
     }
 
@@ -134,7 +136,7 @@ public class WorkManager : MonoBehaviour
                     }
                 }
             }
-            if(TempRoom.type == TypeOfRoom.Waeschekammer)
+            if (TempRoom.type == TypeOfRoom.Waeschekammer)
             {
                 for (int i = 0; i < TempRoom.Objects.Count; i++)
                 {
@@ -145,7 +147,7 @@ public class WorkManager : MonoBehaviour
                         {
                             if (tempObject2.Storage[l] == null)
                             {
-                                return new Vector3(tempObject2.position.x + l, tempObject2.position.y-1, -2f);
+                                return new Vector3(tempObject2.position.x + l, tempObject2.position.y - 1, -2f);
                             }
                         }
                     }

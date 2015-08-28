@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
-
+// 4042 Lines of Code 53 Scripts 76 Lines of Code for each Script
 public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     #region Fileds
@@ -46,13 +46,9 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     void Update()
     {
-        //TODO: scaler = GetComponent<CanvasScaler>().referenceResolution.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
-        //Scale führt folgendes aus:
-        //x *= v.x;
-        //y *= v.y;
-        //v = angegebener Vektor
-        
-        //scaler = GetComponent<CanvasScaler>().referenceResolution.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
+              
+        //scaler = GetComponent<CanvasScaler>().referenceResolution;
+        //scaler.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
         
         xScaler = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         yScaler = GetComponent<CanvasScaler>().referenceResolution.y / Screen.height;
@@ -131,8 +127,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 DrawRect = true;
                 DestroyDrawRect = true;
-                //TODO: Vector2 kann verglichen werden.
-                // mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos) == mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos)
+                
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
