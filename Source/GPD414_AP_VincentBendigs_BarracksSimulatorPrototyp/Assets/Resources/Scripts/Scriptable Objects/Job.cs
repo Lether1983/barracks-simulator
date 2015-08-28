@@ -19,4 +19,5 @@ public class Job : ScriptableObject
 {
     [EnumFlag,SerializeField]
     public TypeOfWork Types;
+    public TypeOfJobs jobs;
 }

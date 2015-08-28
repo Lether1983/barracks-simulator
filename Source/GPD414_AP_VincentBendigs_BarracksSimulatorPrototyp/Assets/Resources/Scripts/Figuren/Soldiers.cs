@@ -13,6 +13,7 @@ public enum Kompaniezugehorigkeit
     VersorgungsKompanie, EODKompanie, ABCAbwehrKompanie, PionierKompanie, HeeresfliegerKompanie,
     FernmeldeKompanie, VersorgungsSanitaeter, KampfSanitaeter, EinsatzSanitaeter, KrankenhausSanitaeter
 };
+public enum TypeOfJobs { None ,Koch, WaescheWart, Civilian};
 
 public class Soldiers : MonoBehaviour
 {

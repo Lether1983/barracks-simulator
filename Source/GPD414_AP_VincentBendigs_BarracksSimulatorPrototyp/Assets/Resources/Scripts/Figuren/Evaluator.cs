@@ -2,8 +2,8 @@
 using System.Collections;
 using DH.Messaging.Bus;
 
-public enum trusterStates 
-{   
+public enum trusterStates
+{
     SleepTime = 1 << 0,
     EatTime = 1 << 1,
     FreeTime = 1 << 2,
@@ -32,7 +32,7 @@ public enum AttributeCheck
     HasToUseTheToilette = 1 << 7
 }
 
-public class Evaluator : MonoBehaviour 
+public class Evaluator : MonoBehaviour
 {
     public trusterStates currentTrusterState;
     public ObjectLogicObject tempObject;
@@ -52,13 +52,17 @@ public class Evaluator : MonoBehaviour
 
     void changeMessage_OnMessageReceived(MessageSubscription<ChangeStateEventArgs> s, MessageReceivedEventArgs<ChangeStateEventArgs> args)
     {
-        if(args.Message.targetKompanie != me.ownKompanie)
+        if (me.myJob.jobs != TypeOfJobs.Civilian)
         {
-            return;
-        }
-        if(args.Message.NewState == currentTrusterState)
-        {
-            return;
+            if (args.Message.targetKompanie != me.ownKompanie)
+            {
+                return;
+            }
+
+            if (args.Message.NewState == currentTrusterState)
+            {
+                return;
+            }
         }
         currentTrusterState = args.Message.NewState;
 
@@ -69,12 +73,24 @@ public class Evaluator : MonoBehaviour
             case trusterStates.FreeTime:
             case trusterStates.ShowerTime:
             case trusterStates.SportsTime:
-                animator.SetTrigger("IsNotWorkTime");
-                break;
-            case trusterStates.WorkTime:
-                if(me.WorkPlace == null)
+                if (me.myJob.jobs != TypeOfJobs.Civilian)
                 {
                     animator.SetTrigger("IsNotWorkTime");
+                    break;
+                }
+                animator.SetTrigger("IsWorkTime");
+
+                break;
+            case trusterStates.WorkTime:
+                if (me.WorkPlace == null)
+                {
+                    if (me.myJob.jobs != TypeOfJobs.Civilian)
+                    {
+                        animator.SetTrigger("IsNotWorkTime");
+                        break;
+                    }
+                    animator.SetTrigger("IsWorkTime");
+                    break;
                 }
                 animator.SetTrigger("IsWorkTime");
                 break;
@@ -84,7 +100,7 @@ public class Evaluator : MonoBehaviour
 
     }
 
-    bool CanSetBoolForUse(CheckScope checkScope,AttributeCheck attributes,AttributeCheck targetAttribute,float value,UseableObjects @object)
+    bool CanSetBoolForUse(CheckScope checkScope, AttributeCheck attributes, AttributeCheck targetAttribute, float value, UseableObjects @object)
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
@@ -113,26 +129,26 @@ public class Evaluator : MonoBehaviour
         return false;
     }
 
-    bool CanSetBool(CheckScope checkScope,AttributeCheck attributes,AttributeCheck targetAttribute,float value, UseableObjects @object)
+    bool CanSetBool(CheckScope checkScope, AttributeCheck attributes, AttributeCheck targetAttribute, float value, UseableObjects @object)
     {
         if ((attributes & targetAttribute) == 0) return false;
         if (value < checkValue) return false;
 
-        if ((checkScope & CheckScope.OwnRoom) > 0 && me.OwnRoom != null && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null) 
-		{
-			me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
-			return true;
-		}
-		else if ((checkScope & CheckScope.Company) > 0 && (tempObject = me.ownKompanie.GetRoomObjects(@object)) != null)
-		{
-			me.GoTo ((GroundTile)map.MapData [(int)tempObject.position.x, (int)tempObject.position.y]);
-		    return true;
-		}
-        else if ((checkScope & CheckScope.WorkPlace) > 0&&me.WorkPlace != null &&(tempObject = me.WorkPlace.GetRoomObjects(@object))!= null)
+        if ((checkScope & CheckScope.OwnRoom) > 0 && me.OwnRoom != null && (tempObject = me.OwnRoom.GetRoomObjects(@object)) != null)
+        {
+            me.GoTo((GroundTile)map.MapData[(int)tempObject.position.x, (int)tempObject.position.y]);
+            return true;
+        }
+        else if ((checkScope & CheckScope.Company) > 0 && (tempObject = me.ownKompanie.GetRoomObjects(@object)) != null)
+        {
+            me.GoTo((GroundTile)map.MapData[(int)tempObject.position.x, (int)tempObject.position.y]);
+            return true;
+        }
+        else if ((checkScope & CheckScope.WorkPlace) > 0 && me.WorkPlace != null && (tempObject = me.WorkPlace.GetRoomObjects(@object)) != null)
         {
             return true;
         }
-        else if ((checkScope & CheckScope.Everywhere) > 0 &&(tempObject = me.roomManager.GetRoomObjects(@object))!= null)
+        else if ((checkScope & CheckScope.Everywhere) > 0 && (tempObject = me.roomManager.GetRoomObjects(@object)) != null)
         {
             return true;
         }
@@ -140,14 +156,14 @@ public class Evaluator : MonoBehaviour
         return false;
     }
 
-    public void GetEvaluationForStates(trusterStates states, CheckScope checki,AttributeCheck attri)
+    public void GetEvaluationForStates(trusterStates states, CheckScope checki, AttributeCheck attri)
     {
-        if((currentTrusterState & states) == 0)
+        if ((currentTrusterState & states) == 0)
         {
             return;
         }
 
-        if(CanSetBool(checki,attri,AttributeCheck.HasToUseTheToilette,me.hasToUseTheToilette,UseableObjects.ReduceToilette))
+        if (CanSetBool(checki, attri, AttributeCheck.HasToUseTheToilette, me.hasToUseTheToilette, UseableObjects.ReduceToilette))
         {
             animator.SetBool("UseToilette", true);
         }
@@ -159,7 +175,7 @@ public class Evaluator : MonoBehaviour
         {
             animator.SetBool("UseTV", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.HomeIll, me.homeIll, UseableObjects.ReduceHomeIll))
+        else if (CanSetBool(checki, attri, AttributeCheck.HomeIll, me.homeIll, UseableObjects.ReduceHomeIll))
         {
             animator.SetBool("UsePhone", true);
         }
@@ -167,15 +183,15 @@ public class Evaluator : MonoBehaviour
         {
             animator.SetBool("UseShower", true);
         }
-        else if (CanSetBoolForUse(checki,attri,AttributeCheck.Hungry,me.hungry,UseableObjects.CanStore))
+        else if (CanSetBoolForUse(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.CanStore))
         {
             animator.SetBool("EatFood", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.NeedFitness, me.needFitness, UseableObjects.ReduceFitness))
+        else if (CanSetBool(checki, attri, AttributeCheck.NeedFitness, me.needFitness, UseableObjects.ReduceFitness))
         {
             animator.SetBool("UseSportsEquipment", true);
         }
-        else if(CanSetBool(checki, attri, AttributeCheck.TrainLevel, me.TrainingsLevel, UseableObjects.IncreaceTraining))
+        else if (CanSetBool(checki, attri, AttributeCheck.TrainLevel, me.TrainingsLevel, UseableObjects.IncreaceTraining))
         {
             animator.SetBool("TrainBasics", true);
         }

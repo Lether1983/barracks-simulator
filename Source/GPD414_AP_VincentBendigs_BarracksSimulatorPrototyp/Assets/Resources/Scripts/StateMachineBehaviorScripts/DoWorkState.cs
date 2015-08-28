@@ -64,16 +64,20 @@ public class DoWorkState : StateMachineBehaviour
         }
         else if(me.currentTask.type == TypeOfWork.TakeCloth)
         {
-            if ((Vector2)me.transform.position == me.currentTask.StartPosition)
+            if (me.myJob != null)
             {
-                me.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Military_Normal_Front");
-                int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
-                GameObject storage = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta].myObject;
-                Destroy(storage);
-                ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
-                me.myJob = null;
-                me.manager.AllCivilians.Remove(me);
-                me.manager.AllSoldiers.Add(me);
+                if ((Vector2)me.transform.position == me.currentTask.StartPosition)
+                {
+                    int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
+                    GameObject storage = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta].myObject;
+                    Destroy(storage);
+                    ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
+                    me.myJob = (Job)Resources.Load<ScriptableObject>("Prefabs/Scriptable Objects/JobObjects/None");
+                    me.manager.AllCivilians.Remove(me);
+                    me.manager.AllSoldiers.Add(me);
+                    me.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Military_Normal_Front");
+                    me.ownKompanie = (KompanieObject)Resources.Load<ScriptableObject>("Prefabs/Scriptable Objects/KompanieObjects/VersorgungsKompanie");
+                }
             }
         }
     }
