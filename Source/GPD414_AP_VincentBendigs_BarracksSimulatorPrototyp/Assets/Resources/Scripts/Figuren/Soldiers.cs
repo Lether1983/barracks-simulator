@@ -110,7 +110,7 @@ public class Soldiers : MonoBehaviour
             hasToUseTheToilette += 2.5f / 3600f * Time.deltaTime * manager.speed;
         }
 
-        if (timer > 0.25f)
+        if (this.gameObject.transform.position.x == waypoint.x && this.gameObject.transform.position.y == waypoint.y && this.gameObject.transform.position.z == -2)
         {
             shouldMove = false;
             MessageBusManager.AddMessage<int>("Reachtarget", 1);
