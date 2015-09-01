@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_5_0_1;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_0_1;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_WEBPLAYER;ENABLE_SUBSTANCE;WEBPLUG;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -46,37 +46,34 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Resources\Scripts\Canvas\GameClock.cs" />
      <Compile Include="Assets\Resources\Scripts\Canvas\InputManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\ChangeStateEventArgs.cs" />
-     <Compile Include="Assets\Resources\Scripts\EnumFlagAttribute.cs" />
+     <Compile Include="Assets\Resources\Scripts\Canvas\UIAnzeige.cs" />
      <Compile Include="Assets\Resources\Scripts\Figuren\Evaluator.cs" />
      <Compile Include="Assets\Resources\Scripts\Figuren\Soldiers.cs" />
      <Compile Include="Assets\Resources\Scripts\Figuren\WorkEvaluator.cs" />
-     <Compile Include="Assets\Resources\Scripts\GameClock.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\MenuController.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\ObjectManager.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\RoomManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\GameManager\SpawnNewFigure.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager\WorkManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\GameObjectEvent.cs" />
-     <Compile Include="Assets\Resources\Scripts\LookUp.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\CameraControl.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\CameraField\TileMapCameraGridNew.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectBaseClass.cs" />
+     <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectLogicObject.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\ObjectMap\ObjectTileMap.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\Pool.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\PoolCheck.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\RoomMap\RoomBaseClass.cs" />
+     <Compile Include="Assets\Resources\Scripts\MapGeneration\RoomMap\RoomLogicObject.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\RoomMap\RoomMap.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\CaveRandomShowMap.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\GroundTile.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileBaseClass.cs" />
      <Compile Include="Assets\Resources\Scripts\MapGeneration\TileMap\TileMap.cs" />
-     <Compile Include="Assets\Resources\Scripts\ObjectLogicObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Pathfinding\AStarController.cs" />
      <Compile Include="Assets\Resources\Scripts\Pathfinding\AStarManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\QuickSort.cs" />
-     <Compile Include="Assets\Resources\Scripts\RoomLogicObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\GroundObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Job.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\KompanieObject.cs" />
@@ -84,8 +81,8 @@
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\RoomObjects.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\Truster.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\WorkObjects.cs" />
+     <Compile Include="Assets\Resources\Scripts\Scriptable Objects\WorkTask.cs" />
      <Compile Include="Assets\Resources\Scripts\Scriptable Objects\trusterState.cs" />
-     <Compile Include="Assets\Resources\Scripts\SpawnNewFigure.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\DoWorkState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EatFoodState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\EvaluationState.cs" />
@@ -97,8 +94,11 @@
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseTVState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\UseToiletteState.cs" />
      <Compile Include="Assets\Resources\Scripts\StateMachineBehaviorScripts\WorkEvaluation.cs" />
-     <Compile Include="Assets\Resources\Scripts\UIAnzeige.cs" />
-     <Compile Include="Assets\Resources\Scripts\WorkTask.cs" />
+     <Compile Include="Assets\Resources\Scripts\Utility\ChangeStateEventArgs.cs" />
+     <Compile Include="Assets\Resources\Scripts\Utility\EnumFlagAttribute.cs" />
+     <Compile Include="Assets\Resources\Scripts\Utility\GameObjectEvent.cs" />
+     <Compile Include="Assets\Resources\Scripts\Utility\LookUp.cs" />
+     <Compile Include="Assets\Resources\Scripts\Utility\QuickSort.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

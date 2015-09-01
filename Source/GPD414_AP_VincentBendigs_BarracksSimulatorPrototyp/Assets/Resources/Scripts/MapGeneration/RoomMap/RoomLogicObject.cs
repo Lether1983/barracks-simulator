@@ -10,7 +10,7 @@ public class RoomLogicObject
     public List<ObjectLogicObject> Objects = new List<ObjectLogicObject>();
     public Soldiers[] workers;
     public int Workerscount;
-    Soldiers soldier;
+    public Soldiers soldier;
 
     public KompanieObject kompanieObject;
 

@@ -61,7 +61,20 @@ public class RoomManager : MonoBehaviour
         }
         return null;
     }
-
+    public RoomLogicObject FindFreeRoom(TypeOfRoom room)
+    {
+        foreach (var item in everywhereRooms)
+        {
+            if(item.type == room)
+            {
+                if(item.soldier == null)
+                {
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
 
     internal ObjectLogicObject GetRoomObjects(UseableObjects usableObject)
     {

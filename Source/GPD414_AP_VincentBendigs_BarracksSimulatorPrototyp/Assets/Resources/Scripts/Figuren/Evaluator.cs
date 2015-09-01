@@ -52,7 +52,7 @@ public class Evaluator : MonoBehaviour
 
     void changeMessage_OnMessageReceived(MessageSubscription<ChangeStateEventArgs> s, MessageReceivedEventArgs<ChangeStateEventArgs> args)
     {
-        if (me.myJob.jobs != TypeOfJobs.Civilian)
+        if (me.myJob == null || me.myJob.jobs != TypeOfJobs.Civilian)
         {
             if (args.Message.targetKompanie != me.ownKompanie)
             {

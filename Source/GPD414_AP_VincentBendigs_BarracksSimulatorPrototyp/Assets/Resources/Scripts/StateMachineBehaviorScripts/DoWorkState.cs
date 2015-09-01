@@ -69,14 +69,23 @@ public class DoWorkState : StateMachineBehaviour
                 if ((Vector2)me.transform.position == me.currentTask.StartPosition)
                 {
                     int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
-                    GameObject storage = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta].myObject;
-                    Destroy(storage);
+                    var thingInArray = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y];
+                    GameObject storage = thingInArray.@object.Storage[delta].myObject;
                     ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
-                    me.myJob = (Job)Resources.Load<ScriptableObject>("Prefabs/Scriptable Objects/JobObjects/None");
+                    me.myJob = (Job)Resources.Load<Job>("Prefabs/Scriptable Objects/JobObjects/None");
                     me.manager.AllCivilians.Remove(me);
                     me.manager.AllSoldiers.Add(me);
                     me.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Military_Normal_Front");
                     me.ownKompanie = (KompanieObject)Resources.Load<ScriptableObject>("Prefabs/Scriptable Objects/KompanieObjects/VersorgungsKompanie");
+                    me.currentTask = null;
+                    Destroy(storage);
+                    RoomLogicObject temp = me.roomManager.FindFreeRoom(TypeOfRoom.Stube);
+                    if(temp != null && temp.Claim(me))
+                    {
+                        me.OwnRoom = temp;
+                        me.roomManager.AssignRoomToCompany(me.ownKompanie, temp);
+                    }
+                    
                 }
             }
         }
@@ -89,7 +98,10 @@ public class DoWorkState : StateMachineBehaviour
             int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
             ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
             me.currentObjectToCarry = me.currentTask.Item;
-            me.currentTask.Item.myObject.SetActive(false);
+            var task = me.currentTask;
+            var item = task.Item;
+            var obj = item.myObject;
+            obj.SetActive(false);
             me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
         }
         else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
@@ -101,7 +113,8 @@ public class DoWorkState : StateMachineBehaviour
                     if (ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y+1].@object.Storage[i] == null)
                     {
                         me.currentObjectToCarry.myObject.SetActive(true);
-                        me.currentObjectToCarry.myObject.transform.position = new Vector3(me.currentTask.EndPosition.x, me.currentTask.EndPosition.y + 1, -2f);
+
+                        me.currentObjectToCarry.myObject.transform.position = new Vector3(ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.position.x + i, me.currentTask.EndPosition.y + 1, -2f);
                         ObjectMap.ObjectData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y + 1].@object.Storage[i] = me.currentObjectToCarry;
                         me.workManager.WorkInProgress.Remove(me.currentTask);
                         me.workManager.FinishedWorkObjects.Add(me.currentTask.Item);
