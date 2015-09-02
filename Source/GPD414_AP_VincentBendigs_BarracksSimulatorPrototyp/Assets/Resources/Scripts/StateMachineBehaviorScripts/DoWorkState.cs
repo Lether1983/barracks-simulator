@@ -101,7 +101,11 @@ public class DoWorkState : StateMachineBehaviour
             var task = me.currentTask;
             var item = task.Item;
             var obj = item.myObject;
-            obj.SetActive(false);
+            if(obj != null)
+            {
+                obj.SetActive(false);
+            }
+            
             me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
         }
         else if ((Vector2)me.transform.position == me.currentTask.EndPosition)

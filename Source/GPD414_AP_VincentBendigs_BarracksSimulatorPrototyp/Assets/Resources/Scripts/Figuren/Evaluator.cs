@@ -73,7 +73,7 @@ public class Evaluator : MonoBehaviour
             case trusterStates.FreeTime:
             case trusterStates.ShowerTime:
             case trusterStates.SportsTime:
-                if (me.myJob.jobs != TypeOfJobs.Civilian)
+                if ( me.myJob == null || me.myJob.jobs != TypeOfJobs.Civilian)
                 {
                     animator.SetTrigger("IsNotWorkTime");
                     break;
@@ -183,7 +183,7 @@ public class Evaluator : MonoBehaviour
         {
             animator.SetBool("UseShower", true);
         }
-        else if (CanSetBoolForUse(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.CanStore))
+        else if (CanSetBoolForUse(checki, attri, AttributeCheck.Hungry, me.hungry, UseableObjects.CanStoreFood))
         {
             animator.SetBool("EatFood", true);
         }

@@ -67,15 +67,18 @@ public class Soldiers : MonoBehaviour
     {
         if (ownKompanie.KompanieType == Kompaniezugehorigkeit.VersorgungsKompanie && (WorkPlace == null || WorkPlace.Workerscount > 0))
         {
-            WorkPlace = args.Message;
-            WorkPlace.Workerscount--;
-            for (int i = 0; i < WorkPlace.workers.Length; i++)
+            if (myJob == null || myJob.jobs == TypeOfJobs.None)
             {
-                if (WorkPlace.workers[i] == null)
+                WorkPlace = args.Message;
+                WorkPlace.Workerscount--;
+                for (int i = 0; i < WorkPlace.workers.Length; i++)
                 {
-                    WorkPlace.workers[i] = this;
-                    myJob = WorkPlace.RoomInfo.availableJobs[Random.Range(0, WorkPlace.RoomInfo.availableJobs.Length - 1)];
-                    break;
+                    if (WorkPlace.workers[i] == null)
+                    {
+                        WorkPlace.workers[i] = this;
+                        myJob = WorkPlace.RoomInfo.availableJobs[Random.Range(0, WorkPlace.RoomInfo.availableJobs.Length - 1)];
+                        break;
+                    }
                 }
             }
         }

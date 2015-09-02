@@ -22,7 +22,8 @@ public enum UseableObjects : int
     ReduceFitness = 1 << 8,
     ReduceDirty = 1 << 9,
     ReduceTired = 1 << 10,
-    IncreaceTraining = 1 << 11 
+    IncreaceTraining = 1 << 11, 
+    CanStoreFood = 1 << 12
 };
 
 
