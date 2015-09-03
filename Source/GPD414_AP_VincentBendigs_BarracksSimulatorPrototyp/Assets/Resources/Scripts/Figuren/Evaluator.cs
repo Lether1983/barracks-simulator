@@ -2,6 +2,7 @@
 using System.Collections;
 using DH.Messaging.Bus;
 
+#region EnumsFlags
 public enum trusterStates
 {
     SleepTime = 1 << 0,
@@ -31,9 +32,11 @@ public enum AttributeCheck
     TrainLevel = 1 << 6,
     HasToUseTheToilette = 1 << 7
 }
+#endregion
 
 public class Evaluator : MonoBehaviour
 {
+    #region Variablen
     public trusterStates currentTrusterState;
     public ObjectLogicObject tempObject;
     MessageSubscription<ChangeStateEventArgs> subscribtion;
@@ -43,6 +46,7 @@ public class Evaluator : MonoBehaviour
     [SerializeField]
     Animator animator;
     int checkValue = 50;
+    #endregion
 
     void Awake()
     {

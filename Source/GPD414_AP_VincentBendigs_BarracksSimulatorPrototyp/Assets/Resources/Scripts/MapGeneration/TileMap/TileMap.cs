@@ -3,42 +3,6 @@ using System.Collections;
 using System;
 public class TileMap
 {
-    /* TODO: Indexer implementieren.
-    Es wäre eventuell angenehmer, wenn statt TileMap.Instance.MapData[x, y]
-    TileMap.Instance[x, y] verwendet würde und die Logik zum Mapping von
-    x >= 0 & x < Width
-    y >= 0 & y < Height.
-    Beispiel:
-    public TileBaseClass this[int x, int y]
-    {
-        get
-        {
-            x = Mathf.Clamp(x, 0, MapData.GetLength(0));
-            y = Mathf.Clamp(y, 0, MapData.GetLength(1));
-            return mapData[x, y];
-        }
-    }
-    Zudem kann die float-Prüfung ebenfalls auf den Indexer verschoben werden.
-    public TileBaseClass this[float x, float y]
-    {
-        get
-        {
-            x = Mathf.FloorToInt(Mathf.Clamp(x, 0, MapData.GetLength(0)));
-            y = Mathf.FloorToInt(Mathf.Clamp(x, 0, MapData.GetLength(1)));
-            return mapData[x, y];
-        }
-    }
-    Außerdem könnte in einen Indexer auch ein Vektor eingebaut werden:
-    public TileBaseClass this[Vector2 v]
-    {
-        get
-        {
-            return this[v.x, v.y];
-        }
-    }
-    mapData ist dann ein privates Feld.
-    */
-
     #region Fields
     public static TileMap instance; 
     public TileBaseClass[,] MapData;
@@ -102,7 +66,6 @@ public class TileMap
             }
         }
     }
-
     
     public static TileMap Instance
     {

@@ -2,6 +2,7 @@
 using System.Collections;
 using DH.Messaging.Bus;
 
+#region Enums
 public enum DinstgradGruppen { NormalSolider, TimeSoldier, ProfessionalSoldiers };
 
 public enum KompaniezugehoerigkeitsGruppen { AusbildungsKompanien, KampfKompanien, VersorgungsKompanien, LehrKompanien, KampfUnterstuetzungsKompanien, SanitaetsKompanien };
@@ -13,10 +14,14 @@ public enum Kompaniezugehorigkeit
     VersorgungsKompanie, EODKompanie, ABCAbwehrKompanie, PionierKompanie, HeeresfliegerKompanie,
     FernmeldeKompanie, VersorgungsSanitaeter, KampfSanitaeter, EinsatzSanitaeter, KrankenhausSanitaeter
 };
-public enum TypeOfJobs { None ,Koch, WaescheWart, Civilian};
+
+public enum TypeOfJobs { None, Koch, WaescheWart, Civilian };
+#endregion
 
 public class Soldiers : MonoBehaviour
 {
+    #region Variablen
+
     MessageSubscription<RoomLogicObject> subscribtion;
     MessageSubscription<RoomLogicObject> subscribtion1;
 
@@ -44,6 +49,7 @@ public class Soldiers : MonoBehaviour
     public bool shouldMove = false;
 
     float timer = 0;
+    #endregion
 
     void Start()
     {
@@ -65,9 +71,9 @@ public class Soldiers : MonoBehaviour
 
     private void freeWorkMessage_OnMessagesReceived(MessageSubscription<RoomLogicObject> s, MessageReceivedEventArgs<RoomLogicObject> args)
     {
-        if (ownKompanie.KompanieType == Kompaniezugehorigkeit.VersorgungsKompanie && (WorkPlace == null || WorkPlace.Workerscount > 0))
+        if (((WorkPlace == null || WorkPlace.Workerscount > 0) && (ownKompanie == null || ownKompanie.KompanieType == Kompaniezugehorigkeit.VersorgungsKompanie)))
         {
-            if (myJob == null || myJob.jobs == TypeOfJobs.None)
+            if ((myJob == null || myJob.jobs == TypeOfJobs.None))
             {
                 WorkPlace = args.Message;
                 WorkPlace.Workerscount--;
@@ -79,6 +85,7 @@ public class Soldiers : MonoBehaviour
                         myJob = WorkPlace.RoomInfo.availableJobs[Random.Range(0, WorkPlace.RoomInfo.availableJobs.Length - 1)];
                         break;
                     }
+
                 }
             }
         }
@@ -125,6 +132,7 @@ public class Soldiers : MonoBehaviour
             this.transform.Translate(waypoint.x - transform.position.x, waypoint.y - transform.position.y, 0);
         }
     }
+
     public void GoTo(GroundTile target)
     {
         this.gameObject.GetComponent<AStarController>().getTargetPosition(target);

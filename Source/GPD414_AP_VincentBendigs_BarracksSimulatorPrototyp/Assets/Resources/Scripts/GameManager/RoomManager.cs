@@ -16,23 +16,13 @@ public class RoomManager : MonoBehaviour
         everywhereRooms = new List<RoomLogicObject>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-
     public void addNewRoom(RoomLogicObject room)
     {
         everywhereRooms.Add(room);
-        //TODO: Message mit "newroom" und dann den Raum reinhauen?
-        // Liegt wahrscheinlich näher als für alles n neue Message rauszuhauen.
         if(room.type == TypeOfRoom.Stube)
         {
             MessageBusManager.AddMessage<RoomLogicObject>("freeStube", room);
         }
-        //TODO: Du hast room.RoomInfo.RoomUsability was habitable, useable oder laborFactor ist.
-        // Nutz das doch für die Entscheidung, welche Message geworfen wird.
         if(room.type == TypeOfRoom.Kueche)
         {
             MessageBusManager.AddMessage<RoomLogicObject>("FreeWorkPlace", room);
@@ -42,7 +32,10 @@ public class RoomManager : MonoBehaviour
             MessageBusManager.AddMessage<RoomLogicObject>("FreeWorkPlace", room);
         }
     }
-
+    public void removeRoom(RoomLogicObject room)
+    {
+        everywhereRooms.Remove(room);
+    }
     public void AssignRoomToCompany(KompanieObject company,RoomLogicObject room)
     {
         company.roomList.Add(room);
@@ -61,6 +54,7 @@ public class RoomManager : MonoBehaviour
         }
         return null;
     }
+
     public RoomLogicObject FindFreeRoom(TypeOfRoom room)
     {
         foreach (var item in everywhereRooms)

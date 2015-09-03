@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class TileBaseClass : ICloneable
 {
-    //TODO: Properties wären u.U. angebrachter -> so kann automatisch die Texture geändert werden.
     public bool IsPassible;
     public bool IsIndoor = false;
     public bool IsOutdoor;
@@ -19,8 +18,7 @@ public class TileBaseClass : ICloneable
     protected List<TileBaseClass> neighbors;
     protected TileMap map = TileMap.Instance;
 
-    //TODO: Virtuel entfernen, da GetNeighbours() immer neighbours zurückgibt und nirgends überschrieben wird.
-    public virtual List<TileBaseClass> GetNeighbors()
+    public  List<TileBaseClass> GetNeighbors()
     {
         return neighbors;
     }

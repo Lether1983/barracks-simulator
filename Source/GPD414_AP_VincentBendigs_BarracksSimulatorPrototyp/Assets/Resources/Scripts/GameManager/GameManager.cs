@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
     public bool DestroyFoundation;
     #endregion
 
-    //TODO: Hieraus ein Enum machen! Mit {Small, Medium, Large}
     bool smallMap = false;
     bool midMap = false;
     bool largeMap = true;
@@ -85,7 +84,6 @@ public class GameManager : MonoBehaviour
 
     void GenerateAMap(TileMap map)
     {
-        //TODO: Enum
         if (smallMap)
         {
             map.StartFieldOfViewValue = 20;
@@ -115,7 +113,6 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        //TODO: Indexer in Map (vereinfacht vieles)
         TileBaseClass tile = map.MapData[(int)hittedGameobject.transform.position.x, (int)hittedGameobject.transform.position.y];
         if (tile.IsOutdoor)
         {

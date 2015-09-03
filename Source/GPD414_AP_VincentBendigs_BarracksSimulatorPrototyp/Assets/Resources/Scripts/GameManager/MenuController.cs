@@ -4,15 +4,6 @@ using DH.Messaging.Bus;
 
 public class MenuController : MonoBehaviour
 {
-    //TODO: Aufpassen
-    /*
-    Ein Großteil der Logik hier, kann durch ein "Tool-System" verhindert werden.
-    Dieses System erlaubt es, der Maus ein Tool mitzugeben, das diverse Dinge veranstaltet.
-    Beispielsweise gibt es ein RoomPlaceTool, welches ein RoomObject bekommt, und damit dann die Logik
-    durchführt.
-    Oder ein TilePlaceTool, das ein GroundTile-Dingens bekommt und damit logik durchführt. So wäre auch
-    der redundante Teil des Input- und GameManagers optimiert.
-    */
     #region Panel GameObjects
     public GameObject BauPanel;
     public GameObject DienstPanel;
