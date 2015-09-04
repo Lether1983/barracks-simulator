@@ -37,7 +37,6 @@ public class Soldiers : MonoBehaviour
 
 
     public WorkObjects currentObjectToCarry;
-
     public float TrainingsLevel;
     public float isDirty;
     public float tired;
@@ -46,6 +45,7 @@ public class Soldiers : MonoBehaviour
     public float hungry;
     public float homeIll;
     public float needFitness;
+    public bool needANewEndPosition = false;
     public bool shouldMove = false;
 
     float timer = 0;
@@ -131,12 +131,20 @@ public class Soldiers : MonoBehaviour
         {
             this.transform.Translate(waypoint.x - transform.position.x, waypoint.y - transform.position.y, 0);
         }
+
+        if(needANewEndPosition)
+        {
+            currentTask.EndPosition = workManager.GetTargetPosition(currentTask.Item);
+            needANewEndPosition = false;
+        }
     }
 
     public void GoTo(GroundTile target)
     {
-        this.gameObject.GetComponent<AStarController>().getTargetPosition(target);
-        this.gameObject.GetComponent<AStarController>().GetFinalPath();
+        if (target.Position != Vector2.zero)
+        {
+            this.gameObject.GetComponent<AStarController>().getTargetPosition(target);
+            this.gameObject.GetComponent<AStarController>().GetFinalPath();
+        }
     }
-
 }

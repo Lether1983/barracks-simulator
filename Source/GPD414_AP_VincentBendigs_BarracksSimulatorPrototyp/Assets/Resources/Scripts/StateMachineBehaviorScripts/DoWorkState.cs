@@ -68,12 +68,12 @@ public class DoWorkState : StateMachineBehaviour
             {
                 if ((Vector2)me.transform.position == me.currentTask.StartPosition)
                 {
+                    me.manager.AllCivilians.Remove(me);
                     int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
                     var thingInArray = ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y];
                     GameObject storage = thingInArray.@object.Storage[delta].myObject;
                     ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
                     me.myJob = (Job)Resources.Load<Job>("Prefabs/Scriptable Objects/JobObjects/None");
-                    me.manager.AllCivilians.Remove(me);
                     me.manager.AllSoldiers.Add(me);
                     me.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Military_Normal_Front");
                     me.ownKompanie = (KompanieObject)Resources.Load<ScriptableObject>("Prefabs/Scriptable Objects/KompanieObjects/VersorgungsKompanie");
@@ -105,8 +105,14 @@ public class DoWorkState : StateMachineBehaviour
             {
                 obj.SetActive(false);
             }
-            
-            me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
+            if (map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y].Position != Vector2.zero)
+            {
+                me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
+            }
+            else
+            {
+                me.needANewEndPosition = true;
+            }
         }
         else if ((Vector2)me.transform.position == me.currentTask.EndPosition)
         {

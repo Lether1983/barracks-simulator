@@ -38,7 +38,7 @@ public class SpawnNewFigure : MonoBehaviour
 
     private void SpawnCivilian()
     {
-        GameObject tempSoldier = GameObject.Instantiate(FigurePrefab, new Vector3(240f, 250f, -2f), Quaternion.identity) as GameObject;
+        GameObject tempSoldier = GameObject.Instantiate(FigurePrefab, new Vector3(200f, 250f, -2f), Quaternion.identity) as GameObject;
         tempSoldier.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Figuren/Civilian_2_Front");
         tempSoldier.GetComponent<Soldiers>().manager = gmanager;
         tempSoldier.GetComponent<Soldiers>().roomManager = gmanager.gameObject.GetComponent<RoomManager>();

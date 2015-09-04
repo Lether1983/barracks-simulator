@@ -80,18 +80,23 @@ public class ObjectLogicObject
 
         if (info.name == "Wäschekorb")
         {
-            for (int j = 0; j < Storage.Length; j++)
+            int Clothneeded = manager.gameObject.GetComponent<GameManager>().AllCivilians.Count;
+
+            if (Clothneeded > 0)
             {
-                if (Storage[j] == null)
+                for (int j = 0; j < Storage.Length; j++)
                 {
-                    GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + j, position.y, -2f), Quaternion.identity) as GameObject;
-                    temp.name = "Clothing";
-                    temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Klamotten");
-                    WorkObjects Kleidung = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Kleidung"));
-                    Storage[j] = Kleidung;
-                    Kleidung.myObject = temp;
-                    Kleidung.Uses = 1;
-                    manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x + j, position.y), manager.GetTargetPosition(Kleidung), Kleidung, 1);
+                    if (Storage[j] == null)
+                    {
+                        GameObject temp = GameObject.Instantiate(Resources.Load("Prefabs/New Sprite"), new Vector3(position.x + j, position.y, -2f), Quaternion.identity) as GameObject;
+                        temp.name = "Clothing";
+                        temp.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Objects/Klamotten");
+                        WorkObjects Kleidung = ScriptableObject.Instantiate(Resources.Load<WorkObjects>("Prefabs/Scriptable Objects/ObjectObjects/WorkObjects/Kleidung"));
+                        Storage[j] = Kleidung;
+                        Kleidung.myObject = temp;
+                        Kleidung.Uses = 1;
+                        manager.CreateWork(TypeOfWork.MovingMaterial, new Vector2(position.x + j, position.y), manager.GetTargetPosition(Kleidung), Kleidung, 1);
+                    }
                 }
             }
         }

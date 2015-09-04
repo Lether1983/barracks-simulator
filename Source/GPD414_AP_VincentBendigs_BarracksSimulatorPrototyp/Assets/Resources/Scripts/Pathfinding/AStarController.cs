@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DH.Messaging.Bus;
 
-public class AStarController : MonoBehaviour 
+public class AStarController : MonoBehaviour
 {
     public int totalCost = 0;
     public Stack<GroundTile> finalPath;
@@ -47,7 +47,7 @@ public class AStarController : MonoBehaviour
         SetWay();
         this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
     }
-    
+
     void Awake()
     {
         controller = GameObject.Find("GameManager").GetComponent<AStarManager>();
@@ -62,10 +62,10 @@ public class AStarController : MonoBehaviour
     {
         if (args.Message == 1 && finalPath.Count > 0)
         {
-             this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
+            this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
         }
     }
-    
+
     void getOwnPosition()
     {
         rootNode = (GroundTile)controller.tileMap.MapData[(int)this.gameObject.transform.position.x, (int)this.gameObject.transform.position.y];
@@ -82,7 +82,7 @@ public class AStarController : MonoBehaviour
 
     void AddRootToOpenList()
     {
-        OpenList.Insert(0,(GroundTile)rootNode.Clone());
+        OpenList.Insert(0, (GroundTile)rootNode.Clone());
     }
 
     float CalulateDistanz()
