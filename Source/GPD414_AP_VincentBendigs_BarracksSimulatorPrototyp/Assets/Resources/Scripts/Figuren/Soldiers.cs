@@ -129,7 +129,12 @@ public class Soldiers : MonoBehaviour
 
         if (shouldMove)
         {
-            this.transform.Translate(waypoint.x - transform.position.x, waypoint.y - transform.position.y, 0);
+            Vector3 Offset = waypoint - transform.position;
+            Offset.z = 0;
+            float length = Offset.magnitude;
+            Vector3 direction = Offset.normalized;
+            Vector3 movement = direction * 0.05f * manager.speed * Time.deltaTime;
+            this.transform.Translate(Vector3.ClampMagnitude(movement,length));
         }
 
         if(needANewEndPosition)
