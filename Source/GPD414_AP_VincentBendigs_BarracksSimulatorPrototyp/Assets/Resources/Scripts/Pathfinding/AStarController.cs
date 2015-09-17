@@ -34,7 +34,7 @@ public class AStarController : MonoBehaviour
         return finalCost;
     }
 
-    public void GetFinalPath()
+    public IEnumerator GetFinalPath()
     {
         finalPath.Clear();
         ClosedList.Clear();
@@ -43,7 +43,17 @@ public class AStarController : MonoBehaviour
         rootNode.totalCost = GetTotalCost(rootNode.totalCost, rootNode.movementCost);
         rootNode.finalCost = CalculateFinalCost(CalulateDistanz(), controller.heuristicValue, rootNode.totalCost);
         AddRootToOpenList();
-        finalPath.Push(controller.GetFinalPath(rootNode, destination, OpenList, ClosedList, totalCost));
+
+        IEnumerator current = controller.GetFinalPath(rootNode, destination, OpenList, ClosedList, totalCost, FinishPath);
+        for (;current.MoveNext();)
+        {
+            yield return current.Current;
+        }
+    }
+
+    private void FinishPath(GroundTile tile)
+    {
+        finalPath.Push(tile);
         SetWay();
         this.GetComponent<Soldiers>().Move(finalPath.Pop().Position);
     }

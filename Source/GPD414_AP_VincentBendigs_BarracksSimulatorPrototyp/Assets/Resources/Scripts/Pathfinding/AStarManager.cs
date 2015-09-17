@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class AStarManager : MonoBehaviour
 {
-    public int heuristicValue;
     public TileMap tileMap;
-    GroundTile way;
-    float finalCost;
+    public int heuristicValue;
+
 
 
     void Awake()
@@ -22,14 +22,15 @@ public class AStarManager : MonoBehaviour
         return newTotalcost;
     }
 
-    public GroundTile GetFinalPath(GroundTile rootNode,GroundTile destination,List<GroundTile> OpenList,List<GroundTile> ClosedList,int totalCost)
+    public IEnumerator GetFinalPath(GroundTile rootNode,GroundTile destination,List<GroundTile> OpenList,List<GroundTile> ClosedList,int totalCost, Action<GroundTile> result)
     {
         GroundTile currentNode = rootNode;
+        int counter = 0;
 
         if (currentNode.Position == destination.Position)
         {
-
-            way = destination;
+            result(destination);
+            yield break;
         }
         else
         {
@@ -39,8 +40,8 @@ public class AStarManager : MonoBehaviour
 
                 if (currentNode.Position == destination.Position)
                 {
-                    way = currentNode;
-                    return way;
+                    result(currentNode);
+                    yield break;
                 }
                 else
                 {
@@ -78,9 +79,13 @@ public class AStarManager : MonoBehaviour
                     OpenList.Remove(currentNode);
                     ClosedList.Insert(0,currentNode);
                 }
+                if(counter++ > 20)
+                {
+                    yield return currentNode;
+                    counter = 0;
+                }
             }
         }
-        return way;
     }
 
     private void AddNewNodeToOpenList(GroundTile destination, List<GroundTile> OpenList, GroundTile currentNode, int j)
@@ -110,9 +115,7 @@ public class AStarManager : MonoBehaviour
 
     public float CalculateFinalCost(float Distanz,int heuristicValue,int totalCost)
     {
-        finalCost = Distanz * heuristicValue + totalCost;
-
-        return finalCost;   
+        return Distanz * heuristicValue + totalCost;  
     }
 
     void SortOpenListWithFinalCost(List<GroundTile> OpenList)

@@ -149,7 +149,7 @@ public class Soldiers : MonoBehaviour
         if (target.Position != Vector2.zero)
         {
             this.gameObject.GetComponent<AStarController>().getTargetPosition(target);
-            this.gameObject.GetComponent<AStarController>().GetFinalPath();
+            StartCoroutine(this.gameObject.GetComponent<AStarController>().GetFinalPath());
         }
     }
 }
