@@ -48,6 +48,7 @@ public class Soldiers : MonoBehaviour
     public bool needANewEndPosition = false;
     public bool shouldMove = false;
 
+    Coroutine pathFinding;
     float timer = 0;
     #endregion
 
@@ -146,10 +147,15 @@ public class Soldiers : MonoBehaviour
 
     public void GoTo(GroundTile target)
     {
-        if (target.Position != Vector2.zero)
+        if (target.Position != Vector2.zero && pathFinding == null)
         {
             this.gameObject.GetComponent<AStarController>().getTargetPosition(target);
-            StartCoroutine(this.gameObject.GetComponent<AStarController>().GetFinalPath());
+            pathFinding = StartCoroutine(this.gameObject.GetComponent<AStarController>().GetFinalPath(pathFindingFinished));
         }
+    }
+
+    private void pathFindingFinished()
+    {
+        pathFinding = null;
     }
 }

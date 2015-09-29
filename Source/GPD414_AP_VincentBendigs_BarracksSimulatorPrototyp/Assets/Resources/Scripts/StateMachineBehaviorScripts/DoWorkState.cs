@@ -9,6 +9,7 @@ public class DoWorkState : StateMachineBehaviour
     TileMap map = TileMap.Instance;
     ObjectTileMap ObjectMap = ObjectTileMap.Instance;
     float elapsedTime;
+    bool movingItem;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -21,6 +22,7 @@ public class DoWorkState : StateMachineBehaviour
             evaluator = animator.gameObject.GetComponent<WorkEvaluator>();
         }
         elapsedTime = 0;
+        movingItem = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -93,7 +95,7 @@ public class DoWorkState : StateMachineBehaviour
 
     private void MoveItemFromStartToEnd(Animator animator)
     {
-        if ((Vector2)me.transform.position == me.currentTask.StartPosition)
+        if ((Vector2)me.transform.position == me.currentTask.StartPosition && !movingItem)
         {
             int delta = (int)(me.currentTask.StartPosition.x - ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.position.x);
             ObjectMap.ObjectData[(int)me.currentTask.StartPosition.x, (int)me.currentTask.StartPosition.y].@object.Storage[delta] = null;
@@ -107,6 +109,7 @@ public class DoWorkState : StateMachineBehaviour
             }
             if (map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y].Position != Vector2.zero)
             {
+                movingItem = true;
                 me.GoTo((GroundTile)map.MapData[(int)me.currentTask.EndPosition.x, (int)me.currentTask.EndPosition.y]);
             }
             else
@@ -133,6 +136,7 @@ public class DoWorkState : StateMachineBehaviour
                             me.workManager.CreateAdvancedWork(me.currentTask.type, me.currentTask.Item);
                         }
                         me.currentTask = null;
+                        movingItem = false;
                         animator.SetBool("DoWork", false);
                         return;
                     }

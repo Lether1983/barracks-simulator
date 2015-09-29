@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DH.Messaging.Bus;
+using System;
 
 public class AStarController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class AStarController : MonoBehaviour
         return finalCost;
     }
 
-    public IEnumerator GetFinalPath()
+    public IEnumerator GetFinalPath(Action finished)
     {
         finalPath.Clear();
         ClosedList.Clear();
@@ -49,6 +50,7 @@ public class AStarController : MonoBehaviour
         {
             yield return current.Current;
         }
+        finished();
     }
 
     private void FinishPath(GroundTile tile)
