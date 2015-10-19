@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
             Vector2 Reference = baseObject.@object.position;
             Vector2 HittetTransform = hittetObject.transform.position;
             Vector2 delta = HittetTransform - Reference;
-
+            
             if (object_object.infos[i].delta == delta)
             {
                 hittetObject.GetComponent<SpriteRenderer>().sprite = object_object.infos[i].texture;

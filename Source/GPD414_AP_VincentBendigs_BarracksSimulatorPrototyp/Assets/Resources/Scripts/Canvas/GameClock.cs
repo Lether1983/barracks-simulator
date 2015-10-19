@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using DH.Messaging.Bus;
@@ -21,6 +22,19 @@ public class GameClock : MonoBehaviour
     {
         time = time.Add(TimeSpan.FromSeconds(Time.deltaTime * manager.speed));
 
+
+        if(time.Hours > 5 && time.Hours < 17)
+        {
+            this.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/ziffernblatt");
+            hour.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/StundentZeiger");
+            minute.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/MinutenZeiger");
+        }
+        else if(time.Hours > 17 || time.Hours < 6)
+        {
+            this.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/ziffernblattNacht");
+            hour.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/StundentZeigerNacht");
+            minute.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Uhr/MinutenZeigerNacht");
+        }
         if (time.Minutes == 0)
         {
             if (ifcanRaise)

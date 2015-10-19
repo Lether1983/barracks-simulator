@@ -21,12 +21,12 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
     Vector2 startPos;
     Vector2 endPos;
 
-    float yScaler; 
-    float xScaler; 
-    private float endX; 
-    private float endY; 
+    float yScaler;
+    float xScaler;
+    private float endX;
+    private float endY;
     private float startX;
-    private float startY; 
+    private float startY;
     #endregion#
 
     private void Awake()
@@ -43,10 +43,10 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
     void Update()
     {
-              
+
         //scaler = GetComponent<CanvasScaler>().referenceResolution;
         //scaler.Scale(new Vector2(1 / Screen.width, 1 / Screen.height));
-        
+
         xScaler = GetComponent<CanvasScaler>().referenceResolution.x / Screen.width;
         yScaler = GetComponent<CanvasScaler>().referenceResolution.y / Screen.height;
     }
@@ -65,7 +65,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
 
             if (manager.InObjectBuildMode)
             {
-                if (baseObject.startobject == null && baseTile.isOverridable)
+                if (baseObject.startobject == null && baseTile.isOverridable && !IsSpaceBlockedForAObject(baseObject,baseTile))
                 {
                     ObjectPlacementOnMap(eventData, hit);
                 }
@@ -104,6 +104,20 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         }
     }
 
+    public bool IsSpaceBlockedForAObject(ObjectBaseClass baseObject, TileBaseClass baseTile)
+    {
+
+        for (int i = 0; i < manager.object_object.infos.Length; i++)
+        {
+            Vector2 tempVector = baseTile.Position + manager.object_object.infos[i].delta;
+            if(!map.MapData[(int)tempVector.x,(int)tempVector.y].IsPassible)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -116,7 +130,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             {
                 DrawRect = true;
                 DestroyDrawRect = true;
-                
+
                 if ((int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).x == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).x ||
                     (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(endPos).y == (int)mainCamera.GetComponent<Camera>().ScreenToWorldPoint(startPos).y)
                 {
@@ -234,11 +248,9 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
             for (int i = 0; i < manager.object_object.infos.Length; i++)
             {
                 var info = manager.object_object.infos[i];
-
                 Vector2 hitinfo = (Vector2)hit.transform.position + info.delta;
                 objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].@object = @object;
                 gmanager.GetComponent<GameManager>().PlaceObjectByClick(objectMap.ObjectData[(int)hitinfo.x, (int)hitinfo.y].myObject);
-                Debug.Log("Object pos: " + hitinfo);
             }
         }
     }
@@ -475,16 +487,13 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         {
             for (int j = minY; j <= maxY; j++)
             {
-                if (i == minX || i == maxX || j == minY || j == maxY)
+                if (CheckIndoorSet() && map.MapData[i, j].IsIndoor)
                 {
-                    if (CheckIndoorSet() == false)
-                    {
-                        map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
-                    }
-                    else if (CheckIndoorSet())
-                    {
-                        map.MapData[i, j].GetAllValues(manager.IndoorDefault);
-                    }
+                    map.MapData[i, j].GetAllValues(manager.IndoorDefault);
+                }
+                else if (CheckIndoorSet() == false && map.MapData[i, j].IsOutdoor)
+                {
+                    map.MapData[i, j].GetAllValues(manager.OutdoorDefault);
                 }
             }
         }
@@ -531,7 +540,7 @@ public class InputManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IP
         if (hit.collider != null)
         {
             if (objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object == null) return;
-           
+
             var info = objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object.info.infos;
 
             manager.AllObjects.Remove(objectMap.ObjectData[(int)hit.transform.position.x, (int)hit.transform.position.y].@object);
