@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public AStarController controller;
     public AStarController controller2;
 
+    public float Speed { set { speed = value; } }
 
     #region Menü Building Bools
     public bool BuildWalls;

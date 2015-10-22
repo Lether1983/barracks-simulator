@@ -10,12 +10,26 @@ public class MenuController : MonoBehaviour
     public GameObject GroundTilePanel;
     public GameObject WallTilePanel;
     public GameObject FoundationTilePanel;
-    public GameObject ObjectTilePanel;
     public GameObject RoomTilePanel;
     public GameObject DienstplanPanel;
     public GameObject ToolTipTextImage;
     public GameObject SpawnPanel;
+
+    private GameObject activeBuildingMenuThingy;
+
+    public GameObject ActiveBuildingMenuThingy
+    {
+        get { return activeBuildingMenuThingy; }
+        set { activeBuildingMenuThingy = value; }
+    }
+
     #endregion
+
+    public void DisableActiveBuildingMenuThingy()
+    {
+        if(ActiveBuildingMenuThingy)
+            ActiveBuildingMenuThingy.SetActive(false);
+    }
 
     void Start()
     {
@@ -24,7 +38,6 @@ public class MenuController : MonoBehaviour
         GroundTilePanel.SetActive(false);
         WallTilePanel.SetActive(false);
         FoundationTilePanel.SetActive(false);
-        ObjectTilePanel.SetActive(false);
         RoomTilePanel.SetActive(false);
         DienstplanPanel.SetActive(false);
         ToolTipTextImage.SetActive(false);
@@ -187,7 +200,6 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(true);
             WallTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
-            ObjectTilePanel.SetActive(false);
             RoomTilePanel.SetActive(false);
         }
     }
@@ -203,7 +215,6 @@ public class MenuController : MonoBehaviour
             WallTilePanel.SetActive(true);
             GroundTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
-            ObjectTilePanel.SetActive(false);
             RoomTilePanel.SetActive(false);
         }
     }
@@ -219,23 +230,6 @@ public class MenuController : MonoBehaviour
             FoundationTilePanel.SetActive(true);
             GroundTilePanel.SetActive(false);
             WallTilePanel.SetActive(false);
-            ObjectTilePanel.SetActive(false);
-            RoomTilePanel.SetActive(false);
-        }
-    }
-
-    public void ObjectTileMenuPanelActivate()
-    {
-        if (ObjectTilePanel.activeInHierarchy)
-        {
-            ObjectTilePanel.SetActive(false);
-        }
-        else
-        {
-            ObjectTilePanel.SetActive(true);
-            GroundTilePanel.SetActive(false);
-            WallTilePanel.SetActive(false);
-            FoundationTilePanel.SetActive(false);
             RoomTilePanel.SetActive(false);
         }
     }
@@ -252,7 +246,6 @@ public class MenuController : MonoBehaviour
             GroundTilePanel.SetActive(false);
             WallTilePanel.SetActive(false);
             FoundationTilePanel.SetActive(false);
-            ObjectTilePanel.SetActive(false);
         }
     }
 

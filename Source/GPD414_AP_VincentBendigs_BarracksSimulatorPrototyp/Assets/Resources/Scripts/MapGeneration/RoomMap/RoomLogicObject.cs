@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DH.Messaging.Bus;
 
 public class RoomLogicObject
 {
@@ -11,8 +12,22 @@ public class RoomLogicObject
     public Soldiers[] workers;
     public int Workerscount;
     public Soldiers soldier;
-
+    MessageSubscription<int> subscribtion;
     public KompanieObject kompanieObject;
+
+    public RoomLogicObject ()
+	{
+        subscribtion = MessageBusManager.Subscribe<int>("ChangeHour");
+        subscribtion.OnMessageReceived += changeMessage_OnMessageReceived;
+	}
+
+    private void changeMessage_OnMessageReceived(MessageSubscription<int> s, MessageReceivedEventArgs<int> args)
+    {
+        if(workers != null && workers.Length > 0)
+        {
+            MessageBusManager.AddMessage<RoomLogicObject>("FreeWorkPlace", this);
+        }
+    }
 
     public bool Claim(Soldiers soldier)
     {

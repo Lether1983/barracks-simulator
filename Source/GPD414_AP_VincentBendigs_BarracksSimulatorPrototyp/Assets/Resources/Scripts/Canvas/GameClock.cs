@@ -6,7 +6,6 @@ using DH.Messaging.Bus;
 
 public class GameClock : MonoBehaviour 
 {
-    
 
     public Transform hour, minute;
     public GameManager manager;
